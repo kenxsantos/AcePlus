@@ -9,4 +9,10 @@ class Str {
   final eWallet = "E - Wallet";
   final playNow = "Play Now!";
   final instruction = "Instructions";
+  final wallet = "Wallet";
+  final logIn = "Login";
+  final register = "Register";
+  final enterEmail = "Enter email address";
+  final enterPass = "Enter password";
+  final fPass = "Forgot password?";
 }

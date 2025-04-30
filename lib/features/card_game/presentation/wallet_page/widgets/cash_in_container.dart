@@ -21,7 +21,7 @@ class CashInContainer extends StatelessWidget {
         ),
         WalletTextField(labelText: Str().enterAccNo),
         WalletTextField(labelText: Str().enterAmount),
-        SolidButton(labelText: text),
+        SolidButton(labelText: text, onPressed: () => print("Cash in")),
       ],
     );
   }

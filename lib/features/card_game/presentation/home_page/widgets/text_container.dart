@@ -1,7 +1,6 @@
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TextContainer extends StatelessWidget {
   const TextContainer({super.key});
@@ -25,7 +24,7 @@ class TextContainer extends StatelessWidget {
             style: TextStyle(
               color: Colors.grey,
               fontSize: 12,
-              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontFamily: poppins,
             ),
           ),
         ],

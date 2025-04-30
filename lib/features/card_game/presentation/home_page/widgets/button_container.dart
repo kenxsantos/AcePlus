@@ -18,8 +18,8 @@ class ButtonContainer extends StatelessWidget {
             onPressed: () => print("Go to Play Now"),
           ),
           GradientButton(
-            labelText: Str().instruction,
-            onPressed: () => print("Go to Instruction"),
+            labelText: Str().wallet,
+            onPressed: () => context.goNamed("wallet"),
           ),
         ],
       ),

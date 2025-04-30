@@ -3,7 +3,6 @@ import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ReceiptPage extends StatelessWidget {
   const ReceiptPage({super.key});
@@ -19,7 +18,7 @@ class ReceiptPage extends StatelessWidget {
               Str().eWallet,
               style: TextStyle(
                 color: primaryYellow,
-                fontFamily: GoogleFonts.lemon().fontFamily,
+                fontFamily: lemon,
                 fontSize: 20,
               ),
             ),

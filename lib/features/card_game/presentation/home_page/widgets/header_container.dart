@@ -1,3 +1,4 @@
+import 'package:aceplus/features/card_game/presentation/auth_dialog/screens/auth_dialog.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,12 @@ class HeaderContainer extends StatelessWidget {
         children: [
           Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
           IconButton(
-            onPressed: () {},
+            onPressed:
+                () => showDialog(
+                  context: context,
+                  builder: (context) => AuthDialog(),
+                ),
+
             icon: Image.asset("${iconUrl}user_icon.png"),
           ),
         ],

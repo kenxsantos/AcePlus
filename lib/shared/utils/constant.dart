@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const primaryYellow = Color(0xFFF9C80E);
 const primaryViolet = Color(0xFF541388);
@@ -30,3 +31,9 @@ const gradientBlack = LinearGradient(
 const imageUrl = "assets/images/";
 const iconUrl = "assets/icons/";
 const cardUrl = "assets/cards/";
+
+final poppins = GoogleFonts.poppins().fontFamily;
+final roboto = GoogleFonts.roboto().fontFamily;
+final lemon = GoogleFonts.lemon().fontFamily;
+final inter = GoogleFonts.inter().fontFamily;
+final nunito = GoogleFonts.nunito().fontFamily;

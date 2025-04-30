@@ -25,7 +25,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
               Str().eWallet,
               style: TextStyle(
                 color: primaryYellow,
-                fontFamily: GoogleFonts.lemon().fontFamily,
+                fontFamily: lemon,
                 fontSize: 20,
               ),
             ),
@@ -34,7 +34,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
         backgroundColor: primaryBlack,
         automaticallyImplyLeading: true,
         leading: IconButton(
-          onPressed: () => context.goNamed("home"),
+          onPressed: () => context.goNamed("wallet"),
           color: primaryWhite,
           icon: Icon(Icons.arrow_back_ios_new_rounded),
         ),

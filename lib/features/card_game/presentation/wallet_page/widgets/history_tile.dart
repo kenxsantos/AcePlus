@@ -43,7 +43,7 @@ class HistoryTile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10,
                       color: primaryWhite,
-                      fontFamily: GoogleFonts.roboto().fontFamily,
+                      fontFamily: roboto,
                     ),
                   ),
                   Text(
@@ -51,7 +51,7 @@ class HistoryTile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       color: primaryWhite,
-                      fontFamily: GoogleFonts.roboto().fontFamily,
+                      fontFamily: roboto,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -60,7 +60,7 @@ class HistoryTile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10,
                       color: primaryWhite,
-                      fontFamily: GoogleFonts.roboto().fontFamily,
+                      fontFamily: roboto,
                     ),
                   ),
                 ],
@@ -70,7 +70,7 @@ class HistoryTile extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   color: color,
-                  fontFamily: GoogleFonts.roboto().fontFamily,
+                  fontFamily: roboto,
                   fontWeight: FontWeight.bold,
                 ),
               ),

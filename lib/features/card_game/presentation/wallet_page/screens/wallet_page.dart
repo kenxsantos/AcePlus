@@ -19,7 +19,7 @@ class WalletPageState extends State<WalletPage> {
         backgroundColor: primaryBlack,
         automaticallyImplyLeading: true,
         leading: IconButton(
-          onPressed: () => {},
+          onPressed: () => context.goNamed("home"),
           color: primaryWhite,
           icon: Icon(Icons.arrow_back_ios_new_rounded),
         ),
