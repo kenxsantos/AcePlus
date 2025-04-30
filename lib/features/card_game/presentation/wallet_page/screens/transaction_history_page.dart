@@ -25,28 +25,28 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
               Str().eWallet,
               style: TextStyle(
                 color: primaryYellow,
-                fontFamily: GoogleFonts.lemon().fontFamily,
+                fontFamily: lemon,
                 fontSize: 20,
               ),
             ),
           ],
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: primaryBlack,
         automaticallyImplyLeading: true,
         leading: IconButton(
-          onPressed: () => context.goNamed("home"),
-          color: Colors.white,
+          onPressed: () => context.goNamed("wallet"),
+          color: primaryWhite,
           icon: Icon(Icons.arrow_back_ios_new_rounded),
         ),
       ),
       body: Container(
-        color: Colors.black,
+        color: primaryBlack,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             GradientGoldContainer(),
             Expanded(
-              child: Container(color: Colors.black, child: HistoryTabBar()),
+              child: Container(color: primaryBlack, child: HistoryTabBar()),
             ),
           ],
         ),

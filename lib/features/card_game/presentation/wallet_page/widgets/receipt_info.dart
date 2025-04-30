@@ -1,3 +1,4 @@
+import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class ReceiptInfo extends StatelessWidget {
@@ -19,7 +20,7 @@ class ReceiptInfo extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(txtTitle, style: TextStyle(color: Colors.white, fontSize: 12)),
+          Text(txtTitle, style: TextStyle(color: primaryWhite, fontSize: 12)),
           Text(txtValue, style: TextStyle(color: txtColor, fontSize: 12)),
         ],
       ),

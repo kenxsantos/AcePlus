@@ -1,3 +1,4 @@
+import 'package:aceplus/features/card_game/presentation/home_page/screens/home_page.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/screens/receipt_page.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/screens/transaction_history_page.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/screens/wallet_page.dart';
@@ -13,6 +14,16 @@ class AppRouter {
         GoRoute(
           path: '/',
           name: 'home',
+          builder: (context, state) => const HomePage(),
+        ),
+        GoRoute(
+          path: '/play-game',
+          name: 'play-game',
+          builder: (context, state) => const HomePage(),
+        ),
+        GoRoute(
+          path: '/wallet',
+          name: 'wallet',
           builder: (context, state) => const WalletPage(),
         ),
         GoRoute(

@@ -41,12 +41,12 @@ class _WalletTabBarState extends State<WalletTabBar>
             controller: _tabController,
             children: <Widget>[
               Container(
-                color: Colors.black,
+                color: primaryBlack,
                 margin: const EdgeInsets.all(16.0),
                 child: CashInContainer(text: Str().cashIn),
               ),
               Container(
-                color: Colors.black,
+                color: primaryBlack,
                 margin: const EdgeInsets.all(16.0),
                 child: CashInContainer(text: Str().cashOut),
               ),
