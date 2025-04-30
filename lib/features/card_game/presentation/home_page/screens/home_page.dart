@@ -16,14 +16,25 @@ class HomePage extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(gradient: gradientBlack),
-
-        child: Column(
+        child: Stack(
           children: [
-            HeaderContainer(),
-            TextContainer(),
-            ButtonContainer(),
-            Expanded(
-              child: Stack(children: [RouletteContainer(), ImageContainer()]),
+            Column(
+              children: [
+                HeaderContainer(),
+                TextContainer(),
+                ButtonContainer(),
+                Expanded(
+                  child: Stack(
+                    children: [RouletteContainer(), ImageContainer()],
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              top: 85,
+              left: 15,
+              width: 200,
+              child: Image.asset("${imageUrl}light.png"),
             ),
           ],
         ),

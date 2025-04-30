@@ -17,6 +17,11 @@ class AppRouter {
           builder: (context, state) => const HomePage(),
         ),
         GoRoute(
+          path: '/play-game',
+          name: 'play-game',
+          builder: (context, state) => const HomePage(),
+        ),
+        GoRoute(
           path: '/wallet',
           name: 'wallet',
           builder: (context, state) => const WalletPage(),

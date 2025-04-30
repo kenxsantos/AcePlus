@@ -12,7 +12,10 @@ class HeaderContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
-          Image.asset("${iconUrl}user_icon.png"),
+          IconButton(
+            onPressed: () {},
+            icon: Image.asset("${iconUrl}user_icon.png"),
+          ),
         ],
       ),
     );
