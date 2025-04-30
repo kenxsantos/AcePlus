@@ -20,27 +20,30 @@ class TopToolbarWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  // Add cancel button functionality here
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFFD700),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0),
-                    side: const BorderSide(
-                      color: Color(0xFF7D1F22),
-                      width: 1.5,
+              SizedBox(
+                height: 32, // Adjust the height as needed
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Add cancel button functionality here
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFFD700),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                      side: const BorderSide(
+                        color: Color(0xFF7D1F22),
+                        width: 1.5,
+                      ),
                     ),
                   ),
-                ),
-                child: Text(
-                  'Leave',
-                  style: GoogleFonts.lemon(
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                  child: Text(
+                    'Leave',
+                    style: GoogleFonts.lemon(
+                      textStyle: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
