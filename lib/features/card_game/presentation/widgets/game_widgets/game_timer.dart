@@ -19,7 +19,7 @@ class GameTimerCircle extends StatelessWidget {
           color: Colors.transparent,
           border: Border.all(
             color: const Color(0xFF7D1F22),
-            width: 4, // Border width
+            width: 6,
           ),
         ),
         child: Stack(
