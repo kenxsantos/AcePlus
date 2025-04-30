@@ -1,5 +1,6 @@
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CashInButton extends StatelessWidget {
   const CashInButton({super.key});
@@ -24,7 +25,11 @@ class CashInButton extends StatelessWidget {
           SizedBox(width: 10),
           Text(
             Str().cashIn.toUpperCase(),
-            style: TextStyle(color: const Color(0xFF5349DD)),
+            style: TextStyle(
+              color: const Color(0xFF5349DD),
+              fontFamily: GoogleFonts.nunito().fontFamily,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),

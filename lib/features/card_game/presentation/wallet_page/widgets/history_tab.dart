@@ -3,6 +3,7 @@ import 'package:aceplus/features/card_game/presentation/wallet_page/widgets/hist
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HistoryTabBar extends StatefulWidget {
   const HistoryTabBar({super.key});
@@ -45,8 +46,11 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {},
-                    child: HistoryTile(text: Str().cashIn),
+                    onTap: () => context.goNamed("show-receipt"),
+                    child: HistoryTile(
+                      text: Str().cashIn,
+                      color: Color(0xFF42F271),
+                    ),
                   );
                 },
               ),
@@ -54,8 +58,8 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {},
-                    child: HistoryTile(text: Str().cashOut),
+                    onTap: () => context.goNamed("show-receipt"),
+                    child: HistoryTile(text: Str().cashOut, color: Colors.red),
                   );
                 },
               ),

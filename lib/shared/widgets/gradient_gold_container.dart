@@ -1,4 +1,5 @@
 import 'package:aceplus/features/card_game/presentation/wallet_page/widgets/cash_in_button.dart';
+import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class GradientGoldContainer extends StatelessWidget {
@@ -12,14 +13,7 @@ class GradientGoldContainer extends StatelessWidget {
       margin: EdgeInsets.all(6),
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color.fromARGB(255, 241, 206, 4), // Gold
-            Color.fromARGB(255, 214, 206, 162), // Lighter gold
-          ],
-        ),
+        gradient: gold,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Row(

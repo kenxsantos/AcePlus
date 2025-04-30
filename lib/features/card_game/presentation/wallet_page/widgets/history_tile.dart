@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HistoryTile extends StatelessWidget {
-  const HistoryTile({super.key, required this.text});
+  const HistoryTile({super.key, required this.text, required this.color});
 
   final String text;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class HistoryTile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10,
                       color: Colors.white,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      fontFamily: GoogleFonts.roboto().fontFamily,
                     ),
                   ),
                   Text(
@@ -49,7 +50,8 @@ class HistoryTile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      fontFamily: GoogleFonts.roboto().fontFamily,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
@@ -57,17 +59,18 @@ class HistoryTile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10,
                       color: Colors.white,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      fontFamily: GoogleFonts.roboto().fontFamily,
                     ),
                   ),
                 ],
               ),
               Text(
-                "200.00",
+                "₱ 200.00",
                 style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.green,
-                  fontFamily: GoogleFonts.poppins().fontFamily,
+                  fontSize: 18,
+                  color: color,
+                  fontFamily: GoogleFonts.roboto().fontFamily,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
