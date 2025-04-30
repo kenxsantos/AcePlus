@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/game_widgets/boom_bet_toolbar.dart';
+import '../widgets/game_widgets/bottom_bet_toolbar.dart';
 import '../widgets/game_widgets/table_widget.dart';
 
 class GamePage extends StatelessWidget {
