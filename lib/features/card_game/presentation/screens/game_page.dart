@@ -1,5 +1,7 @@
+import 'package:aceplus/features/card_game/presentation/widgets/game_widgets/top_toolbar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/game_widgets/bottom_bet_toolbar.dart';
+import '../widgets/game_widgets/game_timer.dart';
 import '../widgets/game_widgets/table_widget.dart';
 
 class GamePage extends StatelessWidget {
@@ -19,12 +21,27 @@ class GamePage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           body: Center(
             child: Stack(
-              alignment: Alignment.center,
               children: [
-                const TableWithCards(),
-                const BottomBetWidget()
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: const TopToolbarWidget(),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 175),
+                    child: const GameTimerCircle(text: '10'),
+                  ),
+                ),
+                const Center(
+                  child: TableWithCards(),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: const BottomBetWidget(),
+                ),
               ],
-            ),
+            )
           ),
         ),
       ],
