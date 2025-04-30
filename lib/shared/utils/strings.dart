@@ -3,4 +3,6 @@ class Str {
   final cashOut = "Cash Out";
   final enterAmount = "Enter Amount";
   final enterAccNo = "Enter Account Number";
+
+  final eWallet = "E - Wallet";
 }
