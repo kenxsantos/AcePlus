@@ -3,7 +3,6 @@ import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ReceiptPage extends StatelessWidget {
   const ReceiptPage({super.key});
@@ -19,23 +18,23 @@ class ReceiptPage extends StatelessWidget {
               Str().eWallet,
               style: TextStyle(
                 color: primaryYellow,
-                fontFamily: GoogleFonts.lemon().fontFamily,
+                fontFamily: lemon,
                 fontSize: 20,
               ),
             ),
           ],
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: primaryBlack,
         automaticallyImplyLeading: true,
         leading: IconButton(
           onPressed: () => context.goNamed("transaction-history"),
-          color: Colors.white,
+          color: primaryWhite,
           icon: Icon(Icons.arrow_back_ios_new_rounded),
         ),
       ),
       body: Container(
         alignment: Alignment.topCenter,
-        color: Colors.black,
+        color: primaryBlack,
         padding: EdgeInsets.all(25),
         child: Container(
           padding: EdgeInsets.all(25),
@@ -60,17 +59,17 @@ class ReceiptPage extends StatelessWidget {
                   ReceiptInfo(
                     txtTitle: "Date",
                     txtValue: "April 1, 2025",
-                    txtColor: Colors.white,
+                    txtColor: primaryWhite,
                   ),
                   ReceiptInfo(
                     txtTitle: "Time",
                     txtValue: "9:45 AM",
-                    txtColor: Colors.white,
+                    txtColor: primaryWhite,
                   ),
                   ReceiptInfo(
                     txtTitle: "Reference No.",
                     txtValue: "213513203461348",
-                    txtColor: Colors.white,
+                    txtColor: primaryWhite,
                   ),
                 ],
               ),

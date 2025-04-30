@@ -1,6 +1,6 @@
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
-import 'package:aceplus/shared/widgets/button_widget.dart';
+import 'package:aceplus/shared/widgets/solid_button.dart';
 import 'package:aceplus/shared/widgets/wallet_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class CashInContainer extends StatelessWidget {
         ),
         WalletTextField(labelText: Str().enterAccNo),
         WalletTextField(labelText: Str().enterAmount),
-        ButtonWidget(labelText: text),
+        SolidButton(labelText: text, onPressed: () => print("Cash in")),
       ],
     );
   }

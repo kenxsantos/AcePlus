@@ -63,7 +63,7 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                 },
               ),
               // Container(
-              //   color: Colors.black,
+              //   color: primaryBlack,
               //   margin: const EdgeInsets.all(16.0),
               //   child: CashInContainer(text: Str().cashOut),
               // ),

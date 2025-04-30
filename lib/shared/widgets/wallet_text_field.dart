@@ -1,3 +1,4 @@
+import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class WalletTextField extends StatelessWidget {
@@ -52,7 +53,7 @@ class WalletTextField extends StatelessWidget {
             vertical: 16.0,
           ),
         ),
-        style: const TextStyle(fontSize: 16.0, color: Colors.black),
+        style: const TextStyle(fontSize: 16.0, color: primaryBlack),
       ),
     );
   }
