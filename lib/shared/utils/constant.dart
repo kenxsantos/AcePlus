@@ -6,6 +6,8 @@ const primaryYellow = Color(0xFFF9C80E);
 const primaryViolet = Color(0xFF541388);
 const secondaryVioleyt = Color(0xFF791E94);
 const maroon = Color(0xFF791E94);
+const primaryBlack = Color(0xFF000000);
+const primaryWhite = Color(0xFF000000);
 
 const gold = LinearGradient(
   begin: Alignment.topLeft,

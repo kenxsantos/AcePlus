@@ -1,3 +1,4 @@
+import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +17,7 @@ class CashInButton extends StatelessWidget {
           ),
         ),
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        color: Colors.white,
+        color: primaryWhite,
       ),
       padding: EdgeInsets.all(8),
       child: Row(

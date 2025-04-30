@@ -1,3 +1,4 @@
+import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -41,7 +42,7 @@ class HistoryTile extends StatelessWidget {
                     "9:45 PM",
                     style: TextStyle(
                       fontSize: 10,
-                      color: Colors.white,
+                      color: primaryWhite,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                     ),
                   ),
@@ -49,7 +50,7 @@ class HistoryTile extends StatelessWidget {
                     text,
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
+                      color: primaryWhite,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.bold,
                     ),
@@ -58,7 +59,7 @@ class HistoryTile extends StatelessWidget {
                     "April 1, 2025",
                     style: TextStyle(
                       fontSize: 10,
-                      color: Colors.white,
+                      color: primaryWhite,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                     ),
                   ),

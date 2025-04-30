@@ -25,17 +25,17 @@ class ReceiptPage extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: primaryBlack,
         automaticallyImplyLeading: true,
         leading: IconButton(
           onPressed: () => context.goNamed("transaction-history"),
-          color: Colors.white,
+          color: primaryWhite,
           icon: Icon(Icons.arrow_back_ios_new_rounded),
         ),
       ),
       body: Container(
         alignment: Alignment.topCenter,
-        color: Colors.black,
+        color: primaryBlack,
         padding: EdgeInsets.all(25),
         child: Container(
           padding: EdgeInsets.all(25),
@@ -60,17 +60,17 @@ class ReceiptPage extends StatelessWidget {
                   ReceiptInfo(
                     txtTitle: "Date",
                     txtValue: "April 1, 2025",
-                    txtColor: Colors.white,
+                    txtColor: primaryWhite,
                   ),
                   ReceiptInfo(
                     txtTitle: "Time",
                     txtValue: "9:45 AM",
-                    txtColor: Colors.white,
+                    txtColor: primaryWhite,
                   ),
                   ReceiptInfo(
                     txtTitle: "Reference No.",
                     txtValue: "213513203461348",
-                    txtColor: Colors.white,
+                    txtColor: primaryWhite,
                   ),
                 ],
               ),

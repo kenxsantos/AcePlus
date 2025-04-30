@@ -20,7 +20,7 @@ class ButtonWidget extends StatelessWidget {
         height: 60,
         child: Text(
           labelText,
-          style: TextStyle(color: Colors.black, fontSize: 16),
+          style: TextStyle(color: primaryBlack, fontSize: 16),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class DateInfo extends StatelessWidget {
@@ -12,7 +13,7 @@ class DateInfo extends StatelessWidget {
           'April',
           style: TextStyle(
             fontSize: 14,
-            color: Colors.white,
+            color: primaryWhite,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -20,7 +21,7 @@ class DateInfo extends StatelessWidget {
           '29',
           style: TextStyle(
             fontSize: 16,
-            color: Colors.white,
+            color: primaryWhite,
             fontWeight: FontWeight.bold,
           ),
         ),
