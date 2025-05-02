@@ -65,6 +65,19 @@ class TopToolbarWidget extends StatelessWidget {
                               end: Alignment.bottomRight,
                             ),
                           ),
+                          child: Center(
+                            child: Text(
+                              '100000',
+                              style: GoogleFonts.lemon(
+                                textStyle: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFFFD700),
+                                ),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
                         Positioned(
                           left: -15,
