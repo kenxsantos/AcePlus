@@ -8,18 +8,21 @@ class GameTimerCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final circleSize = screenWidth * 0.18;
+    final borderWidth = circleSize * 0.07;
+    final fontSize = circleSize * 0.5;
+
     return SizedBox(
-      width: 100,
-      height: 100,
+      width: circleSize,
+      height: circleSize,
       child: Container(
-        width: 300,
-        height: 300,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.transparent,
           border: Border.all(
             color: const Color(0xFF7D1F22),
-            width: 6,
+            width: borderWidth,
           ),
         ),
         child: Stack(
@@ -29,22 +32,23 @@ class GameTimerCircle extends StatelessWidget {
               text,
               style: GoogleFonts.lemon(
                 textStyle: TextStyle(
-                  fontSize: 60,
+                  fontSize: fontSize,
                   fontWeight: FontWeight.bold,
-                  foreground: Paint()
-                    ..style = PaintingStyle.stroke
-                    ..strokeWidth = 6
-                    ..color = const Color(0xFF7D1F22),
+                  foreground:
+                      Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = borderWidth
+                        ..color = const Color(0xFF7D1F22),
                 ),
               ),
             ),
             Text(
               text,
               style: GoogleFonts.lemon(
-                textStyle: const TextStyle(
-                  fontSize: 60,
+                textStyle: TextStyle(
+                  fontSize: fontSize,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFFFD700),
+                  color: const Color(0xFFFFD700),
                 ),
               ),
             ),
