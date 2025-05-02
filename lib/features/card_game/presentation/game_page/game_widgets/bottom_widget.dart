@@ -22,7 +22,7 @@ class BottomBetWidget extends StatelessWidget {
           valueListenable: _isVisible,
           builder: (context, isVisible, child) {
             return AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOut,
               bottom: isVisible ? 0 : -screenHeight * 0.26,
               child: const BottomBetContainer(),
@@ -33,7 +33,7 @@ class BottomBetWidget extends StatelessWidget {
           valueListenable: _isVisible,
           builder: (context, isVisible, child) {
             return AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOut,
               bottom: isVisible ? screenHeight * 0.26 - 2 : 0,
               child: BottomToolbarWidget(onTap: _toggleVisibility),
