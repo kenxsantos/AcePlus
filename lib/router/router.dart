@@ -14,7 +14,7 @@ class AppRouter {
       initialLocation: '/',
       routes: [
         GoRoute(
-          path: '/home',
+          path: '/',
           name: 'home',
           builder: (context, state) => const HomePage(),
         ),
@@ -39,7 +39,7 @@ class AppRouter {
           builder: (context, state) => const ReceiptPage(),
         ),
         GoRoute(
-          path: '/',
+          path: '/game',
           name: 'game',
           builder: (context, state) => const GamePage(),
         ),
