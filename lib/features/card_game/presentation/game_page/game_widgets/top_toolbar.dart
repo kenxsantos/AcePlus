@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TopToolbarWidget extends StatelessWidget {
@@ -33,7 +34,7 @@ class TopToolbarWidget extends StatelessWidget {
                 height: buttonHeight,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Add cancel button functionality here
+                    context.go('/');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFFD700),
