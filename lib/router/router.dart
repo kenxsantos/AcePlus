@@ -4,7 +4,7 @@ import 'package:aceplus/features/card_game/presentation/wallet_page/screens/tran
 import 'package:aceplus/features/card_game/presentation/wallet_page/screens/wallet_page.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/card_game/presentation/screens/game_page.dart';
+import '../features/card_game/presentation/game_page/screens/game_page.dart';
 
 class AppRouter {
   late final GoRouter router;
