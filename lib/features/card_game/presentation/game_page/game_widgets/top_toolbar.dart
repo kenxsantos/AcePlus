@@ -6,22 +6,31 @@ class TopToolbarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final toolbarHeight = screenWidth * 0.23;
+    final buttonHeight = toolbarHeight * 0.325;
+    final chipSize = toolbarHeight * 0.3;
+    final addButtonSize = toolbarHeight * 0.3;
+    final containerWidth = screenWidth * 0.23;
+    final containerHeight = toolbarHeight * 0.28;
+    final fontSize = toolbarHeight * 0.12;
+
     return Stack(
       alignment: Alignment.center,
       children: [
         Image.asset(
           'assets/images/top_toolbar.png',
-          width: MediaQuery.of(context).size.width * 1,
-          height: 75,
+          width: screenWidth,
+          height: toolbarHeight,
           fit: BoxFit.fill,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                height: 32, // Adjust the height as needed
+                height: buttonHeight,
                 child: ElevatedButton(
                   onPressed: () {
                     // Add cancel button functionality here
@@ -40,8 +49,8 @@ class TopToolbarWidget extends StatelessWidget {
                   child: Text(
                     'Leave',
                     style: GoogleFonts.lemon(
-                      textStyle: const TextStyle(
-                        fontSize: 14,
+                      textStyle: TextStyle(
+                        fontSize: fontSize,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -49,15 +58,15 @@ class TopToolbarWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 15.0),
+                padding: EdgeInsets.only(right: screenWidth * 0.04),
                 child: Row(
                   children: [
                     Stack(
                       clipBehavior: Clip.none,
                       children: [
                         Container(
-                          width: 100,
-                          height: 28,
+                          width: containerWidth,
+                          height: containerHeight,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [Color(0xFF505050), Color(0xFF313131)],
@@ -69,8 +78,8 @@ class TopToolbarWidget extends StatelessWidget {
                             child: Text(
                               '100000',
                               style: GoogleFonts.lemon(
-                                textStyle: const TextStyle(
-                                  fontSize: 14,
+                                textStyle: TextStyle(
+                                  fontSize: fontSize,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFFFFD700),
                                 ),
@@ -80,18 +89,26 @@ class TopToolbarWidget extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          left: -15,
-                          child: Image.asset('assets/images/chip.png', height: 30, width: 30),
+                          left: -chipSize * 0.5,
+                          child: Image.asset(
+                            'assets/images/chip.png',
+                            height: chipSize,
+                            width: chipSize,
+                          ),
                         ),
                         Positioned(
-                          right: -15,
-                          child: Image.asset('assets/images/add_button.png', height: 30, width: 30),
+                          right: -addButtonSize * 0.5,
+                          child: Image.asset(
+                            'assets/images/add_button.png',
+                            height: addButtonSize,
+                            width: addButtonSize,
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
