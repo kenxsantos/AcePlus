@@ -1,8 +1,8 @@
+import 'package:aceplus/features/card_game/presentation/game_page/game_widgets/top_widget.dart';
 import 'package:flutter/material.dart';
-import '../game_widgets/bottom_bet_toolbar.dart';
+import '../game_widgets/bottom_widget.dart';
 import '../game_widgets/game_timer.dart';
 import '../game_widgets/table_widget.dart';
-import '../game_widgets/top_toolbar.dart';
 
 class GamePage extends StatelessWidget {
   const GamePage({super.key});
@@ -24,24 +24,24 @@ class GamePage extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.topCenter,
-                  child: const TopToolbarWidget(),
+                  child: const TopBetWidget(),
                 ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.2,
+                    ),
                     child: const GameTimerCircle(text: '10'),
                   ),
                 ),
-                const Center(
-                  child: TableWithCards(),
-                ),
+                const Center(child: TableWithCards()),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: const BottomBetWidget(),
+                  child: BottomBetWidget(),
                 ),
               ],
-            )
+            ),
           ),
         ),
       ],
