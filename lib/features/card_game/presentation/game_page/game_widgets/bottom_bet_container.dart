@@ -28,10 +28,18 @@ class BottomBetContainer extends StatelessWidget {
       height: screenHeight * 0.23,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF383B5A), Color(0xFF212231)],
+          colors: [Color(0xFF272D69), Color(0xFF201C48), Color(0xFF272D69)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(104),
+            spreadRadius: 6,
+            blurRadius: 20,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Center(
         child: Padding(
