@@ -17,9 +17,15 @@ class BottomBetContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
+    final double chipSize = screenWidth * 0.15;
+    final double fontSize = screenHeight * 0.02;
+
     return Container(
-      width: MediaQuery.of(context).size.width * 0.95,
-      height: MediaQuery.of(context).size.height * 0.23,
+      width: screenWidth * 0.95,
+      height: screenHeight * 0.23,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF383B5A), Color(0xFF212231)],
@@ -41,15 +47,15 @@ class BottomBetContainer extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/images/chip.png',
-                        height: 62,
-                        width: 62,
+                        height: chipSize,
+                        width: chipSize,
                       ),
                       Text(
                         text,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: fontSize,
                         ),
                       ),
                     ],
