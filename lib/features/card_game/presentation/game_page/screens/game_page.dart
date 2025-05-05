@@ -5,7 +5,7 @@ import '../game_widgets/game_timer.dart';
 import '../game_widgets/table_widget.dart';
 
 class GamePage extends StatelessWidget {
-  const GamePage({super.key});
+  const GamePage({super.key, required String id});
 
   @override
   Widget build(BuildContext context) {
