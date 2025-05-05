@@ -109,15 +109,20 @@ class _RegisterFormState extends State<RegisterForm> {
                   final mobileNumber = mobileNumberController.text.trim();
                   final password = passwordController.text.trim();
 
-                  if (mobileNumber.isNotEmpty && password.isNotEmpty) {
-                    final auth = Auth(mobileNumber: mobileNumber, password: password);
-                    context.read<AuthBloc>().add(AddAuth(auth));
+                  mobileNumberError.value = validateMobileNumber(mobileNumber);
+                  passwordError.value = validatePassword(password);
+
+                  if (mobileNumberError.value == null && passwordError.value == null) {
+                    if (mobileNumber.isNotEmpty && password.isNotEmpty) {
+                      final auth = Auth(mobileNumber: mobileNumber, password: password);
+                      context.read<AuthBloc>().add(AddAuth(auth));
+                    }
                   } else {
                     if (mobileNumber.isEmpty) {
-                      mobileNumberError.value = "mobile number is Required";
+                      mobileNumberError.value = "Mobile number is required";
                     }
                     if (password.isEmpty) {
-                      passwordError.value = "Password is Required";
+                      passwordError.value = "Password is required";
                     }
                   }
                 },
