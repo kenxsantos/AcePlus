@@ -4,7 +4,6 @@ import 'package:aceplus/shared/utils/strings.dart';
 import 'package:aceplus/shared/widgets/gradient_gold_container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TransactionHistoryPage extends StatefulWidget {
   const TransactionHistoryPage({super.key});

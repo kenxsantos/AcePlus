@@ -15,7 +15,7 @@ class ButtonContainer extends StatelessWidget {
         children: [
           GradientButton(
             labelText: Str().playNow,
-            onPressed: () => print("Go to Play Now"),
+            onPressed: () => context.go('/game'),
           ),
           GradientButton(
             labelText: Str().wallet,
