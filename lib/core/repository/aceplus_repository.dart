@@ -14,5 +14,9 @@ class AuthRepository {
 
   List<Auth> getAllAuths() => _dataSource.getAllAuths();
 
-  bool emailExists(String email) => _dataSource.emailExists(email);
+  bool mobileNumberExists(String mobileNumber) => _dataSource.mobileNumberExists(mobileNumber);
+
+  int? searchAuth(String mobileNumber, String password) {
+    return _dataSource.searchAuth(mobileNumber, password);
+  }
 }
