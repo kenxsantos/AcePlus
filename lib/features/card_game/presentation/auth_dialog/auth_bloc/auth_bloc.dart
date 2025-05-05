@@ -33,7 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print("Registration successful: ${event.auth.mobileNumber}");
         }
 
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(Duration(seconds: 3));
         emit(AuthInitial());
       } catch (e) {
         emit(AuthError(e.toString()));
@@ -55,6 +55,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } else {
           emit(AuthError('Either the mobile number or password is incorrect'));
         }
+
+        await Future.delayed(Duration(seconds: 3));
+        emit(AuthInitial());
       } catch (e) {
         emit(AuthError(e.toString()));
       }
