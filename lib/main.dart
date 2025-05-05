@@ -7,6 +7,7 @@ import 'core/data_source/data_source.dart';
 import 'core/model/auth_model/auth_model.dart';
 import 'core/repository/aceplus_repository.dart';
 import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_bloc.dart';
+import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,10 @@ void main() async {
   final appRouter = AppRouter();
   final authDataSource = AuthDataSource();
   final authRepository = AuthRepository(authDataSource);
+
+  // Temporary just to see all data in the auth box
+  final authBloc = AuthBloc(authRepository);
+  authBloc.add(LoadAuths());
 
   runApp(
     MultiBlocProvider(
