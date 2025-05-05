@@ -19,18 +19,18 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  final emailController = TextEditingController();
+  final mobileNumberController = TextEditingController();
   final passwordController = TextEditingController();
-  final emailError = ValueNotifier<String?>(null);
+  final mobileNumberError = ValueNotifier<String?>(null);
   final passwordError = ValueNotifier<String?>(null);
 
   @override
   void initState() {
     super.initState();
 
-    emailController.addListener(() {
-      final emailErrorText = validateEmail(emailController.text.trim());
-      emailError.value = emailErrorText;
+    mobileNumberController.addListener(() {
+      final mobileNumberErrorText = validateMobileNumber(mobileNumberController.text.trim());
+      mobileNumberError.value = mobileNumberErrorText;
     });
 
     passwordController.addListener(() {
@@ -51,9 +51,9 @@ class _RegisterFormState extends State<RegisterForm> {
         if (state is AuthSuccess) {
           message = state.message;
           messageColor = Colors.green;
-          emailController.clear();
+          mobileNumberController.clear();
           passwordController.clear();
-          emailError.value = null;
+          mobileNumberError.value = null;
           passwordError.value = null;
         } else if (state is AuthError) {
           message = state.message;
@@ -81,12 +81,12 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
               AuthTextfield(
-                controller: emailController,
-                hintText: Str().enterEmail,
+                controller: mobileNumberController,
+                hintText: Str().enterMobileNumber,
                 obscureText: false,
               ),
               ValueListenableBuilder<String?>(
-                valueListenable: emailError,
+                valueListenable: mobileNumberError,
                 builder: (context, error, child) {
                   if (error != null) {
                     return InputErrorText(error: error);
@@ -114,15 +114,15 @@ class _RegisterFormState extends State<RegisterForm> {
                 fontFamily: poppins,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  final email = emailController.text.trim();
+                  final mobileNumber = mobileNumberController.text.trim();
                   final password = passwordController.text.trim();
 
-                  if (email.isNotEmpty && password.isNotEmpty) {
-                    final auth = Auth(email: email, password: password);
+                  if (mobileNumber.isNotEmpty && password.isNotEmpty) {
+                    final auth = Auth(mobileNumber: mobileNumber, password: password);
                     context.read<AuthBloc>().add(AddAuth(auth));
                   } else {
-                    if (email.isEmpty) {
-                      emailError.value = "Email is Required";
+                    if (mobileNumber.isEmpty) {
+                      mobileNumberError.value = "mobile number is Required";
                     }
                     if (password.isEmpty) {
                       passwordError.value = "Password is Required";
