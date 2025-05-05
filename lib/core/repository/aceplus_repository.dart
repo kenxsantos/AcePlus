@@ -13,4 +13,6 @@ class AuthRepository {
   Future<void> deleteAuth(int id) => _dataSource.deleteAuth(id);
 
   List<Auth> getAllAuths() => _dataSource.getAllAuths();
+
+  bool emailExists(String email) => _dataSource.emailExists(email);
 }
