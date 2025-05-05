@@ -6,6 +6,7 @@ import 'package:aceplus/shared/widgets/solid_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../shared/utils/validators.dart';
+import '../../../../../shared/widgets/message_text.dart';
 import '../auth_bloc/auth_bloc.dart';
 import '../auth_bloc/auth_event.dart';
 import '../../../../../core/model/auth_model/auth_model.dart';
@@ -67,18 +68,9 @@ class _RegisterFormState extends State<RegisterForm> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (message != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
-                  child: Center(
-                    child: Text(
-                      message,
-                      style: TextStyle(
-                        color: messageColor,
-                        fontSize: 12,
-                        fontFamily: poppins,
-                      ),
-                    ),
-                  ),
+                MessageDisplay(
+                  message: message,
+                  messageColor: messageColor!,
                 ),
               AuthTextfield(
                 controller: mobileNumberController,
