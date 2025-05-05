@@ -20,19 +20,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AddAuth>((event, emit) async {
       try {
-        final emailExists = _repository.emailExists(event.auth.email);
+        final mobileNumberExists = _repository.mobileNumberExists(event.auth.mobileNumber);
 
-        if (emailExists) {
-          emit(AuthError('Email already exists'));
-          print("Email already exists: ${event.auth.email}");
+        if (mobileNumberExists) {
+          emit(AuthError('Mobile number already exists'));
+          print("Mobile number already exists: ${event.auth.mobileNumber}");
         } else {
           await _repository.addAuth(event.auth);
           emit(AuthSuccess('Registration successful'));
-          print("Registration successful: ${event.auth.email}");
+          print("Registration successful: ${event.auth.mobileNumber}");
         }
 
         await Future.delayed(Duration(seconds: 5));
         emit(AuthInitial());
+      } catch (e) {
+        emit(AuthError(e.toString()));
+      }
+    });
+
+    on<SearchAuth>((event, emit) async {
+      emit(AuthLoading());
+      try {
+        final id = _repository.searchAuth(event.mobileNumber, event.password);
+        if (id != null) {
+          final auth = _repository.getAuth(id);
+          print('Search Result: $auth');
+          emit(SearchResult(auth));
+        } else {
+          emit(AuthError('Either the mobile number or password is incorrect'));
+        }
       } catch (e) {
         emit(AuthError(e.toString()));
       }

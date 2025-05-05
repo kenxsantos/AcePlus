@@ -8,6 +8,16 @@ abstract class AuthEvent extends Equatable {
 
 class LoadAuths extends AuthEvent {}
 
+class SearchAuth extends AuthEvent {
+  final String mobileNumber;
+  final String password;
+
+  SearchAuth(this.mobileNumber, this.password);
+
+  @override
+  List<Object?> get props => [mobileNumber, password];
+}
+
 class AddAuth extends AuthEvent {
   final Auth auth;
 

@@ -19,6 +19,15 @@ class AuthLoaded extends AuthState {
   List<Object?> get props => [auths];
 }
 
+class SearchResult extends AuthState {
+  final Auth? auth;
+
+  SearchResult(this.auth);
+
+  @override
+  List<Object?> get props => [auth];
+}
+
 class AuthSuccess extends AuthState {
   final String message;
 
