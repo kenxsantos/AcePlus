@@ -51,7 +51,7 @@ class _AuthTabBarState extends State<AuthTabBar>
           ],
         ),
         SizedBox(
-          height: 300,
+          height: 325,
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[LoginForm(), RegisterForm()],
