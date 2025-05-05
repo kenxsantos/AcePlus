@@ -30,7 +30,9 @@ class _RegisterFormState extends State<RegisterForm> {
     super.initState();
 
     mobileNumberController.addListener(() {
-      final mobileNumberErrorText = validateMobileNumber(mobileNumberController.text.trim());
+      final mobileNumberErrorText = validateMobileNumber(
+        mobileNumberController.text.trim(),
+      );
       mobileNumberError.value = mobileNumberErrorText;
     });
 
@@ -54,8 +56,6 @@ class _RegisterFormState extends State<RegisterForm> {
           messageColor = Colors.green;
           mobileNumberController.clear();
           passwordController.clear();
-          mobileNumberError.value = null;
-          passwordError.value = null;
         } else if (state is AuthError) {
           message = state.message;
           messageColor = Colors.red;
@@ -65,40 +65,57 @@ class _RegisterFormState extends State<RegisterForm> {
           padding: EdgeInsets.all(15),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (message != null)
-                MessageDisplay(
-                  message: message,
-                  messageColor: messageColor!,
-                ),
-              AuthTextfield(
-                controller: mobileNumberController,
-                hintText: Str().enterMobileNumber,
-                obscureText: false,
+                MessageDisplay(message: message, messageColor: messageColor!),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AuthTextfield(
+                    controller: mobileNumberController,
+                    hintText: Str().enterMobileNumber,
+                    obscureText: false,
+                  ),
+                  SizedBox(height: 5), // Add spacing
+                  ValueListenableBuilder<String?>(
+                    valueListenable: mobileNumberError,
+                    builder: (context, error, child) {
+                      if (error != null) {
+                        return Align(
+                          alignment: Alignment.centerRight,
+                          child: InputErrorText(error: error),
+                        );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
+                ],
               ),
-              ValueListenableBuilder<String?>(
-                valueListenable: mobileNumberError,
-                builder: (context, error, child) {
-                  if (error != null) {
-                    return InputErrorText(error: error);
-                  }
-                  return SizedBox.shrink();
-                },
-              ),
-              AuthTextfield(
-                controller: passwordController,
-                hintText: Str().enterPass,
-                obscureText: true,
-              ),
-              ValueListenableBuilder<String?>(
-                valueListenable: passwordError,
-                builder: (context, error, child) {
-                  if (error != null) {
-                    return InputErrorText(error: error);
-                  }
-                  return SizedBox.shrink();
-                },
+              SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AuthTextfield(
+                    controller: passwordController,
+                    hintText: Str().enterPass,
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 5), // Add spacing
+                  ValueListenableBuilder<String?>(
+                    valueListenable: passwordError,
+                    builder: (context, error, child) {
+                      if (error != null) {
+                        return Align(
+                          alignment: Alignment.centerRight,
+                          // Align error to the right
+                          child: InputErrorText(error: error),
+                        );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
+                ],
               ),
               SizedBox(height: 10),
               SolidButton(
@@ -112,9 +129,13 @@ class _RegisterFormState extends State<RegisterForm> {
                   mobileNumberError.value = validateMobileNumber(mobileNumber);
                   passwordError.value = validatePassword(password);
 
-                  if (mobileNumberError.value == null && passwordError.value == null) {
+                  if (mobileNumberError.value == null &&
+                      passwordError.value == null) {
                     if (mobileNumber.isNotEmpty && password.isNotEmpty) {
-                      final auth = Auth(mobileNumber: mobileNumber, password: password);
+                      final auth = Auth(
+                        mobileNumber: mobileNumber,
+                        password: password,
+                      );
                       context.read<AuthBloc>().add(AddAuth(auth));
                     }
                   } else {
