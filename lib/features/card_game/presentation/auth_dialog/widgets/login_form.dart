@@ -1,18 +1,22 @@
-import 'package:aceplus/features/card_game/presentation/auth_dialog/widgets/auth_textfield.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:aceplus/shared/widgets/solid_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../shared/widgets/message_text.dart';
+import 'package:aceplus/shared/widgets/message_text.dart';
 import '../auth_bloc/auth_bloc.dart';
 import '../auth_bloc/auth_event.dart';
 import '../auth_bloc/auth_state.dart';
+import 'package:aceplus/shared/utils/logged_in_checker.dart';
+
+import 'auth_textfield.dart';
 
 class LoginForm extends StatelessWidget {
   LoginForm({super.key});
+
   final mobileNumberController = TextEditingController();
   final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,6 +30,7 @@ class LoginForm extends StatelessWidget {
             messageColor = Colors.red;
           } else if (state is AuthSuccess) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
+              AuthUtils.setLoggedIn(true);
               Navigator.of(context).pop();
             });
           }
@@ -34,10 +39,7 @@ class LoginForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (message != null)
-                MessageDisplay(
-                  message: message,
-                  messageColor: messageColor!,
-                ),
+                MessageDisplay(message: message, messageColor: messageColor!),
               AuthTextfield(
                 controller: mobileNumberController,
                 hintText: Str().enterMobileNumber,
@@ -57,7 +59,9 @@ class LoginForm extends StatelessWidget {
                   final mobileNumber = mobileNumberController.text.trim();
                   final password = passwordController.text.trim();
 
-                  context.read<AuthBloc>().add(SearchAuth(mobileNumber, password));
+                  context.read<AuthBloc>().add(
+                    SearchAuth(mobileNumber, password),
+                  );
                 },
               ),
               SizedBox(height: 15),

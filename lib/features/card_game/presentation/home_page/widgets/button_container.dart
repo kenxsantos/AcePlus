@@ -10,11 +10,9 @@ class ButtonContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: AuthUtils.isLoggedIn(),
-      builder: (context, snapshot) {
-        final isLoggedIn = snapshot.data ?? false;
-
+    return ValueListenableBuilder<bool>(
+      valueListenable: AuthUtils.isLoggedInNotifier,
+      builder: (context, isLoggedIn, child) {
         return Container(
           margin: EdgeInsets.only(top: 50),
           child: Row(
@@ -26,7 +24,7 @@ class ButtonContainer extends StatelessWidget {
                   if (isLoggedIn) {
                     final userId = await AuthUtils.getUserId();
                     print(userId);
-                    if(context.mounted) {
+                    if (context.mounted) {
                       context.go('/game/$userId');
                     }
                   } else {
