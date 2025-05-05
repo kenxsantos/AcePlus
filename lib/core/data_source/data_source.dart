@@ -7,7 +7,7 @@ class AuthDataSource {
 
   Future<void> addAuth(Auth auth) async {
     final int id = (_authBox.keys.isEmpty ? 0 : _authBox.keys.last as int) + 1;
-    final newAuth = Auth(id: id, email: auth.email, password: auth.password);
+    final newAuth = Auth(id: id, mobileNumber: auth.mobileNumber, password: auth.password);
     await _authBox.put(id, newAuth);
   }
 
@@ -23,7 +23,17 @@ class AuthDataSource {
     return _authBox.values.toList();
   }
 
-  bool emailExists(String email) {
-    return _authBox.values.any((auth) => auth.email == email);
+  bool mobileNumberExists(String mobileNumber) {
+    return _authBox.values.any((auth) => auth.mobileNumber == mobileNumber);
+  }
+
+  int? searchAuth(String mobileNumber, String password) {
+    try {
+      return _authBox.values.firstWhere(
+            (auth) => auth.mobileNumber == mobileNumber && auth.password == password,
+      ).id;
+    } catch (e) {
+      return null;
+    }
   }
 }
