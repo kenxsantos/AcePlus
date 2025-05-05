@@ -15,4 +15,7 @@ class Str {
   final enterEmail = "Enter email address";
   final enterPass = "Enter password";
   final fPass = "Forgot password?";
+  final starting = "Game starts in";
+  final chooseCard = "Choose your card";
+  final showingCard = "Showing Cards";
 }
