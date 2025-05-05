@@ -12,7 +12,7 @@ class Str {
   final wallet = "Wallet";
   final logIn = "Login";
   final register = "Register";
-  final enterEmail = "Enter email address";
+  final enterMobileNumber = "Enter mobile number";
   final enterPass = "Enter password";
   final fPass = "Forgot password?";
 }
