@@ -1,7 +1,7 @@
-String? validateEmail(String email) {
-  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-  if (!emailRegex.hasMatch(email)) {
-    return 'Not a valid email format';
+String? validateMobileNumber(String mobileNumber) {
+  final mobileNumberRegex = RegExp(r'^\d{11}$');
+  if (!mobileNumberRegex.hasMatch(mobileNumber)) {
+    return 'Not a valid mobile number format. It must be exactly 11 digits.';
   }
   return null;
 }
