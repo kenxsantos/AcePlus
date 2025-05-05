@@ -17,8 +17,8 @@ class AuthAdapter extends TypeAdapter<Auth> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Auth(
-      id: fields[0] as int,
-      email: fields[1] as String,
+      id: fields[0] as int?,
+      mobileNumber: fields[1] as String,
       password: fields[2] as String,
     );
   }
@@ -30,7 +30,7 @@ class AuthAdapter extends TypeAdapter<Auth> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.email)
+      ..write(obj.mobileNumber)
       ..writeByte(2)
       ..write(obj.password);
   }

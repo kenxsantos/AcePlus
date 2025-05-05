@@ -8,15 +8,15 @@ class Auth extends HiveObject {
   final int? id;
 
   @HiveField(1)
-  final String email;
+  final String mobileNumber;
 
   @HiveField(2)
   final String password;
 
-  Auth({this.id, required this.email, required this.password});
+  Auth({this.id, required this.mobileNumber, required this.password});
 
   @override
   String toString() {
-    return 'Auth{id: $id, email: $email, password: $password}';
+    return 'Auth{id: $id, mobileNumber: $mobileNumber, password: $password}';
   }
 }
