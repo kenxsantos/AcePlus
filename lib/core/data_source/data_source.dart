@@ -22,4 +22,8 @@ class AuthDataSource {
   List<Auth> getAllAuths() {
     return _authBox.values.toList();
   }
+
+  bool emailExists(String email) {
+    return _authBox.values.any((auth) => auth.email == email);
+  }
 }
