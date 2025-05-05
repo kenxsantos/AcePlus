@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../core/repository/aceplus_repository.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
@@ -45,6 +46,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (id != null) {
           final auth = _repository.getAuth(id);
           print('Search Result: $auth');
+
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('isLoggedIn', true);
+          await prefs.setInt('userId', id);
+
           emit(SearchResult(auth));
         } else {
           emit(AuthError('Either the mobile number or password is incorrect'));
@@ -52,6 +58,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(AuthError(e.toString()));
       }
+    });
+
+    on<LogoutAuth>((event, emit) async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('isLoggedIn');
+      await prefs.remove('userId');
+      emit(AuthInitial());
     });
 
     on<DeleteAuth>((event, emit) async {

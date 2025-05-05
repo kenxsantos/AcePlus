@@ -18,6 +18,8 @@ class SearchAuth extends AuthEvent {
   List<Object?> get props => [mobileNumber, password];
 }
 
+class LogoutAuth extends AuthEvent {}
+
 class AddAuth extends AuthEvent {
   final Auth auth;
 
