@@ -30,7 +30,6 @@ class LoginForm extends StatelessWidget {
             messageColor = Colors.red;
           } else if (state is AuthSuccess) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              AuthUtils.setLoggedIn(true);
               Navigator.of(context).pop();
             });
           }

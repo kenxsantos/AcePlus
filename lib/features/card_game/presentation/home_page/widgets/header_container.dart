@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:aceplus/shared/utils/constant.dart';
-import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../auth_dialog/auth_bloc/auth_bloc.dart';
 import '../../auth_dialog/auth_bloc/auth_event.dart';
+import '../../auth_dialog/auth_bloc/auth_state.dart';
 import '../../auth_dialog/screens/auth_dialog.dart';
+import 'package:aceplus/shared/utils/constant.dart';
 
 class HeaderContainer extends StatelessWidget {
   const HeaderContainer({super.key});
@@ -17,25 +17,25 @@ class HeaderContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
-          ValueListenableBuilder<bool>(
-            valueListenable: AuthUtils.isLoggedInNotifier,
-            builder: (context, isLoggedIn, child) {
-              return isLoggedIn
-                  ? IconButton(
-                    onPressed: () {
-                      context.read<AuthBloc>().add(LogoutAuth());
-                      AuthUtils.setLoggedIn(false);
-                    },
-                    icon: Icon(Icons.logout, color: primaryYellow),
-                  )
-                  : IconButton(
-                    onPressed:
-                        () => showDialog(
-                          context: context,
-                          builder: (context) => AuthDialog(),
-                        ),
-                    icon: Image.asset("${iconUrl}user_icon.png"),
-                  );
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              if (state is SearchResult || state is AuthSuccess) {
+                return IconButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(LogoutAuth());
+                  },
+                  icon: Icon(Icons.logout, color: primaryYellow),
+                );
+              } else {
+                return IconButton(
+                  onPressed:
+                      () => showDialog(
+                        context: context,
+                        builder: (context) => AuthDialog(),
+                      ),
+                  icon: Image.asset("${iconUrl}user_icon.png"),
+                );
+              }
             },
           ),
         ],

@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthUtils {
-  static final ValueNotifier<bool> isLoggedInNotifier = ValueNotifier(false);
-
-  static void setLoggedIn(bool value) {
-    isLoggedInNotifier.value = value;
+  static Future<void> setLoggedIn(bool isLoggedIn, int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', isLoggedIn);
+    await prefs.setInt('userId', id);
   }
 
-  static bool isLoggedIn() {
-    return isLoggedInNotifier.value;
+  static Future<bool> isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isLoggedIn') ?? false;
   }
 
   static Future<String?> getUserId() async {
