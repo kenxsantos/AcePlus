@@ -7,7 +7,6 @@ import 'package:aceplus/shared/widgets/message_text.dart';
 import '../auth_bloc/auth_bloc.dart';
 import '../auth_bloc/auth_event.dart';
 import '../auth_bloc/auth_state.dart';
-import 'package:aceplus/shared/utils/logged_in_checker.dart';
 
 import 'auth_textfield.dart';
 
