@@ -52,6 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await prefs.setInt('userId', id);
 
           emit(SearchResult(auth));
+          emit(AuthSuccess('Login successful'));
         } else {
           emit(AuthError('Either the mobile number or password is incorrect'));
         }
