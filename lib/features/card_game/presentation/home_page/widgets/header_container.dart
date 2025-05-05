@@ -1,6 +1,10 @@
 import 'package:aceplus/features/card_game/presentation/auth_dialog/screens/auth_dialog.dart';
 import 'package:aceplus/shared/utils/constant.dart';
+import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../auth_dialog/auth_bloc/auth_bloc.dart';
+import '../../auth_dialog/auth_bloc/auth_event.dart';
 
 class HeaderContainer extends StatelessWidget {
   const HeaderContainer({super.key});
@@ -13,14 +17,26 @@ class HeaderContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
-          IconButton(
-            onPressed:
-                () => showDialog(
-                  context: context,
-                  builder: (context) => AuthDialog(),
-                ),
+          FutureBuilder<bool>(
+            future: AuthUtils.isLoggedIn(),
+            builder: (context, snapshot) {
+              final isLoggedIn = snapshot.data ?? false;
 
-            icon: Image.asset("${iconUrl}user_icon.png"),
+              return isLoggedIn
+                  ? IconButton(
+                      onPressed: () {
+                        context.read<AuthBloc>().add(LogoutAuth());
+                      },
+                      icon: Icon(Icons.logout, color: primaryYellow),
+                    )
+                  : IconButton(
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (context) => AuthDialog(),
+                      ),
+                      icon: Image.asset("${iconUrl}user_icon.png"),
+                    );
+            },
           ),
         ],
       ),
