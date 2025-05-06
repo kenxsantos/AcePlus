@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               Positioned(
-                top: 85,
+                top: 40,
                 left: 15,
                 width: 200,
                 child: Image.asset("${imageUrl}light.png"),

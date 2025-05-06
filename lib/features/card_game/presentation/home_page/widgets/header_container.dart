@@ -7,20 +7,23 @@ class HeaderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
-        IconButton(
-          onPressed:
-              () => showDialog(
-                context: context,
-                builder: (context) => AuthDialog(),
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
+          IconButton(
+            onPressed:
+                () => showDialog(
+                  context: context,
+                  builder: (context) => AuthDialog(),
+                ),
 
-          icon: Image.asset("${iconUrl}user_icon.png"),
-        ),
-      ],
+            icon: Image.asset("${iconUrl}user_icon.png"),
+          ),
+        ],
+      ),
     );
   }
 }
