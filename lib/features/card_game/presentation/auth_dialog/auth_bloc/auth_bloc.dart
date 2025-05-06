@@ -22,21 +22,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AddAuth>((event, emit) async {
       try {
-        final mobileNumberExists = _repository.mobileNumberExists(event.auth.mobileNumber);
+        final mobileNumberExists = _repository.mobileNumberExists(
+          event.auth.mobileNumber,
+        );
 
         if (mobileNumberExists) {
-          emit(AuthError('Mobile number already exists'));
+          emit(AuthRegisterError('Mobile number already exists'));
           print("Mobile number already exists: ${event.auth.mobileNumber}");
         } else {
           await _repository.addAuth(event.auth);
-          emit(AuthSuccess('Registration successful'));
+          emit(AuthSuccess('Account created successfully!'));
           print("Registration successful: ${event.auth.mobileNumber}");
         }
 
         await Future.delayed(Duration(seconds: 3));
         emit(AuthInitial());
       } catch (e) {
-        emit(AuthError(e.toString()));
+        emit(AuthRegisterError(e.toString()));
       }
     });
 
@@ -53,12 +55,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(SearchResult(auth));
           emit(AuthSuccess('Login successful'));
         } else {
-          emit(AuthError('Either the mobile number or password is incorrect'));
+          emit(AuthLoginError('Invalid credentials, kindly recheck it!'));
           await Future.delayed(Duration(seconds: 3));
           emit(AuthInitial());
         }
       } catch (e) {
-        emit(AuthError(e.toString()));
+        emit(AuthLoginError(e.toString()));
       }
     });
 
@@ -75,6 +77,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         add(LoadAuths());
       } catch (e) {
         emit(AuthError(e.toString()));
+      }
+    });
+
+    on<CheckSession>((event, emit) async {
+      final isLoggedIn = await AuthUtils.isLoggedIn();
+      if (isLoggedIn) {
+        final userId = await AuthUtils.getUserId();
+        if (userId != null) {
+          final auth = _repository.getAuth(userId);
+          emit(SearchResult(auth));
+        } else {
+          emit(AuthInitial());
+        }
+      } else {
+        emit(AuthInitial());
       }
     });
   }
