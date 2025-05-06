@@ -56,13 +56,13 @@ class _RegisterFormState extends State<RegisterForm> {
           messageColor = Colors.green;
           mobileNumberController.clear();
           passwordController.clear();
-        } else if (state is AuthError) {
+        } else if (state is AuthRegisterError) {
           message = state.message;
           messageColor = Colors.red;
         }
 
         return Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(25),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
