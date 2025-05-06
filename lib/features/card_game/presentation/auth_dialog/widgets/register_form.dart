@@ -58,7 +58,7 @@ class _RegisterFormState extends State<RegisterForm> {
           passwordController.clear();
         } else if (state is AuthRegisterError) {
           message = state.message;
-          messageColor = Colors.red;
+          messageColor = Color(0xFFF56C6C);
         }
 
         return Container(
