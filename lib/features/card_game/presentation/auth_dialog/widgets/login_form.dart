@@ -19,12 +19,12 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(25),
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           String? message;
           Color? messageColor;
-          if (state is AuthError) {
+          if (state is AuthLoginError) {
             message = state.message;
             messageColor = Colors.red;
           } else if (state is AuthSuccess) {
