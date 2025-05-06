@@ -21,7 +21,6 @@ class ShowCards extends TimerEvent {
 }
 
 class TimerTicked extends TimerEvent {
-  TimerTicked({required this.duration, required this.status});
-  final TimerStatus status;
+  TimerTicked({required this.duration});
   final int duration;
 }

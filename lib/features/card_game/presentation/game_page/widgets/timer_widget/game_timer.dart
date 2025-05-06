@@ -18,13 +18,14 @@ class GameTimerCircle extends StatelessWidget {
     return BlocListener<TimerBloc, TimerState>(
       listener: (context, state) async {
         if (state.status.isCompleted) {
-          await Future.delayed(Duration(seconds: 1), () {
-            context.read<TimerBloc>().add(TimerStarted(duration: 10));
-          });
+          context.read<TimerBloc>().add(TimerStarted(duration: 10));
         }
-        if (state.status.isShowed) {
+        if (state.status.isShowCards) {
+          context.read<TimerBloc>().add(ShowCards(duration: 5));
+        }
+        if (state.status.isCloseCards) {
           await Future.delayed(Duration(seconds: 1), () {
-            context.read<TimerBloc>().add(ShowCards(duration: 5));
+            context.read<TimerBloc>().add(TimerStarting(duration: 3));
           });
         }
 
