@@ -1,20 +1,22 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthUtils {
-  static Future<void> setLoggedIn(bool isLoggedIn, int id) async {
+  static const String isLoggedInKey = 'isLoggedIn';
+  static const String userIdKey = 'userId';
+
+  static Future<void> setLoggedIn(bool isLoggedIn, int userId) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', isLoggedIn);
-    await prefs.setInt('userId', id);
+    await prefs.setBool(isLoggedInKey, isLoggedIn);
+    await prefs.setInt(userIdKey, userId);
   }
 
   static Future<bool> isLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isLoggedIn') ?? false;
+    return prefs.getBool(isLoggedInKey) ?? false;
   }
 
-  static Future<String?> getUserId() async {
+  static Future<int?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getInt('userId');
-    return userId?.toString();
+    return prefs.getInt(userIdKey);
   }
 }
