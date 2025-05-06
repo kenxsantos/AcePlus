@@ -24,23 +24,28 @@ class _RegisterFormState extends State<RegisterForm> {
   final passwordController = TextEditingController();
   final mobileNumberError = ValueNotifier<String?>(null);
   final passwordError = ValueNotifier<String?>(null);
+  bool isClearing = false;
 
   @override
   void initState() {
     super.initState();
 
     mobileNumberController.addListener(() {
-      final mobileNumberErrorText = validateMobileNumber(
-        mobileNumberController.text.trim(),
-      );
-      mobileNumberError.value = mobileNumberErrorText;
+      if (!isClearing) {
+        final mobileNumberErrorText = validateMobileNumber(
+          mobileNumberController.text.trim(),
+        );
+        mobileNumberError.value = mobileNumberErrorText;
+      }
     });
 
     passwordController.addListener(() {
-      final passwordErrorText = validatePassword(
-        passwordController.text.trim(),
-      );
-      passwordError.value = passwordErrorText;
+      if (!isClearing) {
+        final passwordErrorText = validatePassword(
+          passwordController.text.trim(),
+        );
+        passwordError.value = passwordErrorText;
+      }
     });
   }
 
@@ -54,8 +59,16 @@ class _RegisterFormState extends State<RegisterForm> {
         if (state is AuthSuccess) {
           message = state.message;
           messageColor = Colors.green;
+
+          isClearing = true;
+
           mobileNumberController.clear();
           passwordController.clear();
+
+          mobileNumberError.value = null;
+          passwordError.value = null;
+
+          isClearing = false;
         } else if (state is AuthRegisterError) {
           message = state.message;
           messageColor = Color(0xFFF56C6C);
