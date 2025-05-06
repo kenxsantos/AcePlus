@@ -54,10 +54,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthSuccess('Login successful'));
         } else {
           emit(AuthError('Either the mobile number or password is incorrect'));
+          await Future.delayed(Duration(seconds: 3));
+          emit(AuthInitial());
         }
-
-        await Future.delayed(Duration(seconds: 3));
-        emit(AuthInitial());
       } catch (e) {
         emit(AuthError(e.toString()));
       }
