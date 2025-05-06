@@ -1,4 +1,5 @@
 import 'package:aceplus/router/router.dart';
+import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,16 +24,25 @@ void main() async {
   final authBloc = AuthBloc(authRepository);
   authBloc.add(LoadAuths());
 
+  //Temporary just to check if there is an existing session
+  final isLoggedIn = await AuthUtils.isLoggedIn();
+  final userId = await AuthUtils.getUserId();
+  print('Is Logged In: $isLoggedIn');
+  print('User: $userId');
+
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository)),
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(authRepository)..add(CheckSession()),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter.router,
         theme: ThemeData(textTheme: GoogleFonts.lemonTextTheme()),
       ),
-    )
+    ),
   );
 }
