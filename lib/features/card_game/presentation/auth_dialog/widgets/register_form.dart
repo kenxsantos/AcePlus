@@ -65,7 +65,7 @@ class _RegisterFormState extends State<RegisterForm> {
           padding: EdgeInsets.all(15),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (message != null)
                 MessageDisplay(message: message, messageColor: messageColor!),
