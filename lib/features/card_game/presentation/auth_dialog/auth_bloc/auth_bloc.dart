@@ -38,7 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await Future.delayed(Duration(seconds: 3));
         emit(AuthInitial());
       } catch (e) {
-        emit(AuthRegisterError(e.toString()));
+        emit(AuthRegisterError('Signup failed: ${e.toString()}'));
       }
     });
 
@@ -60,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthInitial());
         }
       } catch (e) {
-        emit(AuthLoginError(e.toString()));
+        emit(AuthLoginError('Login failed: ${e.toString()}'));
       }
     });
 
