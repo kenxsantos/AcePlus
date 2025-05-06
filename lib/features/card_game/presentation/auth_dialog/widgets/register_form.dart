@@ -92,7 +92,6 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -117,7 +116,6 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
               SolidButton(
                 labelText: Str().register.toUpperCase(),
                 fontFamily: poppins,
