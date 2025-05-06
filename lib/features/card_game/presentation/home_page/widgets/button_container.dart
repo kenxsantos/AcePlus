@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../shared/utils/logged_in_checker.dart';
 import '../../auth_dialog/auth_bloc/auth_bloc.dart';
 import '../../auth_dialog/auth_bloc/auth_state.dart';
 import '../../auth_dialog/screens/auth_dialog.dart';
@@ -22,10 +23,14 @@ class ButtonContainer extends StatelessWidget {
             children: [
               GradientButton(
                 labelText: Str().playNow,
-                onPressed: () {
-                  if (isLoggedIn && state is SearchResult) {
-                    final userId = state.auth?.id;
-                    context.go('/game/$userId');
+                onPressed: () async {
+                  if (isLoggedIn) {
+                    final userId = await AuthUtils.getUserId();
+                    if (userId != null) {
+                      if (context.mounted) {
+                        context.go('/game/$userId');
+                      }
+                    }
                   } else {
                     showDialog(
                       context: context,
