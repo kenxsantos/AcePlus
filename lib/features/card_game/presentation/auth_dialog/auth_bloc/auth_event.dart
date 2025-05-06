@@ -37,3 +37,5 @@ class DeleteAuth extends AuthEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class CheckSession extends AuthEvent {}
