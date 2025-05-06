@@ -9,7 +9,7 @@ String? validateMobileNumber(String mobileNumber) {
 String? validatePassword(String password) {
   final passwordRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$');
   if (!passwordRegex.hasMatch(password)) {
-    return 'Password must be at least 8 characters long, include 1 uppercase, 1 lowercase, 1 number, and 1 special character';
+    return 'Password must be at least 8 characters with uppercase, lowercase, number & special char.';
   }
   return null;
 }
