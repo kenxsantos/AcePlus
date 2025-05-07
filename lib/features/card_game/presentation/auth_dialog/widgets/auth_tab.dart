@@ -32,29 +32,38 @@ class _AuthTabBarState extends State<AuthTabBar>
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        TabBar.secondary(
-          indicatorColor: Color(0xFFE7BB68),
-          indicatorWeight: 5,
-          dividerHeight: 5,
-          labelColor: primaryWhite,
-          controller: _tabController,
-          tabs: <Widget>[
-            Tab(
-              child: Text(Str().logIn, style: TextStyle(fontFamily: poppins)),
+        Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: FractionallySizedBox(
+            widthFactor: 0.85,
+            child: TabBar.secondary(
+              indicatorColor: Color(0xFFE7BB68),
+              indicatorWeight: 5,
+              dividerHeight: 5,
+              labelColor: primaryWhite,
+              controller: _tabController,
+              tabs: <Widget>[
+                Tab(
+                  child: Text(Str().logIn, style: TextStyle(fontFamily: poppins)),
+                ),
+                Tab(
+                  child: Text(
+                    Str().register,
+                    style: TextStyle(fontFamily: poppins),
+                  ),
+                ),
+              ],
             ),
-            Tab(
-              child: Text(
-                Str().register,
-                style: TextStyle(fontFamily: poppins),
-              ),
-            ),
-          ],
+          ),
         ),
         SizedBox(
-          height: 325,
+          height: 345,
           child: TabBarView(
             controller: _tabController,
-            children: <Widget>[LoginForm(), RegisterForm()],
+            children: <Widget>[
+              Center(child: LoginForm()),
+              Center(child: RegisterForm()),
+            ],
           ),
         ),
       ],

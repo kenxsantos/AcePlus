@@ -19,14 +19,14 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(25),
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           String? message;
           Color? messageColor;
-          if (state is AuthError) {
+          if (state is AuthLoginError) {
             message = state.message;
-            messageColor = Colors.red;
+            messageColor = Color(0xFFF56C6C);
           } else if (state is AuthSuccess) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pop();

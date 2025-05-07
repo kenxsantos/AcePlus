@@ -15,4 +15,5 @@ class Str {
   final enterMobileNumber = "Enter mobile number";
   final enterPass = "Enter password";
   final fPass = "Forgot password?";
+  final confirm =  'Confirm';
 }

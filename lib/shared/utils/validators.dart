@@ -1,15 +1,15 @@
 String? validateMobileNumber(String mobileNumber) {
   final mobileNumberRegex = RegExp(r'^\d{11}$');
   if (!mobileNumberRegex.hasMatch(mobileNumber)) {
-    return 'Not a valid mobile number format. It must be exactly 11 digits.';
+    return 'Phone Number must be 11 digits';
   }
   return null;
 }
 
 String? validatePassword(String password) {
-  final passwordRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$');
+  final passwordRegex = RegExp(r'^.{6,}$');
   if (!passwordRegex.hasMatch(password)) {
-    return 'Password must be at least 8 characters long, include 1 uppercase, 1 lowercase, 1 number, and 1 special character';
+    return 'Password must be at least 6 characters';
   }
   return null;
 }

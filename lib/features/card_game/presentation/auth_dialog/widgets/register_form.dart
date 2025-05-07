@@ -24,23 +24,28 @@ class _RegisterFormState extends State<RegisterForm> {
   final passwordController = TextEditingController();
   final mobileNumberError = ValueNotifier<String?>(null);
   final passwordError = ValueNotifier<String?>(null);
+  bool isClearing = false;
 
   @override
   void initState() {
     super.initState();
 
     mobileNumberController.addListener(() {
-      final mobileNumberErrorText = validateMobileNumber(
-        mobileNumberController.text.trim(),
-      );
-      mobileNumberError.value = mobileNumberErrorText;
+      if (!isClearing) {
+        final mobileNumberErrorText = validateMobileNumber(
+          mobileNumberController.text.trim(),
+        );
+        mobileNumberError.value = mobileNumberErrorText;
+      }
     });
 
     passwordController.addListener(() {
-      final passwordErrorText = validatePassword(
-        passwordController.text.trim(),
-      );
-      passwordError.value = passwordErrorText;
+      if (!isClearing) {
+        final passwordErrorText = validatePassword(
+          passwordController.text.trim(),
+        );
+        passwordError.value = passwordErrorText;
+      }
     });
   }
 
@@ -54,18 +59,26 @@ class _RegisterFormState extends State<RegisterForm> {
         if (state is AuthSuccess) {
           message = state.message;
           messageColor = Colors.green;
+
+          isClearing = true;
+
           mobileNumberController.clear();
           passwordController.clear();
-        } else if (state is AuthError) {
+
+          mobileNumberError.value = null;
+          passwordError.value = null;
+
+          isClearing = false;
+        } else if (state is AuthRegisterError) {
           message = state.message;
-          messageColor = Colors.red;
+          messageColor = Color(0xFFF56C6C);
         }
 
         return Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(25),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (message != null)
                 MessageDisplay(message: message, messageColor: messageColor!),
@@ -92,7 +105,6 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -117,7 +129,6 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
               SolidButton(
                 labelText: Str().register.toUpperCase(),
                 fontFamily: poppins,

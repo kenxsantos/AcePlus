@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../shared/widgets/confirmation_dialog.dart';
 import '../../auth_dialog/auth_bloc/auth_bloc.dart';
 import '../../auth_dialog/auth_bloc/auth_event.dart';
 import '../../auth_dialog/auth_bloc/auth_state.dart';
@@ -22,7 +23,18 @@ class HeaderContainer extends StatelessWidget {
               if (state is SearchResult || state is AuthSuccess) {
                 return IconButton(
                   onPressed: () {
-                    context.read<AuthBloc>().add(LogoutAuth());
+                    showDialog(
+                      context: context,
+                      builder:
+                          (context) => ConfirmationDialog(
+                            title: "Logout Confirmation",
+                            content: "Are you sure you want to logout?",
+                            onConfirm: () {
+                              Navigator.of(context).pop();
+                              context.read<AuthBloc>().add(LogoutAuth());
+                            },
+                          ),
+                    );
                   },
                   icon: Icon(Icons.logout, color: primaryYellow),
                 );
