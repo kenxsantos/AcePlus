@@ -12,9 +12,10 @@ class Str {
   final wallet = "Wallet";
   final logIn = "Login";
   final register = "Register";
-  final enterEmail = "Enter email address";
+  final enterMobileNumber = "Enter mobile number";
   final enterPass = "Enter password";
   final fPass = "Forgot password?";
+  final confirm = 'Confirm';
   final starting = "Game starts in";
   final chooseCard = "Choose your card";
   final showingCard = "Showing Cards";
