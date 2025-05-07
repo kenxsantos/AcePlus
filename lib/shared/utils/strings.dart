@@ -15,5 +15,9 @@ class Str {
   final enterMobileNumber = "Enter mobile number";
   final enterPass = "Enter password";
   final fPass = "Forgot password?";
-  final confirm =  'Confirm';
+  final confirm = 'Confirm';
+  final starting = "Game starts in";
+  final chooseCard = "Choose your card";
+  final showingCard = "Showing Cards";
+  final closeCards = "Close Cards";
 }

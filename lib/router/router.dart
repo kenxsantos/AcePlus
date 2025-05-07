@@ -39,12 +39,9 @@ class AppRouter {
           builder: (context, state) => const ReceiptPage(),
         ),
         GoRoute(
-          path: '/game/:id',
+          path: '/game',
           name: 'game',
-          builder: (context, state) {
-            final id = state.pathParameters['id'];
-            return GamePage(id: id!);
-          },
+          builder: (context, state) => const GamePage(),
         ),
       ],
     );

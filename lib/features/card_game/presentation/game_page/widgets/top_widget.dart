@@ -1,5 +1,5 @@
-import 'package:aceplus/features/card_game/presentation/game_page/game_widgets/jackpot_container.dart';
-import 'package:aceplus/features/card_game/presentation/game_page/game_widgets/top_toolbar.dart';
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/jackpot_container.dart';
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/top_toolbar.dart';
 import 'package:flutter/material.dart';
 
 class TopBetWidget extends StatelessWidget {

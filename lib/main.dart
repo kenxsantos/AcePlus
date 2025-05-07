@@ -1,3 +1,5 @@
+import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
 import 'package:aceplus/router/router.dart';
 import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => TimerBloc(ticker: TimerDataSource())),
         BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository)),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(authRepository)..add(CheckSession()),

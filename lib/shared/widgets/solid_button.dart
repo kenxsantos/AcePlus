@@ -25,7 +25,7 @@ class SolidButton extends StatelessWidget {
           color: primaryYellow,
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
-        height: 45,
+        height: 60,
         child: Text(
           labelText,
           style: TextStyle(

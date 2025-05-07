@@ -11,32 +11,34 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(gradient: gradientBlack),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                HeaderContainer(),
-                TextContainer(),
-                ButtonContainer(),
-                Expanded(
-                  child: Stack(
-                    children: [RouletteContainer(), ImageContainer()],
+    return SafeArea(
+      child: Material(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(gradient: gradientBlack),
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  HeaderContainer(),
+                  TextContainer(),
+                  ButtonContainer(),
+                  Expanded(
+                    child: Stack(
+                      children: [RouletteContainer(), ImageContainer()],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 85,
-              left: 15,
-              width: 200,
-              child: Image.asset("${imageUrl}light.png"),
-            ),
-          ],
+                ],
+              ),
+              Positioned(
+                top: 40,
+                left: 15,
+                width: 200,
+                child: Image.asset("${imageUrl}light.png"),
+              ),
+            ],
+          ),
         ),
       ),
     );

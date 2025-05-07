@@ -1,3 +1,4 @@
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -29,6 +30,9 @@ class ButtonContainer extends StatelessWidget {
                     if (userId != null) {
                       if (context.mounted) {
                         context.go('/game/$userId');
+                        context.read<TimerBloc>().add(
+                          TimerStarting(duration: 5),
+                        );
                       }
                     }
                   } else {
