@@ -31,7 +31,7 @@ class AuthDialog extends StatelessWidget {
               ],
             ),
 
-            height: 400,
+            height: 420,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
