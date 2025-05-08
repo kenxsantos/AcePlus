@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../../../core/model/auth_model/auth_model.dart';
+import '../../../../../core/model/user_model/user_model.dart';
 
 abstract class AuthState extends Equatable {
   @override
@@ -17,6 +18,15 @@ class AuthLoaded extends AuthState {
 
   @override
   List<Object?> get props => [auths];
+}
+
+class UserLoaded extends AuthState {
+  final List<User> users;
+
+  UserLoaded(this.users);
+
+  @override
+  List<Object?> get props => [users];
 }
 
 class SearchResult extends AuthState {

@@ -8,6 +8,8 @@ abstract class AuthEvent extends Equatable {
 
 class LoadAuths extends AuthEvent {}
 
+class LoadUsers extends AuthEvent {}
+
 class SearchAuth extends AuthEvent {
   final String mobileNumber;
   final String password;
