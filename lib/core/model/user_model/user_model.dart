@@ -2,21 +2,33 @@ import 'package:hive/hive.dart';
 
 part 'user_model.g.dart';
 
-@HiveType(typeId: 2)
+@HiveType(typeId: 0)
 class User extends HiveObject {
   @HiveField(0)
-  final int userId;
+  final int? userId;
 
   @HiveField(1)
-  final int authId;
+  final String mobileNumber;
 
   @HiveField(2)
-  final double totalMoney;
+  final String password;
 
-  User({required this.userId, required this.authId, required this.totalMoney});
+  @HiveField(3)
+  late final double totalMoney;
+
+  @HiveField(4)
+  final DateTime createdAt;
+
+  User({
+    this.userId,
+    required this.mobileNumber,
+    required this.password,
+    required this.totalMoney,
+    required this.createdAt,
+  });
 
   @override
   String toString() {
-    return 'Transaction{User Id: $userId, Auth Id: $authId, Total Money: $totalMoney}';
+    return 'User{User Id: $userId, Mobile Number: $mobileNumber, Password: $password, Total Money: $totalMoney, Created At: $createdAt}';
   }
 }
