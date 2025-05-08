@@ -19,4 +19,6 @@ class AuthRepository {
   int? searchAuth(String mobileNumber, String password) {
     return _dataSource.searchAuth(mobileNumber, password);
   }
+
+  double? getTotalMoney(int userId) => _dataSource.getTotalMoney(userId);
 }

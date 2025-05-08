@@ -46,5 +46,8 @@ class AuthDataSource {
     return _userBox.values.any((auth) => auth.mobileNumber == mobileNumber);
   }
 
-
+  double? getTotalMoney(int userId) {
+    final user = _userBox.get(userId);
+    return user?.totalMoney;
+  }
 }
