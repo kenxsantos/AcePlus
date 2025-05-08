@@ -28,10 +28,12 @@ class SearchResult extends AuthState {
   List<Object?> get props => [auth];
 }
 
-class AuthSuccess extends AuthState {
+class AuthSuccess extends AuthState {}
+
+class AuthRegisterSuccess extends AuthState {
   final String message;
 
-  AuthSuccess(this.message);
+  AuthRegisterSuccess(this.message);
 
   @override
   List<Object?> get props => [message];
