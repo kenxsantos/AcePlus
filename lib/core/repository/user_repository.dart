@@ -21,4 +21,8 @@ class UserRepository {
   Future<void> updateUser(User user) async {
     await _dataSource.updateUser(user);
   }
+
+  double getTotalMoneyByUserId(String userId) {
+    return _dataSource.getTotalMoneyByUserId(userId);
+  }
 }
