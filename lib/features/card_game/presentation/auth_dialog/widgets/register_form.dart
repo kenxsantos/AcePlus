@@ -9,7 +9,6 @@ import '../../../../../shared/utils/validators.dart';
 import '../../../../../shared/widgets/message_text.dart';
 import '../auth_bloc/auth_bloc.dart';
 import '../auth_bloc/auth_event.dart';
-import '../../../../../core/model/auth_model/auth_model.dart';
 import '../auth_bloc/auth_state.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -143,11 +142,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   if (mobileNumberError.value == null &&
                       passwordError.value == null) {
                     if (mobileNumber.isNotEmpty && password.isNotEmpty) {
-                      final auth = Auth(
-                        mobileNumber: mobileNumber,
-                        password: password,
-                      );
-                      context.read<AuthBloc>().add(AddAuth(auth));
+                      context.read<AuthBloc>().add(AddAuth(mobileNumber, password));
                     }
                   } else {
                     if (mobileNumber.isEmpty) {
