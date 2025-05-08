@@ -11,7 +11,7 @@ class User extends HiveObject {
   final int authId;
 
   @HiveField(2)
-  final String totalMoney;
+  final double totalMoney;
 
   User({required this.userId, required this.authId, required this.totalMoney});
 

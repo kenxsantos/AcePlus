@@ -19,7 +19,7 @@ class UserAdapter extends TypeAdapter<User> {
     return User(
       userId: fields[0] as int,
       authId: fields[1] as int,
-      totalMoney: fields[2] as String,
+      totalMoney: fields[2] as double,
     );
   }
 
