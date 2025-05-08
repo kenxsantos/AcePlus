@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:aceplus/shared/utils/card_enums.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ class Card2 extends StatelessWidget {
   final Animation<double> rotationAnimation;
   final Animation<Offset> positionAnimation;
   final bool isFlipped;
+  final int value;
 
   const Card2({
     super.key,
@@ -16,6 +18,7 @@ class Card2 extends StatelessWidget {
     required this.rotationAnimation,
     required this.positionAnimation,
     required this.isFlipped,
+    required this.value,
   });
 
   @override
@@ -38,7 +41,9 @@ class Card2 extends StatelessWidget {
               child:
                   isHalfway
                       ? Image.asset(
-                        "${cardUrl}joker.png",
+                        Cards.values
+                            .firstWhere((card) => card.value == value)
+                            .cardPath,
                         width: 50,
                         height: 66,
                       )

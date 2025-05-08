@@ -52,7 +52,7 @@ class TwoCardState extends State<TwoCard> with SingleTickerProviderStateMixin {
             child: Image.asset(
               fit: BoxFit.fill,
               height: 330,
-              "${cardUrl}two.png",
+              "${cardUrl}old/two.png",
             ),
           ),
         );

@@ -38,7 +38,7 @@ class AceCardState extends State<AceCard> with SingleTickerProviderStateMixin {
           child: Image.asset(
             fit: BoxFit.fill,
             height: 360,
-            "${cardUrl}ace.png",
+            "${cardUrl}old/ace.png",
           ),
         );
       },
