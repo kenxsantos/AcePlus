@@ -46,7 +46,12 @@ class ButtonContainer extends StatelessWidget {
               if (isLoggedIn)
                 GradientButton(
                   labelText: Str().wallet,
-                  onPressed: () => context.goNamed("wallet"),
+                  onPressed: () async {
+                    final userId = await AuthUtils.getUserId();
+                    if (userId != null && context.mounted) {
+                      context.go('/wallet/$userId');
+                    }
+                  },
                 ),
             ],
           ),
