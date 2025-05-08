@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../core/model/user_model/user_model.dart';
-import '../../../../../core/repository/aceplus_repository.dart';
+import '../../../../../core/repository/auth_repository.dart';
 import '../../../../../shared/utils/logged_in_checker.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
