@@ -16,7 +16,7 @@ class ButtonContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        final isLoggedIn = state is SearchResult || state is AuthSuccess;
+        final isLoggedIn = state is SearchResult;
         return Container(
           margin: EdgeInsets.only(top: 50),
           child: Row(
