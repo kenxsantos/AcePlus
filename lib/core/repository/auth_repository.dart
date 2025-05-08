@@ -1,18 +1,18 @@
-import '../data_source/data_source.dart';
-import '../model/auth_model/auth_model.dart';
+import '../data_source/auth_data_source.dart';
+import '../model/user_model/user_model.dart';
 
 class AuthRepository {
   final AuthDataSource _dataSource;
 
   AuthRepository(this._dataSource);
 
-  Future<int?> addAuth(Auth auth) => _dataSource.addAuth(auth);
+  Future<int?> addAuth(User user) => _dataSource.addAuth(user);
 
-  Auth? getAuth(int id) => _dataSource.getAuth(id);
+  User? getAuth(int id) => _dataSource.getAuth(id);
 
   Future<void> deleteAuth(int id) => _dataSource.deleteAuth(id);
 
-  List<Auth> getAllAuths() => _dataSource.getAllAuths();
+  List<User> getAllAuths() => _dataSource.getAllAuths();
 
   bool mobileNumberExists(String mobileNumber) => _dataSource.mobileNumberExists(mobileNumber);
 
