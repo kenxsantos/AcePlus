@@ -1,15 +1,15 @@
-import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
-import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
 import 'package:aceplus/router/router.dart';
 import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'core/data_source/data_source.dart';
+import 'core/data_source/user_data_source.dart';
 import 'core/model/auth_model/auth_model.dart';
+import 'core/model/user_model/user_model.dart';
 import 'core/repository/aceplus_repository.dart';
+import 'core/repository/user_repository.dart';
 import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_bloc.dart';
 import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_event.dart';
 
@@ -17,15 +17,20 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(AuthAdapter());
+  Hive.registerAdapter(UserAdapter());
   await Hive.openBox<Auth>('auth');
+  await Hive.openBox<User>('user');
 
   final appRouter = AppRouter();
   final authDataSource = AuthDataSource();
   final authRepository = AuthRepository(authDataSource);
+  final userDataSource = UserDataSource();
+  final userRepository = UserRepository(userDataSource);
 
   // Temporary just to see all data in the auth box
-  final authBloc = AuthBloc(authRepository);
+  final authBloc = AuthBloc(authRepository, userRepository);
   authBloc.add(LoadAuths());
+  authBloc.add(LoadUsers());
 
   //Temporary just to check if there is an existing session
   final isLoggedIn = await AuthUtils.isLoggedIn();
@@ -36,9 +41,9 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository)),
+        BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository, userRepository)),
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(authRepository)..add(CheckSession()),
+          create: (context) => AuthBloc(authRepository, userRepository)..add(CheckSession()),
         ),
       ],
       child: MaterialApp.router(
