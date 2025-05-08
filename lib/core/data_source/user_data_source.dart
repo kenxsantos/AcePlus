@@ -19,4 +19,16 @@ class UserDataSource {
   Future<void> updateUser(User user) async {
     await _userBox.put(user.userId, user);
   }
+
+  double getTotalMoneyByUserId(String userId) {
+    try {
+      final User? user = _userBox.get(int.parse(userId));
+      if (user != null) {
+        return user.totalMoney;
+      }
+      return 0.0;
+    } catch (e) {
+      return 0.0;
+    }
+  }
 }
