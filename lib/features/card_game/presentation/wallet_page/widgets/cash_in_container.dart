@@ -5,7 +5,7 @@ import 'package:aceplus/shared/widgets/wallet_text_field.dart';
 import 'package:flutter/material.dart';
 
 class CashInContainer extends StatelessWidget {
-  const CashInContainer({super.key, required this.text});
+  const CashInContainer({super.key, required this.text, required String id});
 
   final String text;
 
