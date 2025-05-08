@@ -4,7 +4,8 @@ import 'package:aceplus/shared/utils/strings.dart';
 import 'package:flutter/material.dart';
 
 class WalletTabBar extends StatefulWidget {
-  const WalletTabBar({super.key});
+  final String id;
+  const WalletTabBar({super.key, required this.id});
 
   @override
   State<WalletTabBar> createState() => _WalletTabBarState();
@@ -13,11 +14,13 @@ class WalletTabBar extends StatefulWidget {
 class _WalletTabBarState extends State<WalletTabBar>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+  late final String id;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    id = widget.id;
   }
 
   @override
@@ -43,12 +46,12 @@ class _WalletTabBarState extends State<WalletTabBar>
               Container(
                 color: primaryBlack,
                 margin: const EdgeInsets.all(16.0),
-                child: CashInContainer(text: Str().cashIn),
+                child: CashInContainer(text: Str().cashIn, id: id),
               ),
               Container(
                 color: primaryBlack,
                 margin: const EdgeInsets.all(16.0),
-                child: CashInContainer(text: Str().cashOut),
+                child: CashInContainer(text: Str().cashOut, id: id),
               ),
             ],
           ),
