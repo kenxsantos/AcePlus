@@ -22,6 +22,11 @@ class TotalMoneySuccessState extends TransactionState {
   const TotalMoneySuccessState(this.totalMoney);
 }
 
+class TransactionSuccessState extends TransactionState {
+  final String message;
+  const TransactionSuccessState(this.message);
+}
+
 class TotalMoneyError extends TransactionState {
   final String message;
   const TotalMoneyError(this.message);
