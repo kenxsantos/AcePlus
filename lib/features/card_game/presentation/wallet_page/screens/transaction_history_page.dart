@@ -3,22 +3,38 @@ import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:aceplus/shared/widgets/gradient_gold_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../transaction_bloc/transaction_bloc.dart';
+import '../transaction_bloc/transaction_event.dart';
+import '../transaction_bloc/transaction_state.dart';
+import '../widgets/cash_in_button.dart';
 
 class TransactionHistoryPage extends StatefulWidget {
-  const TransactionHistoryPage({super.key});
+  final String id;
+
+  const TransactionHistoryPage({super.key, required this.id});
 
   @override
   State<TransactionHistoryPage> createState() => _TransactionHistoryPageState();
 }
 
 class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
+  late final String id;
+
+  @override
+  void initState() {
+    super.initState();
+    id = widget.id;
+    context.read<TransactionBloc>().add(LoadTotalMoney(id));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end, // Align title to the right
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
               Str().eWallet,
@@ -33,7 +49,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
         backgroundColor: primaryBlack,
         automaticallyImplyLeading: true,
         leading: IconButton(
-          onPressed: () => context.goNamed("wallet"),
+          onPressed: () => context.go('/wallet/$id'),
           color: primaryWhite,
           icon: Icon(Icons.arrow_back_ios_new_rounded),
         ),
@@ -43,7 +59,19 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            GradientGoldContainer(),
+            BlocBuilder<TransactionBloc, TransactionState>(
+              builder: (context, state) {
+                double totalMoney = 0.0;
+                if (state is TotalMoneySuccessState) {
+                  totalMoney = state.totalMoney;
+                }
+                return GradientGoldContainer(
+                  balanceText: Str().currentBalance,
+                  totalMoney: totalMoney,
+                  actionButton: CashInButton(id: id),
+                );
+              },
+            ),
             Expanded(
               child: Container(color: primaryBlack, child: HistoryTabBar()),
             ),
