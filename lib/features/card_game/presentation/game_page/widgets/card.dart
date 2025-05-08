@@ -135,7 +135,7 @@ class DeckWidget extends StatelessWidget {
         color: Colors.red,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Center(child: Image.asset("${imageUrl}stack_of_cards.png")),
+      child: Center(child: Image.asset("${cardUrl}stack_of_cards.png")),
     );
   }
 }
@@ -146,6 +146,6 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Image.asset("${imageUrl}card_back.png"));
+    return Center(child: Image.asset("${cardUrl}card_back.png"));
   }
 }

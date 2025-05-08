@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class Card1 extends StatelessWidget {
@@ -40,12 +41,12 @@ class Card1 extends StatelessWidget {
               child:
                   isHalfway
                       ? Image.asset(
-                        "assets/images/joker.png",
+                        "${cardUrl}joker.png",
                         width: 50,
                         height: 66,
                       )
                       : Image.asset(
-                        "assets/images/card_back.png",
+                        "${cardUrl}card_back.png",
                         width: 50,
                         height: 66,
                       ),

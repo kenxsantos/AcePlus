@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../../core/repository/aceplus_repository.dart';
+import '../../../data/repositories/aceplus_repository.dart';
 import '../../../../../shared/utils/logged_in_checker.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';

@@ -9,7 +9,7 @@ import '../../../../../shared/utils/validators.dart';
 import '../../../../../shared/widgets/message_text.dart';
 import '../auth_bloc/auth_bloc.dart';
 import '../auth_bloc/auth_event.dart';
-import '../../../../../core/model/auth_model/auth_model.dart';
+import '../../../data/models/auth_model/auth_model.dart';
 import '../auth_bloc/auth_state.dart';
 
 class RegisterForm extends StatefulWidget {

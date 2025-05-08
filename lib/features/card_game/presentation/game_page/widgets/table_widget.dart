@@ -57,7 +57,7 @@ class _TableWithCardsState extends State<TableWithCards> {
                   child: SizedBox(
                     width: 50,
                     height: 75,
-                    child: Image.asset("${imageUrl}stack_of_cards.png"),
+                    child: Image.asset("${cardUrl}stack_of_cards.png"),
                   ),
                 ),
               ],

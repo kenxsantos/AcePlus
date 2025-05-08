@@ -1,13 +1,16 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../model/auth_model/auth_model.dart';
-
+import '../models/auth_model/auth_model.dart';
 
 class AuthDataSource {
   final Box<Auth> _authBox = Hive.box<Auth>('auth');
 
   Future<void> addAuth(Auth auth) async {
     final int id = (_authBox.keys.isEmpty ? 0 : _authBox.keys.last as int) + 1;
-    final newAuth = Auth(id: id, mobileNumber: auth.mobileNumber, password: auth.password);
+    final newAuth = Auth(
+      id: id,
+      mobileNumber: auth.mobileNumber,
+      password: auth.password,
+    );
     await _authBox.put(id, newAuth);
   }
 
@@ -29,9 +32,12 @@ class AuthDataSource {
 
   int? searchAuth(String mobileNumber, String password) {
     try {
-      return _authBox.values.firstWhere(
-            (auth) => auth.mobileNumber == mobileNumber && auth.password == password,
-      ).id;
+      return _authBox.values
+          .firstWhere(
+            (auth) =>
+                auth.mobileNumber == mobileNumber && auth.password == password,
+          )
+          .id;
     } catch (e) {
       return null;
     }

@@ -1,16 +1,17 @@
+import 'package:aceplus/features/card_game/data/datasource/data_source.dart';
 import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
+import 'package:aceplus/features/card_game/data/models/auth_model/auth_model.dart';
+import 'package:aceplus/features/card_game/data/repositories/aceplus_repository.dart';
+import 'package:aceplus/features/card_game/presentation/auth_dialog/auth_bloc/auth_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/auth_dialog/auth_bloc/auth_event.dart';
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
 import 'package:aceplus/router/router.dart';
 import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'core/data_source/data_source.dart';
-import 'core/model/auth_model/auth_model.dart';
-import 'core/repository/aceplus_repository.dart';
-import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_bloc.dart';
-import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
