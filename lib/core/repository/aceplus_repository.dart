@@ -6,7 +6,7 @@ class AuthRepository {
 
   AuthRepository(this._dataSource);
 
-  Future<void> addAuth(Auth auth) => _dataSource.addAuth(auth);
+  Future<int?> addAuth(Auth auth) => _dataSource.addAuth(auth);
 
   Auth? getAuth(int id) => _dataSource.getAuth(id);
 
