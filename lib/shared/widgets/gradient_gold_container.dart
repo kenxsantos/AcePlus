@@ -1,9 +1,11 @@
-import 'package:aceplus/features/card_game/presentation/wallet_page/widgets/cash_in_button.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class GradientGoldContainer extends StatelessWidget {
-  const GradientGoldContainer({super.key});
+  final String balanceText;
+  final double totalMoney;
+  final Widget actionButton;
+  const GradientGoldContainer({super.key, required this.balanceText, required this.totalMoney, required this.actionButton});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +26,11 @@ class GradientGoldContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Current Balance"),
-              Text(" 1,000,000.00", style: TextStyle(fontSize: 25)),
+              Text(balanceText),
+              Text(totalMoney.toStringAsFixed(2), style: TextStyle(fontSize: 25)),
             ],
           ),
-          CashInButton(),
+          actionButton,
         ],
       ),
     );
