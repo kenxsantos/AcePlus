@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print("Mobile number already exists: ${event.auth.mobileNumber}");
         } else {
           await _repository.addAuth(event.auth);
-          emit(AuthSuccess('Account created successfully!'));
+          emit(AuthRegisterSuccess('Account created successfully!'));
           print("Registration successful: ${event.auth.mobileNumber}");
         }
 
@@ -53,7 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AuthUtils.setLoggedIn(true, id);
 
           emit(SearchResult(auth));
-          emit(AuthSuccess('Login successful'));
+          emit(AuthSuccess());
         } else {
           emit(AuthLoginError('Invalid credentials, kindly recheck it!'));
           await Future.delayed(Duration(seconds: 3));
