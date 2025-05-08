@@ -4,6 +4,7 @@ import 'package:aceplus/features/card_game/data/models/auth_model/auth_model.dar
 import 'package:aceplus/features/card_game/data/repositories/aceplus_repository.dart';
 import 'package:aceplus/features/card_game/presentation/auth_dialog/auth_bloc/auth_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/auth_dialog/auth_bloc/auth_event.dart';
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/bloc/card_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
 import 'package:aceplus/router/router.dart';
 import 'package:aceplus/shared/utils/logged_in_checker.dart';
@@ -37,6 +38,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => TimerBloc(ticker: TimerDataSource())),
+        BlocProvider(create: (_) => CardBloc()),
         BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository)),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(authRepository)..add(CheckSession()),
