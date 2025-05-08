@@ -32,12 +32,11 @@ class AppRouter {
           },
         ),
         GoRoute(
-          path: '/transaction-history:id',
+          path: '/transaction-history/:id',
           name: 'transaction-history',
-          builder: (context, state) {
-            final id = state.pathParameters['id'];
-            return TransactionHistoryPage(id: id!);
-          },
+          builder: (context, state) => TransactionHistoryPage(
+            id: state.pathParameters['id'] ?? '',
+          ),
         ),
         GoRoute(
           path: '/show-receipt',
