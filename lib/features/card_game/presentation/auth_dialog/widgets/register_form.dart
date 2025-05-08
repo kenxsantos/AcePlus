@@ -56,7 +56,7 @@ class _RegisterFormState extends State<RegisterForm> {
         String? message;
         Color? messageColor;
 
-        if (state is AuthSuccess) {
+        if (state is AuthRegisterSuccess) {
           message = state.message;
           messageColor = Colors.green;
 
