@@ -4,13 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class WalletPage extends StatefulWidget {
-  const WalletPage({super.key, required String id});
+  final String id;
+  const WalletPage({super.key, required this.id});
 
   @override
   WalletPageState createState() => WalletPageState();
 }
 
 class WalletPageState extends State<WalletPage> {
+  late final String id;
+
+  @override
+  void initState() {
+    super.initState();
+    id = widget.id;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +34,7 @@ class WalletPageState extends State<WalletPage> {
         ),
         actions: [
           IconButton(
-            onPressed: () => context.goNamed("transaction-history"),
+            onPressed: () =>  context.go('/transaction-history/$id'),
             icon: Icon(Icons.list),
             color: primaryWhite,
             iconSize: 30,
