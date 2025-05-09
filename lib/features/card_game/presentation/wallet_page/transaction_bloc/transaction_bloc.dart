@@ -11,19 +11,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
   TransactionBloc({required this.repository, required this.userRepository})
       : super(TransactionInitial()) {
-    on<LoadTotalMoney>((event, emit) async {
-      emit(TotalMoneyLoading());
-      try {
-        final totalMoney = userRepository.getTotalMoney(event.userId);
-        if (totalMoney != null) {
-          emit(TotalMoneySuccessState(totalMoney));
-        } else {
-          emit(TotalMoneyError('Total money is null'));
-        }
-      } catch (e) {
-        emit(TotalMoneyError(e.toString()));
-      }
-    });
 
     on<AddTransaction>((event, emit) async {
       emit(TransactionLoading());
@@ -78,7 +65,20 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       try {
         final transactions = repository.getTransactionsByUserId(event.userId);
         print('Transactions: $transactions');
-        emit(TransactionLoaded(transactions));
+        emit(TransactionsLoaded(transactions));
+      } catch (e) {
+        emit(TransactionError(e.toString()));
+      }
+    });
+
+    on<LoadTransactionByType>((event, emit) async {
+      try {
+        final transactions = await repository.getTransactionsByUserIdAndType(
+          event.userId,
+          event.transactionType,
+        );
+        print('Transactions Type: ${event.transactionType} Transactions: $transactions');
+        emit(TransactionsLoaded(transactions));
       } catch (e) {
         emit(TransactionError(e.toString()));
       }
