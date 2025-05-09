@@ -50,4 +50,12 @@ class AuthDataSource {
     final user = _userBox.get(userId);
     return user?.totalMoney;
   }
+
+  Future<void> updateTotalMoney(int userId, double amount) async {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      user.totalMoney = amount;
+      await _userBox.put(userId, user);
+    }
+  }
 }
