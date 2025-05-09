@@ -33,6 +33,6 @@ class TotalMoneyError extends TransactionState {
 }
 
 class TransactionError extends TransactionState {
-  final String message;
-  const TransactionError(this.message);
+  final String error;
+  TransactionError(this.error);
 }
