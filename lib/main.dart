@@ -12,7 +12,9 @@ import 'core/repository/auth_repository.dart';
 import 'core/repository/transaction_repository.dart';
 import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_bloc.dart';
 import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_event.dart';
+import 'features/card_game/presentation/wallet_page/balance_bloc/balance_bloc.dart';
 import 'features/card_game/presentation/wallet_page/transaction_bloc/transaction_bloc.dart';
+import 'features/card_game/presentation/wallet_page/transaction_bloc/transaction_event.dart';
 
 Future<void> initHive() async {
   await Hive.initFlutter();
@@ -43,6 +45,17 @@ void main() async {
   print('Is Logged In: $isLoggedIn');
   print('User: $userId');
 
+  final transactionBloc = TransactionBloc(
+    repository: transactionRepository,
+    userRepository: authRepository,
+  );
+
+  if (userId != null) {
+    transactionBloc.add(LoadTransaction(userId: userId));
+  } else {
+    print('Error: userId is null');
+  }
+
   runApp(
     MultiBlocProvider(
       providers: [
@@ -55,6 +68,9 @@ void main() async {
             repository: transactionRepository,
             userRepository: authRepository,
           ),
+        ),
+        BlocProvider<BalanceBloc>(
+          create: (context) => BalanceBloc(userRepository: authRepository),
         ),
       ],
       child: MaterialApp.router(
