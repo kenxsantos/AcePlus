@@ -32,4 +32,5 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/cards/
+    - assets/cards/old/
 
