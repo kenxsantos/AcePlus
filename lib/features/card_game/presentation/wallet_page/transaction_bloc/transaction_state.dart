@@ -27,3 +27,8 @@ class TransactionError extends TransactionState {
   final String error;
   TransactionError(this.error);
 }
+
+class NoDataState extends TransactionState {
+  final String message;
+  const NoDataState(this.message);
+}
