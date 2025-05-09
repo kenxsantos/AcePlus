@@ -2,11 +2,6 @@ abstract class TransactionEvent {
   const TransactionEvent();
 }
 
-class LoadTotalMoney extends TransactionEvent {
-  final int userId;
-  const LoadTotalMoney(this.userId);
-}
-
 class AddTransaction extends TransactionEvent {
   final String userId;
   final String transactionType;
@@ -24,4 +19,10 @@ class AddTransaction extends TransactionEvent {
 class LoadTransaction extends TransactionEvent {
   final int userId;
   LoadTransaction({required this.userId});
+}
+
+class LoadTransactionByType extends TransactionEvent {
+  final int userId;
+  final String transactionType;
+  LoadTransactionByType({required this.userId, required this.transactionType});
 }
