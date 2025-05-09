@@ -36,12 +36,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         if (mobileNumberExists) {
           emit(AuthRegisterError('Mobile number already exists'));
-          print("Mobile number already exists: ${user.mobileNumber}");
         } else {
           await _repository.addAuth(user);
 
           emit(AuthRegisterSuccess('Account created successfully!'));
-          print("Registration successful: ${user.mobileNumber}");
 
         }
 
@@ -58,7 +56,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final id = _repository.searchAuth(event.mobileNumber, event.password);
         if (id != null) {
           final auth = _repository.getAuth(id);
-          print('Search Result: $auth');
 
           AuthUtils.setLoggedIn(true, id);
 
