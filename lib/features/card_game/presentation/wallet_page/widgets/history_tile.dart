@@ -73,13 +73,28 @@ class HistoryTile extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                amount,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: color,
-                  fontFamily: roboto,
-                  fontWeight: FontWeight.bold,
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '\u20B1 ',
+                      style: TextStyle(
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        color: color,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: NumberFormat('#,##0.00').format(double.parse(amount)),
+                      style: TextStyle(
+                        fontFamily: poppins,
+                        fontSize: 18,
+                        color: color,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class GradientGoldContainer extends StatelessWidget {
   final String balanceText;
@@ -33,15 +34,29 @@ class GradientGoldContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(balanceText),
-              Text(
-                totalMoney is String
-                    ? totalMoney
-                    : totalMoney.toStringAsFixed(2),
-                style: TextStyle(
-                  fontSize: 25,
-                  color: totalMoney is String ? Colors.red : Colors.black,
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '\u20B1 ',
+                      style: TextStyle(
+                        fontFamily: 'Arial',
+                        fontSize: 25,
+                        color: totalMoney is String ? Colors.red : Colors.black,
+                      ),
+                    ),
+                    TextSpan(
+                      text: totalMoney is String
+                          ? totalMoney
+                          : NumberFormat('#,##0.00').format(totalMoney),
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: totalMoney is String ? Colors.red : Colors.black,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              )
             ],
           ),
           actionButton,
