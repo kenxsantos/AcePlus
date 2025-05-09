@@ -46,12 +46,12 @@ class _WalletTabBarState extends State<WalletTabBar>
               Container(
                 color: primaryBlack,
                 margin: const EdgeInsets.all(16.0),
-                child: CashInContainer(text: Str().cashIn, id: id),
+                child: CashProcessContainer(text: Str().cashIn, id: id),
               ),
               Container(
                 color: primaryBlack,
                 margin: const EdgeInsets.all(16.0),
-                child: CashInContainer(text: Str().cashOut, id: id),
+                child: CashProcessContainer(text: Str().cashOut, id: id),
               ),
             ],
           ),
