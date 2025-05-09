@@ -18,7 +18,6 @@ enum TimerStatus {
 extension TimerStatusX on TimerStatus {
   bool get isInitial => this == TimerStatus.initial;
   bool get isInProgress => this == TimerStatus.inProgress;
-  bool get isPaused => this == TimerStatus.paused;
   bool get isStarting => this == TimerStatus.starting;
   bool get isStarted => this == TimerStatus.started;
   bool get isCompleted => this == TimerStatus.completed;
