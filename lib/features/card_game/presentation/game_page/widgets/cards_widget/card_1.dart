@@ -1,90 +1,138 @@
 import 'dart:math';
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/bloc/card_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:aceplus/shared/utils/card_enums.dart';
 import 'package:aceplus/shared/utils/constant.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Card1 extends StatefulWidget {
-  const Card1({
-    super.key,
-    // required this.isFlipped,
-    required this.value,
-    // required this.isExpanded,
-    required this.controller,
-    required this.flipController,
-    required this.state,
-  });
-
-  final AnimationController controller;
-  final AnimationController flipController;
-  // final bool isFlipped;
-  // final bool isExpanded;
+  bool isFlipped;
+  bool isExpanded;
   final int value;
-  final CardState state;
+
+  Card1({
+    super.key,
+    required this.isFlipped,
+    required this.isExpanded,
+    required this.value,
+  });
 
   @override
   State<Card1> createState() => _Card1State();
 }
 
-class _Card1State extends State<Card1> {
-  late Animation<double> _flipAnimation;
-
+class _Card1State extends State<Card1> with TickerProviderStateMixin {
+  late AnimationController flipController;
+  late AnimationController expandController;
+  late Animation<double> flipAnimation;
   late Animation<double> rotationAnimation;
   late Animation<Offset> positionAnimation;
-  late bool isFlipped = false;
-  late bool isExtended = false;
 
   @override
   void initState() {
     super.initState();
 
-    _flipAnimation = Tween<double>(
-      begin: 0,
-      end: pi, // Flip halfway, then swap image
-    ).animate(
-      CurvedAnimation(parent: widget.flipController, curve: Curves.easeOut),
+    flipController = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
     );
 
-    rotationAnimation = _createRotationAnimation();
-    positionAnimation = _createPositionAnimation(1);
+    expandController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
 
-    if (isFlipped) {
-      widget.flipController.forward(from: 0);
-      print("isFlippedForward: $isFlipped");
-    } else {
-      widget.flipController.reverse();
+    flipAnimation = Tween<double>(
+      begin: 0,
+      end: pi,
+    ).animate(CurvedAnimation(parent: flipController, curve: Curves.easeOut));
+
+    rotationAnimation = _createRotationAnimation();
+    _updateAnimations();
+  }
+
+  @override
+  void didUpdateWidget(Card1 oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    print(
+      "Card1 Updated! Old Expanded: ${oldWidget.isExpanded}, New: ${widget.isExpanded}",
+    );
+    print(
+      "Card1 Updated! Old Flipped: ${oldWidget.isFlipped}, New: ${widget.isFlipped}",
+    );
+
+    if (widget.isExpanded != oldWidget.isExpanded) {
+      print("Expand Animation Triggered: ${widget.isExpanded}");
+      widget.isExpanded
+          ? expandController.forward(from: 0)
+          : expandController.reverse();
+    }
+
+    if (widget.isFlipped != oldWidget.isFlipped) {
+      print("Flip Animation Triggered: ${widget.isFlipped}");
+      widget.isFlipped
+          ? flipController.forward(from: 0)
+          : flipController.reverse();
     }
   }
 
   Animation<double> _createRotationAnimation() {
-    return Tween<double>(begin: 0, end: 2 * pi).animate(
-      CurvedAnimation(parent: widget.controller, curve: Curves.easeOut),
-    );
+    return Tween<double>(
+      begin: 0,
+      end: 2 * pi,
+    ).animate(CurvedAnimation(parent: expandController, curve: Curves.easeOut));
   }
 
   Animation<Offset> _createPositionAnimation(int index) {
     return Tween<Offset>(
-      begin: isExtended ? Offset(index * 0.33, 033) : Offset.zero,
-      end: isExtended ? Offset.zero : Offset(index * 0.33, 0.33),
-    ).animate(
-      CurvedAnimation(parent: widget.controller, curve: Curves.easeOut),
-    );
+      begin: widget.isExpanded ? Offset(index * 0.33, 033) : Offset.zero,
+      end: widget.isExpanded ? Offset.zero : Offset(index * 0.33, 0.33),
+    ).animate(CurvedAnimation(parent: expandController, curve: Curves.easeOut));
+  }
+
+  void _updateAnimations() {
+    positionAnimation = _createPositionAnimation(1);
+  }
+
+  void _animateCards() {
+    if (widget.isExpanded) {
+      expandController.forward(from: 0);
+    } else {
+      expandController.reverse();
+    }
+  }
+
+  void _flipCards() {
+    if (widget.isFlipped) {
+      flipController.forward(from: 0);
+    } else {
+      flipController.reverse();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.state is CardIsFlipped) {
-      isFlipped = (widget.state as CardIsFlipped).isFlipped;
-    } else if (widget.state is CardIsExtended) {
-      isExtended = (widget.state as CardIsExtended).isExtended;
-    }
+    return BlocListener<TimerBloc, TimerState>(
+      listener: (context, state) {
+        if (state.status.isCompleted) {
+          _animateCards();
+        }
+        if (state.status.isShowCards) {
+          _flipCards();
+        }
+        if (state.status.isCloseCards) {
+          _flipCards();
+          flipController.reverse();
+          expandController.reverse();
+        }
+      },
 
-    if (widget.state is CardGenerated) {
-      return AnimatedBuilder(
-        animation: isFlipped ? widget.flipController : widget.controller,
+      child: AnimatedBuilder(
+        animation: widget.isFlipped ? flipController : expandController,
         builder: (context, child) {
-          final isHalfway = _flipAnimation.value > pi / 2;
+          final isHalfway = flipAnimation.value > pi / 2;
           return Transform.translate(
             offset:
                 positionAnimation.value * MediaQuery.of(context).size.width / 2,
@@ -95,17 +143,11 @@ class _Card1State extends State<Card1> {
                 transform:
                     Matrix4.identity()
                       ..setEntry(3, 2, 0.001)
-                      ..rotateY(_flipAnimation.value),
+                      ..rotateY(flipAnimation.value),
                 child:
                     isHalfway
                         ? Image.asset(
-                          Cards.values
-                              .firstWhere(
-                                (card) =>
-                                    card.value ==
-                                    (widget.state as CardGenerated).numbers[0],
-                              )
-                              .cardPath,
+                          "${cardUrl}ace.png",
                           width: 50,
                           height: 66,
                         )
@@ -118,9 +160,14 @@ class _Card1State extends State<Card1> {
             ),
           );
         },
-      );
-    }
+      ),
+    );
+  }
 
-    return const SizedBox.shrink();
+  @override
+  void dispose() {
+    flipController.dispose();
+    expandController.dispose();
+    super.dispose();
   }
 }
