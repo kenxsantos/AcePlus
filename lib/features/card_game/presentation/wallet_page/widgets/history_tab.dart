@@ -1,3 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_event.dart';
+import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_state.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/widgets/history_tile.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
@@ -5,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HistoryTabBar extends StatefulWidget {
-  const HistoryTabBar({super.key});
+  final String id;
+
+  const HistoryTabBar({super.key, required this.id});
 
   @override
   State<HistoryTabBar> createState() => _HistoryTabBarState();
@@ -19,10 +25,36 @@ class _HistoryTabBarState extends State<HistoryTabBar>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+
+    _tabController.addListener(() {
+      if (_tabController.index == 0) {
+        context.read<TransactionBloc>().add(
+          LoadTransactionByType(
+            userId: int.parse(widget.id),
+            transactionType: Str().cashIn,
+          ),
+        );
+      } else if (_tabController.index == 1) {
+        context.read<TransactionBloc>().add(
+          LoadTransactionByType(
+            userId: int.parse(widget.id),
+            transactionType: Str().cashOut,
+          ),
+        );
+      }
+    });
+
+    context.read<TransactionBloc>().add(
+      LoadTransactionByType(
+        userId: int.parse(widget.id),
+        transactionType: Str().cashIn,
+      ),
+    );
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(() {});
     _tabController.dispose();
     super.dispose();
   }
@@ -41,32 +73,70 @@ class _HistoryTabBarState extends State<HistoryTabBar>
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => context.goNamed("show-receipt"),
-                    child: HistoryTile(
-                      text: Str().cashIn,
-                      color: Color(0xFF42F271),
-                    ),
-                  );
+              // Cash In Transactions
+              BlocBuilder<TransactionBloc, TransactionState>(
+                builder: (context, state) {
+                  if (state is TransactionLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is TransactionsLoaded) {
+                    final cashInTransactions =
+                        state.transactions
+                            .where((t) => t.transactionType == Str().cashIn)
+                            .toList();
+                    return ListView.builder(
+                      itemCount: cashInTransactions.length,
+                      itemBuilder: (context, index) {
+                        final transaction = cashInTransactions[index];
+                        return GestureDetector(
+                          onTap: () => context.goNamed("show-receipt"),
+                          child: HistoryTile(
+                            text: transaction.transactionType,
+                            color: Color(0xFF42F271),
+                            date: transaction.transactionDate,
+                            amount: transaction.amount.toString(),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (state is TransactionError) {
+                    return Center(child: Text(state.error));
+                  } else {
+                    return const Center(child: Text("No transactions found"));
+                  }
                 },
               ),
-              ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => context.goNamed("show-receipt"),
-                    child: HistoryTile(text: Str().cashOut, color: Colors.red),
-                  );
+              // Cash Out Transactions
+              BlocBuilder<TransactionBloc, TransactionState>(
+                builder: (context, state) {
+                  if (state is TransactionLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is TransactionsLoaded) {
+                    final cashOutTransactions =
+                        state.transactions
+                            .where((t) => t.transactionType == Str().cashOut)
+                            .toList();
+                    return ListView.builder(
+                      itemCount: cashOutTransactions.length,
+                      itemBuilder: (context, index) {
+                        final transaction = cashOutTransactions[index];
+                        return GestureDetector(
+                          onTap: () => context.goNamed("show-receipt"),
+                          child: HistoryTile(
+                            text: transaction.transactionType,
+                            color: Colors.red,
+                            date: transaction.transactionDate,
+                            amount: transaction.amount.toString(),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (state is TransactionError) {
+                    return Center(child: Text(state.error));
+                  } else {
+                    return const Center(child: Text("No transactions found"));
+                  }
                 },
               ),
-              // Container(
-              //   color: primaryBlack,
-              //   margin: const EdgeInsets.all(16.0),
-              //   child: CashInContainer(text: Str().cashOut),
-              // ),
             ],
           ),
         ),
