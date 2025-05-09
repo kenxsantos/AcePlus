@@ -77,6 +77,12 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           event.userId,
           event.transactionType,
         );
+
+        if (transactions.isEmpty) {
+          emit(NoDataState("No transactions found"));
+          return;
+        }
+
         print('Transactions Type: ${event.transactionType} Transactions: $transactions');
         emit(TransactionsLoaded(transactions));
       } catch (e) {
