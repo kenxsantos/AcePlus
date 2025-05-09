@@ -14,7 +14,7 @@ class User extends HiveObject {
   final String password;
 
   @HiveField(3)
-  late final double totalMoney;
+  double totalMoney;
 
   @HiveField(4)
   final DateTime createdAt;
