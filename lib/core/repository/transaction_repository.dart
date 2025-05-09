@@ -18,10 +18,13 @@ class TransactionRepository {
     return _dataSource.getTransactionsByUserId(userId);
   }
 
-  List<Transaction> getTransactionsByUserIdAndType(
+  Future<List<Transaction>> getTransactionsByUserIdAndType(
     int userId,
     String transactionType,
-  ) {
-    return _dataSource.getTransactionsByUserIdAndType(userId, transactionType);
+  ) async {
+    return await _dataSource.getTransactionsByUserIdAndType(
+      userId,
+      transactionType,
+    );
   }
 }
