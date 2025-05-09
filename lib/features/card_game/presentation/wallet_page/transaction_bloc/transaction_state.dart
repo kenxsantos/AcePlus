@@ -6,30 +6,21 @@ abstract class TransactionState {
 
 class TransactionInitial extends TransactionState {}
 
-class TotalMoneyInitial extends TransactionState {}
-
 class TransactionLoading extends TransactionState {}
 
-class TotalMoneyLoading extends TransactionState {}
-
-class TransactionLoaded extends TransactionState {
+class TransactionsLoaded extends TransactionState {
   final List<Transaction> transactions;
-  const TransactionLoaded(this.transactions);
+  const TransactionsLoaded(this.transactions);
 }
 
-class TotalMoneySuccessState extends TransactionState {
-  final double totalMoney;
-  const TotalMoneySuccessState(this.totalMoney);
+class TransactionsError extends TransactionState {
+  final String message;
+  const TransactionsError(this.message);
 }
 
 class TransactionSuccessState extends TransactionState {
   final String message;
   const TransactionSuccessState(this.message);
-}
-
-class TotalMoneyError extends TransactionState {
-  final String message;
-  const TotalMoneyError(this.message);
 }
 
 class TransactionError extends TransactionState {
