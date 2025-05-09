@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 class GradientGoldContainer extends StatelessWidget {
   final String balanceText;
-  final double totalMoney;
+  final dynamic totalMoney;
   final Widget actionButton;
-  const GradientGoldContainer({super.key, required this.balanceText, required this.totalMoney, required this.actionButton});
+
+  const GradientGoldContainer({
+    super.key,
+    required this.balanceText,
+    required this.totalMoney,
+    required this.actionButton,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,15 @@ class GradientGoldContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(balanceText),
-              Text(totalMoney.toStringAsFixed(2), style: TextStyle(fontSize: 25)),
+              Text(
+                totalMoney is String
+                    ? totalMoney
+                    : totalMoney.toStringAsFixed(2),
+                style: TextStyle(
+                  fontSize: 25,
+                  color: totalMoney is String ? Colors.red : Colors.black,
+                ),
+              ),
             ],
           ),
           actionButton,
