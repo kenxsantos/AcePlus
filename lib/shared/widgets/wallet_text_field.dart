@@ -5,15 +5,13 @@ class WalletTextField extends StatelessWidget {
   const WalletTextField({
     super.key,
     required this.labelText,
-    // this.hintText,
-    // this.controller,
-    // this.onChanged,
+    required this.controller,
+    this.onChanged,
   });
 
   final String labelText;
-  // final String? hintText;
-  // final TextEditingController? controller;
-  // final ValueChanged<String>? onChanged;
+  final TextEditingController controller;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +19,8 @@ class WalletTextField extends StatelessWidget {
       height: 60,
       margin: EdgeInsets.only(bottom: 6),
       child: TextField(
-        // controller: controller,
-        // onChanged: onChanged,
+        controller: controller,
+        onChanged: onChanged,
         decoration: InputDecoration(
           labelText: labelText,
           labelStyle: TextStyle(
