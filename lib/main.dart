@@ -7,6 +7,7 @@ import 'package:aceplus/features/card_game/presentation/auth_dialog/auth_bloc/au
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/bloc/card_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
 import 'package:aceplus/router/router.dart';
+import 'package:aceplus/shared/utils/bloc_observer.dart';
 import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,7 @@ void main() async {
   final userId = await AuthUtils.getUserId();
   print('Is Logged In: $isLoggedIn');
   print('User: $userId');
+  Bloc.observer = AppBlocObserver();
 
   runApp(
     MultiBlocProvider(
