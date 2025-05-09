@@ -1,5 +1,6 @@
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
+import 'package:aceplus/shared/widgets/confirmation_dialog.dart';
 import 'package:aceplus/shared/widgets/input_error_text.dart';
 import 'package:aceplus/shared/widgets/solid_button.dart';
 import 'package:aceplus/shared/widgets/wallet_text_field.dart';
@@ -10,17 +11,17 @@ import '../transaction_bloc/transaction_bloc.dart';
 import '../transaction_bloc/transaction_event.dart';
 import '../transaction_bloc/transaction_state.dart';
 
-class CashInContainer extends StatefulWidget {
+class CashProcessContainer extends StatefulWidget {
   final String text;
   final String id;
 
-  const CashInContainer({super.key, required this.text, required this.id});
+  const CashProcessContainer({super.key, required this.text, required this.id});
 
   @override
-  State<CashInContainer> createState() => _CashInContainerState();
+  State<CashProcessContainer> createState() => _CashProcessContainerState();
 }
 
-class _CashInContainerState extends State<CashInContainer> {
+class _CashProcessContainerState extends State<CashProcessContainer> {
   final TextEditingController accountController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
   final accountError = ValueNotifier<String?>(null);
@@ -143,13 +144,22 @@ class _CashInContainerState extends State<CashInContainer> {
               if (accountError.value == null &&
                   amountError.value == null) {
                 if (account.isNotEmpty && amount.isNotEmpty) {
-                  context.read<TransactionBloc>().add(
-                    AddTransaction(
-                      userId: widget.id,
-                      transactionType: widget.text,
-                      amount: amountController.text,
-                      mobileNumber: accountController.text,
-                    ),
+                  showDialog(context: context,
+                      builder: (context) =>
+                          ConfirmationDialog(title: "Confirm ${widget.text}?",
+                              content: "Are you sure you want ${widget.text}?",
+                              onConfirm: () {
+                                Navigator.of(context).pop();
+                                context.read<TransactionBloc>().add(
+                                  AddTransaction(
+                                    userId: widget.id,
+                                    transactionType: widget.text,
+                                    amount: amountController.text,
+                                    mobileNumber: accountController.text,
+                                  ),
+                                );
+                              },
+                          ),
                   );
                 }
               } else {
