@@ -1,3 +1,5 @@
+import 'package:aceplus/features/card_game/presentation/wallet_page/balance_bloc/balance_event.dart';
+import 'package:aceplus/features/card_game/presentation/wallet_page/balance_bloc/balance_state.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/widgets/history_tab.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:aceplus/shared/utils/strings.dart';
@@ -5,9 +7,7 @@ import 'package:aceplus/shared/widgets/gradient_gold_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../transaction_bloc/transaction_bloc.dart';
-import '../transaction_bloc/transaction_event.dart';
-import '../transaction_bloc/transaction_state.dart';
+import '../balance_bloc/balance_bloc.dart';
 import '../widgets/cash_in_button.dart';
 
 class TransactionHistoryPage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
   void initState() {
     super.initState();
     id = widget.id;
-    context.read<TransactionBloc>().add(LoadTotalMoney(int.parse(id)));
+    context.read<BalanceBloc>().add(LoadTotalMoney(int.parse(id)));
   }
 
   @override
@@ -59,7 +59,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            BlocBuilder<TransactionBloc, TransactionState>(
+            BlocBuilder<BalanceBloc, BalanceState>(
               builder: (context, state) {
                 if (state is TotalMoneySuccessState) {
                   return GradientGoldContainer(
@@ -82,7 +82,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
               },
             ),
             Expanded(
-              child: Container(color: primaryBlack, child: HistoryTabBar()),
+              child: Container(color: primaryBlack, child: HistoryTabBar(id: id)),
             ),
           ],
         ),
