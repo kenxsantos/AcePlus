@@ -16,15 +16,20 @@ final class CardGenerated extends CardState {
 
 final class CardResetValue extends CardState {}
 
-final class CardIsFlipped extends CardState {
-  const CardIsFlipped({required this.isFlipped});
+// final class CardIsFlipped extends CardState {
+//   const CardIsFlipped({required this.isFlipped});
+//   final bool isFlipped;
+// }
+
+// final class CardIsExpanded extends CardState {
+//   const CardIsExpanded({required this.isExpanded});
+//   final bool isExpanded;
+// }
+
+final class CardIsAnimated extends CardState {
+  const CardIsAnimated({required this.isFlipped, required this.isExtended});
 
   final bool isFlipped;
-}
-
-final class CardIsExtended extends CardState {
-  const CardIsExtended({required this.isExtended});
-
   final bool isExtended;
 }
 

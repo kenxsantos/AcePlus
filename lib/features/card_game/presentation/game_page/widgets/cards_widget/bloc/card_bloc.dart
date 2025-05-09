@@ -25,12 +25,32 @@ class CardBloc extends Bloc<CardEvent, CardState> {
       print("Cards have been reset.");
     });
 
-    on<CardToggleFlip>((event, emit) {
-      emit(CardIsFlipped(isFlipped: event.isFlipped));
+    on<CardToggelAnimate>((event, emit) {
+      print(
+        "Received CardToggleFlip event: ${event.isFlipped} - CardToggleExtended event: ${event.isExtended}",
+      );
+      emit(
+        CardIsAnimated(
+          isFlipped: event.isFlipped,
+          isExtended: event.isExtended,
+        ),
+      );
     });
 
-    on<CardToggleExpanded>((event, emit) {
-      emit(CardIsExtended(isExtended: event.isExtended));
-    });
+    // on<CardToggleFlip>((event, emit) {
+    //   print("Received CardToggleFlip event: ${event.isFlipped}");
+
+    //   emit(CardIsFlipped(isFlipped: event.isFlipped));
+
+    //   print("Emitted CardIsFlipped with value: ${event.isFlipped}");
+    // });
+
+    // on<CardToggleExpanded>((event, emit) {
+    //   print("Received CardIsExpanded event: ${event.isExpanded}");
+
+    //   emit(CardIsExpanded(isExpanded: event.isExpanded));
+    //   print("Emitted CardIsFlipped with value: ${event.isExpanded}");
+
+    //   print("CardIsExpanded: ${event.isExpanded}");
   }
 }
