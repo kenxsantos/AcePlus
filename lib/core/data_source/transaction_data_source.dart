@@ -4,9 +4,7 @@ import 'package:hive/hive.dart';
 import '../model/transaction_model/transaction_model.dart';
 
 class TransactionDataSource {
-  final Box<Transaction> _transactionBox = Hive.box<Transaction>(
-    'transaction',
-  );
+  final Box<Transaction> _transactionBox = Hive.box<Transaction>('transaction');
 
   int getNextTransactionId() {
     if (_transactionBox.isEmpty) {
@@ -14,8 +12,9 @@ class TransactionDataSource {
     }
 
     return _transactionBox.values
-        .map((transaction) => transaction.transactionId)
-        .reduce((max, id) => id > max ? id : max) + 1;
+            .map((transaction) => transaction.transactionId)
+            .reduce((max, id) => id > max ? id : max) +
+        1;
   }
 
   Future<void> addTransaction(Transaction transaction) async {
@@ -50,17 +49,18 @@ class TransactionDataSource {
         .toList();
   }
 
-  List<Transaction> getTransactionsByUserIdAndType(
-    int userId,
-    String transactionType,
-  ) {
+  Future<List<Transaction>> getTransactionsByUserIdAndType(
+      int userId,
+      String transactionType,
+      ) async {
     return _transactionBox.values
         .where(
           (transaction) =>
-              transaction.userId == userId &&
-              transaction.transactionType == transactionType,
-        )
-        .toList();
+      transaction.userId == userId &&
+          transaction.transactionType == transactionType,
+    )
+        .toList()
+      ..sort((a, b) => b.transactionDate.compareTo(a.transactionDate));
   }
 
   bool referenceNumberExists(String referenceNumber) {
