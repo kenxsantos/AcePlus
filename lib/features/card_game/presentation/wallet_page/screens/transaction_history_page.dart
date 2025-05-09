@@ -26,7 +26,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
   void initState() {
     super.initState();
     id = widget.id;
-    context.read<TransactionBloc>().add(LoadTotalMoney(id));
+    context.read<TransactionBloc>().add(LoadTotalMoney(int.parse(id)));
   }
 
   @override
@@ -61,13 +61,22 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
           children: [
             BlocBuilder<TransactionBloc, TransactionState>(
               builder: (context, state) {
-                double totalMoney = 0.0;
                 if (state is TotalMoneySuccessState) {
-                  totalMoney = state.totalMoney;
+                  return GradientGoldContainer(
+                    balanceText: Str().currentBalance,
+                    totalMoney: state.totalMoney,
+                    actionButton: CashInButton(id: id),
+                  );
+                } else if (state is TotalMoneyError) {
+                  return GradientGoldContainer(
+                    balanceText: Str().currentBalance,
+                    totalMoney: "Failed to fetch data",
+                    actionButton: CashInButton(id: id),
+                  );
                 }
                 return GradientGoldContainer(
                   balanceText: Str().currentBalance,
-                  totalMoney: totalMoney,
+                  totalMoney: 0,
                   actionButton: CashInButton(id: id),
                 );
               },
