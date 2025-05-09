@@ -1,3 +1,4 @@
+import 'package:aceplus/shared/widgets/centered_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_event.dart';
@@ -93,15 +94,17 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                             text: transaction.transactionType,
                             color: Color(0xFF42F271),
                             date: transaction.transactionDate,
-                            amount: transaction.amount.toString(),
+                            amount: double.parse(transaction.amount.toString()).toStringAsFixed(2),
                           ),
                         );
                       },
                     );
+                  } else if (state is NoDataState) {
+                    return CenteredText(state.message, Colors.white);
                   } else if (state is TransactionError) {
-                    return Center(child: Text(state.error));
+                    return CenteredText(state.error, Color(0xFFF56C6C));
                   } else {
-                    return const Center(child: Text("No transactions found"));
+                    return CenteredText("No Transactions Found", Colors.white);
                   }
                 },
               ),
@@ -130,10 +133,12 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                         );
                       },
                     );
+                  } else if (state is NoDataState) {
+                    return CenteredText(state.message, Colors.white);
                   } else if (state is TransactionError) {
-                    return Center(child: Text(state.error));
+                    return CenteredText(state.error, Color(0xFFF56C6C));
                   } else {
-                    return const Center(child: Text("No transactions found"));
+                    return CenteredText("No Transactions Found", Colors.white);
                   }
                 },
               ),
