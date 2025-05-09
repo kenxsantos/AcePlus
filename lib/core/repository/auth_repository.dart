@@ -21,4 +21,8 @@ class AuthRepository {
   }
 
   double? getTotalMoney(int userId) => _dataSource.getTotalMoney(userId);
+
+  Future<void> updateTotalMoney(int userId, double amount) async {
+    await _dataSource.updateTotalMoney(userId, amount);
+  }
 }
