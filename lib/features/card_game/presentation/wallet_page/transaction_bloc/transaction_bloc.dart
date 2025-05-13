@@ -53,8 +53,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         await userRepository.updateTotalMoney(userId, newTotal);
 
         await repository.addTransaction(transaction);
-
-        emit(TransactionSuccessState('Transaction added successfully'));
+        emit(TransactionSuccessState('${event.transactionType} transaction completed successfully'));
       } catch (e) {
         emit(TransactionError('Transaction failed: ${e.toString()}'));
       }
