@@ -17,8 +17,8 @@ class AddTransaction extends TransactionEvent {
 }
 
 class LoadTransaction extends TransactionEvent {
-  final int userId;
-  LoadTransaction({required this.userId});
+  final int transactionId;
+  LoadTransaction({required this.transactionId});
 }
 
 class LoadTransactionByType extends TransactionEvent {
