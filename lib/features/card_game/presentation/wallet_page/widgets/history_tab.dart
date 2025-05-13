@@ -21,10 +21,12 @@ class HistoryTabBar extends StatefulWidget {
 class _HistoryTabBarState extends State<HistoryTabBar>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+  late final String id;
 
   @override
   void initState() {
     super.initState();
+    id = widget.id;
     _tabController = TabController(length: 2, vsync: this);
 
     _tabController.addListener(() {
@@ -89,12 +91,17 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                       itemBuilder: (context, index) {
                         final transaction = cashInTransactions[index];
                         return GestureDetector(
-                          onTap: () => context.goNamed("show-receipt"),
+                          onTap:
+                              () => context.go(
+                                '/show-receipt/$id/${transaction.transactionId}',
+                              ),
                           child: HistoryTile(
                             text: transaction.transactionType,
                             color: Color(0xFF42F271),
                             date: transaction.transactionDate,
-                            amount: double.parse(transaction.amount.toString()).toStringAsFixed(2),
+                            amount: double.parse(
+                              transaction.amount.toString(),
+                            ).toStringAsFixed(2),
                           ),
                         );
                       },
@@ -123,7 +130,10 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                       itemBuilder: (context, index) {
                         final transaction = cashOutTransactions[index];
                         return GestureDetector(
-                          onTap: () => context.goNamed("show-receipt"),
+                          onTap:
+                              () => context.go(
+                                '/show-receipt/$id/${transaction.transactionId}',
+                              ),
                           child: HistoryTile(
                             text: transaction.transactionType,
                             color: Colors.red,
