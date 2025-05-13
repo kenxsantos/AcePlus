@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/odds_text_widget.dart';
 import 'package:aceplus/shared/utils/card_enums.dart';
 import 'package:flutter/material.dart';
 import 'package:aceplus/shared/utils/constant.dart';
@@ -9,6 +10,7 @@ class CardWidget extends StatefulWidget {
   bool isExpanded;
   final int value;
   final int index;
+  final double odds;
 
   CardWidget({
     super.key,
@@ -16,6 +18,7 @@ class CardWidget extends StatefulWidget {
     required this.isExpanded,
     required this.value,
     required this.index,
+    required this.odds,
   });
 
   @override
@@ -69,22 +72,13 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
   void didUpdateWidget(CardWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    print(
-      "CardWidget Updated! Old Expanded: ${oldWidget.isExpanded}, New: ${widget.isExpanded}",
-    );
-    print(
-      "CardWidget Updated! Old Flipped: ${oldWidget.isFlipped}, New: ${widget.isFlipped}",
-    );
-
     if (widget.isExpanded != oldWidget.isExpanded) {
-      print("Expand Animation Triggered: ${widget.isExpanded}");
       widget.isExpanded
           ? expandController.forward(from: 0)
           : expandController.reverse();
     }
 
     if (widget.isFlipped != oldWidget.isFlipped) {
-      print("Flip Animation Triggered: ${widget.isFlipped}");
       widget.isFlipped
           ? flipController.forward(from: 0)
           : flipController.reverse();
@@ -115,10 +109,18 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                         width: 50,
                         height: 66,
                       )
-                      : Image.asset(
-                        "${cardUrl}card_back.png",
-                        width: 50,
-                        height: 66,
+                      : Stack(
+                        alignment: Alignment.center, // Centers the text
+                        children: [
+                          Image.asset(
+                            "${cardUrl}card_back.png",
+                            width: 50,
+                            height: 66,
+                          ),
+                          widget.isExpanded
+                              ? OddsTextWidget(odds: widget.odds)
+                              : SizedBox(),
+                        ],
                       ),
             ),
           ),
