@@ -32,7 +32,7 @@ class GamePage extends StatelessWidget {
                     padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.2,
                     ),
-                    child: const GameTimerCircle(text: '10'),
+                    child: const GameTimerCircle(),
                   ),
                 ),
                 const Center(child: TableWithCards()),
