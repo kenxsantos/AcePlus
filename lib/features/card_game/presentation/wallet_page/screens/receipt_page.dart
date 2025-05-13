@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ReceiptPage extends StatelessWidget {
-  const ReceiptPage({super.key});
+  final String id;
+  const ReceiptPage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end, // Align title to the right
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
               Str().eWallet,
@@ -27,7 +28,7 @@ class ReceiptPage extends StatelessWidget {
         backgroundColor: primaryBlack,
         automaticallyImplyLeading: true,
         leading: IconButton(
-          onPressed: () => context.goNamed("transaction-history"),
+          onPressed: () => context.go('/transaction-history/$id'),
           color: primaryWhite,
           icon: Icon(Icons.arrow_back_ios_new_rounded),
         ),
