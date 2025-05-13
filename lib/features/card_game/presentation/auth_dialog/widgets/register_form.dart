@@ -70,7 +70,7 @@ class _RegisterFormState extends State<RegisterForm> {
           isClearing = false;
         } else if (state is AuthRegisterError) {
           message = state.message;
-          messageColor = Color(0xFFF56C6C);
+          messageColor = Color(0xFFF24242);
         }
 
         return Container(

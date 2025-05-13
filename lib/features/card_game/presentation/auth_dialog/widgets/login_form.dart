@@ -26,7 +26,7 @@ class LoginForm extends StatelessWidget {
           Color? messageColor;
           if (state is AuthLoginError) {
             message = state.message;
-            messageColor = Color(0xFFF56C6C);
+            messageColor = Color(0xFFF24242);
           } else if (state is AuthSuccess) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pop();
