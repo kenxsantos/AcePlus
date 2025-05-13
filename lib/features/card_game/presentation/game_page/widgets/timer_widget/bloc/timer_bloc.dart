@@ -17,7 +17,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     on<TimerStarting>(_onStarting);
     on<TimerTicked>(_onTicked);
     on<ShowCards>(_onShowCards);
-    on<ClosedCards>(_onClosedCards);
   }
   @override
   Future<void> close() {
@@ -84,24 +83,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       );
     } else {
       emit(state.copyWith(status: TimerStatus.completed));
-    }
-  }
-
-  void _onClosedCards(ClosedCards event, Emitter<TimerState> emit) {
-    print("SHOWING CARDS");
-    try {
-      final showCardState = state.copyWith(
-        status: TimerStatus.closing,
-        text: Str().closeCards,
-      );
-      emit(showCardState);
-      _tickerSubscription?.cancel();
-      _tickerSubscription = _ticker
-          .tick(ticks: event.duration)
-          .listen((duration) => add(TimerTicked(duration: duration)));
-    } catch (e) {
-      final errorState = state.copyWith(status: TimerStatus.error);
-      emit(errorState);
     }
   }
 

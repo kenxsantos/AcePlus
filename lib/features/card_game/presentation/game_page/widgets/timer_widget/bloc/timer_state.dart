@@ -3,7 +3,6 @@ part of 'timer_bloc.dart';
 enum TimerStatus {
   initial,
   inProgress,
-  paused,
   starting,
   started,
   showing,
