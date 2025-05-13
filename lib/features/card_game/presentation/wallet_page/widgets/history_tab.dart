@@ -109,7 +109,7 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                   } else if (state is NoDataState) {
                     return CenteredText(state.message, Colors.white);
                   } else if (state is TransactionError) {
-                    return CenteredText(state.error, Color(0xFFF56C6C));
+                    return CenteredText(state.error, Color(0xFFF24242));
                   } else {
                     return CenteredText("No Transactions Found", Colors.white);
                   }
@@ -136,7 +136,7 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                               ),
                           child: HistoryTile(
                             text: transaction.transactionType,
-                            color: Colors.red,
+                            color: Color(0xFFF24242),
                             date: transaction.transactionDate,
                             amount: transaction.amount.toString(),
                           ),
@@ -146,7 +146,7 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                   } else if (state is NoDataState) {
                     return CenteredText(state.message, Colors.white);
                   } else if (state is TransactionError) {
-                    return CenteredText(state.error, Color(0xFFF56C6C));
+                    return CenteredText(state.error, Color(0xFFF24242));
                   } else {
                     return CenteredText("No Transactions Found", Colors.white);
                   }
