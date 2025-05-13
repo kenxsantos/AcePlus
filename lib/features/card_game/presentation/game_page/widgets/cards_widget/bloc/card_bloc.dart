@@ -11,16 +11,26 @@ class CardBloc extends Bloc<CardEvent, CardState> {
     on<CardRandomize>((event, emit) {
       List<int> uniqueNumbers = [];
       while (uniqueNumbers.length < 4) {
-        int number = Random().nextInt(10) + 1; // Generates numbers from 1 to 10
+        int number = Random().nextInt(10) + 1;
         if (!uniqueNumbers.contains(number)) {
           uniqueNumbers.add(number);
         }
       }
-      emit(CardGenerated(uniqueNumbers));
+
+      List<double> odds = List.generate(4, (_) {
+        double randomValue = Random().nextDouble() * 0.8 + 1.0;
+        return double.parse(randomValue.toStringAsFixed(2));
+      });
+
+      emit(CardGenerated(uniqueNumbers, odds));
     });
 
     on<CardToggelAnimate>((event, emit) {
       emit(CardIsAnimated(event.isFlipped, event.isExtended));
+    });
+
+    on<ChooseCard>((event, emit) {
+      emit(CardIsTapped(event.index));
     });
   }
 }

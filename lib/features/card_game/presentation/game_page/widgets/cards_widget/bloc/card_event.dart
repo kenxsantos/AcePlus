@@ -9,9 +9,17 @@ sealed class CardEvent extends Equatable {
 
 class CardRandomize extends CardEvent {}
 
+class CardOddsRandomize extends CardEvent {}
+
 class CardToggelAnimate extends CardEvent {
   const CardToggelAnimate({required this.isFlipped, required this.isExtended});
 
   final bool isFlipped;
   final bool isExtended;
+}
+
+class ChooseCard extends CardEvent {
+  const ChooseCard({required this.index});
+
+  final int index;
 }
