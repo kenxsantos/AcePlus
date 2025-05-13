@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../../../core/model/auth_model/auth_model.dart';
+import '../../../../../core/model/user_model/user_model.dart';
 
 abstract class AuthState extends Equatable {
   @override
@@ -10,28 +10,30 @@ class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
-class AuthLoaded extends AuthState {
-  final List<Auth> auths;
+class UserLoaded extends AuthState {
+  final List<User> users;
 
-  AuthLoaded(this.auths);
-
-  @override
-  List<Object?> get props => [auths];
-}
-
-class SearchResult extends AuthState {
-  final Auth? auth;
-
-  SearchResult(this.auth);
+  UserLoaded(this.users);
 
   @override
-  List<Object?> get props => [auth];
+  List<Object?> get props => [users];
 }
 
-class AuthSuccess extends AuthState {
+class SearchUserResult extends AuthState {
+  final User? user;
+
+  SearchUserResult(this.user);
+
+  @override
+  List<Object?> get props => [user];
+}
+
+class AuthSuccess extends AuthState {}
+
+class AuthRegisterSuccess extends AuthState {
   final String message;
 
-  AuthSuccess(this.message);
+  AuthRegisterSuccess(this.message);
 
   @override
   List<Object?> get props => [message];

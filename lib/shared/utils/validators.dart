@@ -13,3 +13,11 @@ String? validatePassword(String password) {
   }
   return null;
 }
+
+String? validateAmount(String amount) {
+  final currencyRegex = RegExp(r'^\d+(\.\d{2})?$');
+  if (!currencyRegex.hasMatch(amount)) {
+    return 'Amount must be a valid number with up to 2 decimal places';
+  }
+  return null;
+}

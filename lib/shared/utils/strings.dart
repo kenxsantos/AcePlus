@@ -19,4 +19,5 @@ class Str {
   final starting = "Game starts in";
   final chooseCard = "Choose your card";
   final showingCard = "Showing Cards";
+  final currentBalance = "Current Balance";
 }

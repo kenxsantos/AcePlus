@@ -20,7 +20,7 @@ class HeaderContainer extends StatelessWidget {
           Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
-              if (state is SearchResult || state is AuthSuccess) {
+              if (state is SearchUserResult || state is AuthSuccess) {
                 return IconButton(
                   onPressed: () {
                     showDialog(

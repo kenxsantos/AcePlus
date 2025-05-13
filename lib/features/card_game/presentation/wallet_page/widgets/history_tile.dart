@@ -1,11 +1,20 @@
 import 'package:aceplus/shared/utils/constant.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 class HistoryTile extends StatelessWidget {
-  const HistoryTile({super.key, required this.text, required this.color});
+  const HistoryTile({
+    super.key,
+    required this.text,
+    required this.color,
+    required this.date,
+    required this.amount,
+  });
 
   final String text;
   final Color color;
+  final DateTime date;
+  final String amount;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,7 @@ class HistoryTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "9:45 PM",
+                    DateFormat('h:mm a').format(date),
                     style: TextStyle(
                       fontSize: 10,
                       color: primaryWhite,
@@ -55,7 +64,7 @@ class HistoryTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "April 1, 2025",
+                    DateFormat('MMMM d, y').format(date),
                     style: TextStyle(
                       fontSize: 10,
                       color: primaryWhite,
@@ -64,13 +73,28 @@ class HistoryTile extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                "₱ 200.00",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: color,
-                  fontFamily: roboto,
-                  fontWeight: FontWeight.bold,
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '\u20B1 ',
+                      style: TextStyle(
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        color: color,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: NumberFormat('#,##0.00').format(double.parse(amount)),
+                      style: TextStyle(
+                        fontFamily: poppins,
+                        fontSize: 18,
+                        color: color,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

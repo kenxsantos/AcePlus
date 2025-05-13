@@ -16,7 +16,7 @@ class ButtonContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        final isLoggedIn = state is SearchResult || state is AuthSuccess;
+        final isLoggedIn = state is SearchUserResult || state is AuthSuccess;
         return Container(
           margin: EdgeInsets.only(top: 50),
           child: Row(
@@ -46,7 +46,12 @@ class ButtonContainer extends StatelessWidget {
               if (isLoggedIn)
                 GradientButton(
                   labelText: Str().wallet,
-                  onPressed: () => context.goNamed("wallet"),
+                  onPressed: () async {
+                    final userId = await AuthUtils.getUserId();
+                    if (userId != null && context.mounted) {
+                      context.go('/wallet/$userId');
+                    }
+                  },
                 ),
             ],
           ),

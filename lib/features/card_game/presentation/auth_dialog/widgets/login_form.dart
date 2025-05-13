@@ -58,7 +58,7 @@ class LoginForm extends StatelessWidget {
                   final password = passwordController.text.trim();
 
                   context.read<AuthBloc>().add(
-                    SearchAuth(mobileNumber, password),
+                    SearchUser(mobileNumber, password),
                   );
                 },
               ),
