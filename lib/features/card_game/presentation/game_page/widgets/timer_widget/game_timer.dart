@@ -17,7 +17,6 @@ class GameTimerCircle extends StatelessWidget {
     return BlocConsumer<TimerBloc, TimerState>(
       listener: (context, state) {
         if (state.status.isCompleted) {
-          print("STARTING TIMER AND EXPANDING CARDS000");
           context.read<CardBloc>().add(CardRandomize());
           context.read<CardBloc>().add(
             CardToggelAnimate(isFlipped: false, isExtended: true),
@@ -25,18 +24,16 @@ class GameTimerCircle extends StatelessWidget {
           context.read<TimerBloc>().add(TimerStarted(duration: 5));
         }
         if (state.status.isShowCards) {
-          print("SHOWING 00000");
           context.read<CardBloc>().add(
-            CardToggelAnimate(isFlipped: false, isExtended: true),
+            CardToggelAnimate(isFlipped: true, isExtended: true),
           );
           context.read<TimerBloc>().add(ShowCards(duration: 3));
         }
         if (state.status.isCloseCards) {
-          print("CLOSING CARDS00");
+          context.read<TimerBloc>().add(TimerStarting(duration: 3));
           context.read<CardBloc>().add(
             CardToggelAnimate(isFlipped: false, isExtended: false),
           );
-          context.read<TimerBloc>().add(TimerStarting(duration: 3));
         }
 
         print("State Updated: ${state.status}");
