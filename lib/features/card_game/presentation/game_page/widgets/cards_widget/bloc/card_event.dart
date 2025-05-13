@@ -9,18 +9,6 @@ sealed class CardEvent extends Equatable {
 
 class CardRandomize extends CardEvent {}
 
-class CardReset extends CardEvent {}
-
-// class CardToggleFlip extends CardEvent {
-//   const CardToggleFlip({required this.isFlipped});
-//   final bool isFlipped;
-// }
-
-// class CardToggleExpanded extends CardEvent {
-//   const CardToggleExpanded({required this.isExpanded});
-//   final bool isExpanded;
-// }
-
 class CardToggelAnimate extends CardEvent {
   const CardToggelAnimate({required this.isFlipped, required this.isExtended});
 

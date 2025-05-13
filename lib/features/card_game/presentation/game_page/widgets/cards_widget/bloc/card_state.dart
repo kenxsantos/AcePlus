@@ -9,28 +9,22 @@ sealed class CardState extends Equatable {
 
 final class CardInitial extends CardState {}
 
-final class CardGenerated extends CardState {
+class CardGenerated extends CardState {
   final List<int> numbers;
   const CardGenerated(this.numbers);
+
+  @override
+  List<Object> get props => [numbers];
 }
 
-final class CardResetValue extends CardState {}
-
-// final class CardIsFlipped extends CardState {
-//   const CardIsFlipped({required this.isFlipped});
-//   final bool isFlipped;
-// }
-
-// final class CardIsExpanded extends CardState {
-//   const CardIsExpanded({required this.isExpanded});
-//   final bool isExpanded;
-// }
-
-final class CardIsAnimated extends CardState {
-  const CardIsAnimated({required this.isFlipped, required this.isExtended});
-
+class CardIsAnimated extends CardState {
   final bool isFlipped;
   final bool isExtended;
+
+  const CardIsAnimated(this.isFlipped, this.isExtended);
+
+  @override
+  List<Object> get props => [isFlipped, isExtended];
 }
 
 final class CardAce extends CardState {}
