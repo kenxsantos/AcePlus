@@ -7,6 +7,7 @@ import 'package:aceplus/shared/widgets/wallet_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../shared/utils/validators.dart';
+import '../../../../../shared/widgets/state_dialog.dart';
 import '../transaction_bloc/transaction_bloc.dart';
 import '../transaction_bloc/transaction_event.dart';
 import '../transaction_bloc/transaction_state.dart';
@@ -62,9 +63,15 @@ class _CashProcessContainerState extends State<CashProcessContainer> {
           );
         } else if (state is TransactionSuccessState) {
           Navigator.pop(context);
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          showDialog(
+            context: context,
+            builder: (context) => StateDialog(
+              title: "Success",
+              content: state.message,
+              state: "success",
+              key: ValueKey("success"),
+            ),
+          );
 
           FocusScope.of(context).unfocus();
 
@@ -75,9 +82,15 @@ class _CashProcessContainerState extends State<CashProcessContainer> {
           amountError.value = null;
         } else if (state is TransactionError) {
           Navigator.pop(context);
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.error)));
+          showDialog(
+            context: context,
+            builder: (context) => StateDialog(
+              title: "Error",
+              content: state.error,
+              state: "error",
+              key: ValueKey("error"),
+            ),
+          );
         }
       },
       child: Column(
@@ -147,7 +160,7 @@ class _CashProcessContainerState extends State<CashProcessContainer> {
                   showDialog(context: context,
                       builder: (context) =>
                           ConfirmationDialog(title: "Confirm ${widget.text}?",
-                              content: "Are you sure you want ${widget.text}?",
+                              content: "Are you sure you want to ${widget.text} this amount?",
                               onConfirm: () {
                                 Navigator.of(context).pop();
                                 context.read<TransactionBloc>().add(
