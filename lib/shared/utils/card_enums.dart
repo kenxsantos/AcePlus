@@ -18,3 +18,14 @@ enum Cards {
 
   const Cards(this.text, this.cardPath, this.value);
 }
+
+Cards getCardByValue(int value) {
+  return Cards.values.firstWhere(
+    (card) {
+      return card.value == value;
+    },
+    orElse: () {
+      return Cards.aceCard;
+    },
+  );
+}
