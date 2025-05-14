@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../shared/utils/logged_in_checker.dart';
 import '../../../../../shared/widgets/confirmation_dialog.dart';
 import '../../auth_dialog/auth_bloc/auth_bloc.dart';
 import '../../auth_dialog/auth_bloc/auth_event.dart';
@@ -22,7 +24,7 @@ class _HeaderContainerState extends State<HeaderContainer> {
 
   void toggleVolume() {
     isPlaying.value = !isPlaying.value;
-    if(isPlaying.value) {
+    if (isPlaying.value) {
       player.resume();
     } else {
       player.pause();
@@ -54,8 +56,12 @@ class _HeaderContainerState extends State<HeaderContainer> {
                 valueListenable: isPlaying,
                 builder: (context, value, child) {
                   return IconButton(
-                    icon: Icon(value ? Icons.volume_up_rounded : Icons.volume_off_rounded),
-                    color: primaryYellow,
+                    icon: Icon(
+                      value
+                          ? Icons.volume_up_rounded
+                          : Icons.volume_off_rounded,
+                    ),
+                    color: value ? primaryYellow : Colors.white70,
                     iconSize: 26,
                     onPressed: toggleVolume,
                   );
@@ -64,22 +70,37 @@ class _HeaderContainerState extends State<HeaderContainer> {
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
                   if (state is SearchUserResult || state is AuthSuccess) {
-                    return IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder:
-                              (context) => ConfirmationDialog(
-                                title: "Logout Confirmation",
-                                content: "Are you sure you want to logout?",
-                                onConfirm: () {
-                                  Navigator.of(context).pop();
-                                  context.read<AuthBloc>().add(LogoutAuth());
-                                },
-                              ),
-                        );
-                      },
-                      icon: Icon(Icons.logout, color: primaryYellow),
+                    return Row(
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            final userId = await AuthUtils.getUserId();
+                            if (userId != null && context.mounted) {
+                              context.go('/wallet/$userId');
+                            }
+                          },
+                          icon: Icon(Icons.wallet),
+                          color: primaryYellow,
+                          iconSize: 26,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder:
+                                  (context) => ConfirmationDialog(
+                                    title: "Logout Confirmation",
+                                    content: "Are you sure you want to logout?",
+                                    onConfirm: () {
+                                      Navigator.of(context).pop();
+                                      context.read<AuthBloc>().add(LogoutAuth());
+                                    },
+                                  ),
+                            );
+                          },
+                          icon: Icon(Icons.logout, color: primaryYellow),
+                        ),
+                      ],
                     );
                   } else {
                     return IconButton(
