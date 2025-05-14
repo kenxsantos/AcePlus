@@ -8,7 +8,13 @@ import '../../auth_dialog/screens/auth_dialog.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 
 class HeaderContainer extends StatelessWidget {
-  const HeaderContainer({super.key});
+  HeaderContainer({super.key});
+
+  final isVolume = ValueNotifier<bool>(true);
+
+  void toggleVolume() {
+    isVolume.value = !isVolume.value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,37 +24,52 @@ class HeaderContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
-          BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              if (state is SearchUserResult || state is AuthSuccess) {
-                return IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder:
-                          (context) => ConfirmationDialog(
-                            title: "Logout Confirmation",
-                            content: "Are you sure you want to logout?",
-                            onConfirm: () {
-                              Navigator.of(context).pop();
-                              context.read<AuthBloc>().add(LogoutAuth());
-                            },
-                          ),
+          Row(
+            children: [
+              ValueListenableBuilder(
+                valueListenable: isVolume,
+                builder: (context, value, child) {
+                  return IconButton(
+                    icon: Icon(value ? Icons.volume_up_rounded : Icons.volume_off_rounded),
+                    color: primaryYellow,
+                    iconSize: 26,
+                    onPressed: toggleVolume,
+                  );
+                },
+              ),
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  if (state is SearchUserResult || state is AuthSuccess) {
+                    return IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => ConfirmationDialog(
+                                title: "Logout Confirmation",
+                                content: "Are you sure you want to logout?",
+                                onConfirm: () {
+                                  Navigator.of(context).pop();
+                                  context.read<AuthBloc>().add(LogoutAuth());
+                                },
+                              ),
+                        );
+                      },
+                      icon: Icon(Icons.logout, color: primaryYellow),
                     );
-                  },
-                  icon: Icon(Icons.logout, color: primaryYellow),
-                );
-              } else {
-                return IconButton(
-                  onPressed:
-                      () => showDialog(
-                        context: context,
-                        builder: (context) => AuthDialog(),
-                      ),
-                  icon: Image.asset("${iconUrl}user_icon.png"),
-                );
-              }
-            },
+                  } else {
+                    return IconButton(
+                      onPressed:
+                          () => showDialog(
+                            context: context,
+                            builder: (context) => AuthDialog(),
+                          ),
+                      icon: Image.asset("${iconUrl}user_icon.png"),
+                    );
+                  }
+                },
+              ),
+            ],
           ),
         ],
       ),
