@@ -1,5 +1,9 @@
+import 'package:aceplus/shared/utils/strings.dart';
+import 'package:aceplus/shared/widgets/gradient_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:ui';
+import '../../../../../shared/widgets/label_slider.dart';
 
 class SettingDialog extends StatelessWidget {
   const SettingDialog({super.key});
@@ -37,7 +41,47 @@ class SettingDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 200, width: 300),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: GradientText(
+                          text: Str().settingTitle,
+                          textStyle: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        iconSize: 24,
+                        color: Colors.white70,
+                        onPressed: () {
+                          GoRouter.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 14),
+                  LabeledSlider(
+                    label: Str().bgMusic,
+                    initialValue: 100,
+                    onChanged: (value) {},
+                  ),
+                  LabeledSlider(
+                    label: Str().cardSound,
+                    initialValue: 100,
+                    onChanged: (value) {},
+                  ),
+                  LabeledSlider(
+                    label: Str().wheelSound,
+                    initialValue: 100,
+                    onChanged: (value) {},
+                  ),
+                  LabeledSlider(
+                    label: Str().winSound,
+                    initialValue: 100,
+                    onChanged: (value) {},
+                  ),
+                  SizedBox(height: 16),
                 ],
               ),
             ),
