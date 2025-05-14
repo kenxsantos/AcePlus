@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../shared/widgets/confirmation_dialog.dart';
 import '../../auth_dialog/auth_bloc/auth_bloc.dart';
@@ -7,13 +8,36 @@ import '../../auth_dialog/auth_bloc/auth_state.dart';
 import '../../auth_dialog/screens/auth_dialog.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 
-class HeaderContainer extends StatelessWidget {
-  HeaderContainer({super.key});
+class HeaderContainer extends StatefulWidget {
+  const HeaderContainer({super.key});
 
-  final isVolume = ValueNotifier<bool>(true);
+  @override
+  State<HeaderContainer> createState() => _HeaderContainerState();
+}
+
+class _HeaderContainerState extends State<HeaderContainer> {
+  final isPlaying = ValueNotifier<bool>(true);
+
+  final AudioPlayer player = AudioPlayer();
 
   void toggleVolume() {
-    isVolume.value = !isVolume.value;
+    isPlaying.value = !isPlaying.value;
+    if(isPlaying.value) {
+      player.resume();
+    } else {
+      player.pause();
+    }
+  }
+
+  Future<void> setupAudio() async {
+    await player.setReleaseMode(ReleaseMode.loop);
+    await player.play(AssetSource('sounds/jazz_music_bg.MP3'));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setupAudio();
   }
 
   @override
@@ -27,7 +51,7 @@ class HeaderContainer extends StatelessWidget {
           Row(
             children: [
               ValueListenableBuilder(
-                valueListenable: isVolume,
+                valueListenable: isPlaying,
                 builder: (context, value, child) {
                   return IconButton(
                     icon: Icon(value ? Icons.volume_up_rounded : Icons.volume_off_rounded),
