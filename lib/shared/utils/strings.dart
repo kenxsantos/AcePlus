@@ -20,4 +20,5 @@ class Str {
   final chooseCard = "Choose your card";
   final showingCard = "Showing Cards";
   final currentBalance = "Current Balance";
+  final settings = "Settings";
 }
