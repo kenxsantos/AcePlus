@@ -23,7 +23,7 @@ class HeaderContainer extends StatelessWidget {
         print("Sound is playing: $isPlaying");
 
         return Container(
-          padding: EdgeInsets.only(top: 50, right: 20, left: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
