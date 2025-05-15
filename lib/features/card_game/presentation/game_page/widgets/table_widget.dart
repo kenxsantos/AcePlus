@@ -39,27 +39,27 @@ class _TableWithCardsState extends State<TableWithCards> {
             final tableHeight = screenHeight * 0.25;
 
             final double tableTop = (screenHeight / 2) - (tableHeight / 2);
-            final double tableLeft = (screenWidth - tableWidth) / 2;
+
             return Stack(
               children: [
                 Positioned(
                   top: tableTop,
-                  left: tableLeft,
-                  child: SizedBox(
-                    width: 50,
-                    height: 75,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
                     child: AnimatedCards(),
                   ),
                 ),
-                Positioned(
-                  top: tableTop,
-                  left: tableLeft,
-                  child: SizedBox(
-                    width: 50,
-                    height: 75,
-                    child: Image.asset("${cardUrl}stack_of_cards.png"),
-                  ),
-                ),
+                // Positioned(
+                //   top: tableTop,
+                //   left: tableLeft,
+                //   child: SizedBox(
+                //     width: 50,
+                //     height: 75,
+                //     child: Image.asset("${cardUrl}stack_of_cards.png"),
+                //   ),
+                // ),
               ],
             );
           },
