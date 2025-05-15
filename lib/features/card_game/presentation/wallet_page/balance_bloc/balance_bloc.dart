@@ -1,4 +1,4 @@
-import 'package:aceplus/features/card_game/data/repositories/auth_repository.dart';
+import 'package:aceplus/core/repositories/auth_repository.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/balance_bloc/balance_event.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/balance_bloc/balance_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

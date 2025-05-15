@@ -1,6 +1,6 @@
 import 'package:aceplus/core/model/transaction_model/transaction_model.dart';
-import 'package:aceplus/features/card_game/data/repositories/auth_repository.dart';
-import 'package:aceplus/features/card_game/data/repositories/transaction_repository.dart';
+import 'package:aceplus/core/repositories/auth_repository.dart';
+import 'package:aceplus/core/repositories/transaction_repository.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_event.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
+import 'package:aceplus/core/datasource/timer_data_source.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

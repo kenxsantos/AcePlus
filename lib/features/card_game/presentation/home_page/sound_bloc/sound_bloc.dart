@@ -1,4 +1,4 @@
-import 'package:aceplus/features/card_game/data/repositories/sound_repository.dart';
+import 'package:aceplus/core/repositories/sound_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'sound_event.dart';
