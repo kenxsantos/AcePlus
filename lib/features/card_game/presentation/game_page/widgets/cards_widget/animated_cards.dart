@@ -14,7 +14,7 @@ class _AnimatedCardsState extends State<AnimatedCards>
     with TickerProviderStateMixin {
   List<int> cardNumbers = [0, 0, 0, 0];
   List<double> cardOdds = [0, 0, 0, 0];
-  int tappedIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CardBloc, CardState>(
@@ -28,7 +28,7 @@ class _AnimatedCardsState extends State<AnimatedCards>
       builder: (context, state) {
         bool isFlipped = false;
         bool isExpanded = false;
-        // int? tappedIndex;
+        int? tappedIndex;
 
         if (state is CardIsAnimated) {
           isExpanded = state.isExtended;
@@ -39,21 +39,18 @@ class _AnimatedCardsState extends State<AnimatedCards>
           print("State USer TAPP: ${state.index}");
         }
 
-        return Column(
-          children: [
-            Stack(
-              children: List.generate(
-                cardNumbers.length,
-                (index) => CardWidget(
-                  value: cardNumbers[index],
-                  odds: cardOdds[index],
-                  isFlipped: isFlipped,
-                  isExpanded: isExpanded,
-                  index: index,
-                ),
-              ),
+        return Stack(
+          children: List.generate(
+            cardNumbers.length,
+            (index) => CardWidget(
+              value: cardNumbers[index],
+              odds: cardOdds[index],
+              isFlipped: isFlipped,
+              isExpanded: isExpanded,
+
+              index: index,
             ),
-          ],
+          ),
         );
       },
     );
