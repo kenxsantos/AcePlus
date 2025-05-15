@@ -5,13 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'core/data_source/auth_data_source.dart';
+import 'core/data_source/sound_data_source.dart';
 import 'core/data_source/transaction_data_source.dart';
 import 'core/model/transaction_model/transaction_model.dart';
 import 'core/model/user_model/user_model.dart';
 import 'core/repository/auth_repository.dart';
+import 'core/repository/sound_repository.dart';
 import 'core/repository/transaction_repository.dart';
 import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_bloc.dart';
 import 'features/card_game/presentation/auth_dialog/auth_bloc/auth_event.dart';
+import 'features/card_game/presentation/home_page/sound_bloc/sound_bloc.dart';
+import 'features/card_game/presentation/home_page/sound_bloc/sound_event.dart';
 import 'features/card_game/presentation/wallet_page/balance_bloc/balance_bloc.dart';
 import 'features/card_game/presentation/wallet_page/transaction_bloc/transaction_bloc.dart';
 import 'features/card_game/presentation/wallet_page/transaction_bloc/transaction_event.dart';
@@ -71,6 +75,13 @@ void main() async {
         ),
         BlocProvider<BalanceBloc>(
           create: (context) => BalanceBloc(userRepository: authRepository),
+        ),
+        BlocProvider<SoundBloc>(
+          create: (context) => SoundBloc(
+            soundRepository: SoundRepository(
+              soundDataSource: SoundDataSource(),
+            ),
+          )..add(LoadSoundState()),
         ),
       ],
       child: MaterialApp.router(
