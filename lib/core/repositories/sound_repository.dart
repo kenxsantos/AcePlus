@@ -1,4 +1,4 @@
-import '../data_source/sound_data_source.dart';
+import 'package:aceplus/core/datasource/sound_data_source.dart';
 
 class SoundRepository {
   final SoundDataSource soundDataSource;
@@ -7,5 +7,6 @@ class SoundRepository {
 
   Future<bool> getSoundState() => soundDataSource.getSoundState();
 
-  Future<void> saveSoundState(bool isPlaying) => soundDataSource.saveSoundState(isPlaying);
+  Future<void> saveSoundState(bool isPlaying) =>
+      soundDataSource.saveSoundState(isPlaying);
 }

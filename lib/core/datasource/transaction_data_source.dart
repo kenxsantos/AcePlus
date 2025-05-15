@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:aceplus/core/model/transaction_model/transaction_model.dart';
 import 'package:hive/hive.dart';
-import '../model/transaction_model/transaction_model.dart';
 
 class TransactionDataSource {
   final Box<Transaction> _transactionBox = Hive.box<Transaction>('transaction');
@@ -50,15 +50,15 @@ class TransactionDataSource {
   }
 
   Future<List<Transaction>> getTransactionsByUserIdAndType(
-      int userId,
-      String transactionType,
-      ) async {
+    int userId,
+    String transactionType,
+  ) async {
     return _transactionBox.values
         .where(
           (transaction) =>
-      transaction.userId == userId &&
-          transaction.transactionType == transactionType,
-    )
+              transaction.userId == userId &&
+              transaction.transactionType == transactionType,
+        )
         .toList()
       ..sort((a, b) => b.transactionDate.compareTo(a.transactionDate));
   }

@@ -4,10 +4,13 @@ enum TimerStatus {
   initial,
   inProgress,
   starting,
-  completed,
+  started,
   showing,
-  showed,
+  completed,
+  showCards,
+  closeCards,
   chooseCard,
+  closing,
   error,
 }
 
@@ -15,9 +18,12 @@ extension TimerStatusX on TimerStatus {
   bool get isInitial => this == TimerStatus.initial;
   bool get isInProgress => this == TimerStatus.inProgress;
   bool get isStarting => this == TimerStatus.starting;
+  bool get isStarted => this == TimerStatus.started;
   bool get isCompleted => this == TimerStatus.completed;
+  bool get isShowCards => this == TimerStatus.showCards;
   bool get isShowing => this == TimerStatus.showing;
-  bool get isShowed => this == TimerStatus.showed;
+  bool get isClosing => this == TimerStatus.closing;
+  bool get isCloseCards => this == TimerStatus.closeCards;
   bool get isChooseCard => this == TimerStatus.chooseCard;
   bool get isError => this == TimerStatus.error;
 }

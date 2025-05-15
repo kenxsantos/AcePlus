@@ -1,8 +1,9 @@
+import 'package:aceplus/core/model/user_model/user_model.dart';
+import 'package:aceplus/core/repositories/auth_repository.dart';
+import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../../core/model/user_model/user_model.dart';
-import '../../../../../core/repository/auth_repository.dart';
-import '../../../../../shared/utils/logged_in_checker.dart';
+
 import 'auth_event.dart';
 import 'auth_state.dart';
 
@@ -40,7 +41,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await _repository.addAuth(user);
 
           emit(AuthRegisterSuccess('Account created successfully!'));
-
         }
 
         await Future.delayed(Duration(seconds: 3));

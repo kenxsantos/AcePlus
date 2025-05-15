@@ -53,7 +53,7 @@ class FourCardState extends State<FourCard>
             child: Image.asset(
               fit: BoxFit.fill,
               height: 330,
-              "${cardUrl}four.png",
+              "${cardUrl}old/four.png",
             ),
           ),
         );

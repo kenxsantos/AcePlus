@@ -1,12 +1,12 @@
+import 'package:aceplus/features/card_game/presentation/auth_dialog/auth_bloc/auth_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/auth_dialog/auth_bloc/auth_state.dart';
+import 'package:aceplus/features/card_game/presentation/auth_dialog/screens/auth_dialog.dart';
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/home_page/widgets/setting_dialog.dart';
+import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../shared/utils/logged_in_checker.dart';
-import '../../auth_dialog/auth_bloc/auth_bloc.dart';
-import '../../auth_dialog/auth_bloc/auth_state.dart';
-import '../../auth_dialog/screens/auth_dialog.dart';
 import 'package:aceplus/shared/widgets/gradient_button.dart';
 import 'package:aceplus/shared/utils/strings.dart';
 
@@ -63,7 +63,10 @@ class ButtonContainer extends StatelessWidget {
                 child: GradientButton(
                   labelText: Str().settings,
                   onPressed: () {
-                    showDialog(context: context, builder: (context) => SettingDialog());
+                    showDialog(
+                      context: context,
+                      builder: (context) => SettingDialog(),
+                    );
                   },
                 ),
               ),

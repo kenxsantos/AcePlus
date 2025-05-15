@@ -1,6 +1,6 @@
-import '../../../../../core/model/transaction_model/transaction_model.dart';
-import '../../../../../core/repository/auth_repository.dart';
-import '../../../../../core/repository/transaction_repository.dart';
+import 'package:aceplus/core/model/transaction_model/transaction_model.dart';
+import 'package:aceplus/core/repositories/auth_repository.dart';
+import 'package:aceplus/core/repositories/transaction_repository.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_event.dart';
 import 'package:aceplus/features/card_game/presentation/wallet_page/transaction_bloc/transaction_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +10,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final AuthRepository userRepository;
 
   TransactionBloc({required this.repository, required this.userRepository})
-      : super(TransactionInitial()) {
-
+    : super(TransactionInitial()) {
     on<AddTransaction>((event, emit) async {
       emit(TransactionLoading());
       try {
@@ -53,7 +52,11 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         await userRepository.updateTotalMoney(userId, newTotal);
 
         await repository.addTransaction(transaction);
-        emit(TransactionSuccessState('${event.transactionType} transaction completed successfully'));
+        emit(
+          TransactionSuccessState(
+            '${event.transactionType} transaction completed successfully',
+          ),
+        );
       } catch (e) {
         emit(TransactionError('Transaction failed: ${e.toString()}'));
       }
@@ -83,7 +86,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           return;
         }
 
-        print('Transactions Type: ${event.transactionType} Transactions: $transactions');
+        print(
+          'Transactions Type: ${event.transactionType} Transactions: $transactions',
+        );
         emit(TransactionsLoaded(transactions));
       } catch (e) {
         emit(TransactionError(e.toString()));

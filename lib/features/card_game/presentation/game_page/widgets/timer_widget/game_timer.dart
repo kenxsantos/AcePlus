@@ -1,3 +1,4 @@
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/bloc/card_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/timer_widget/bloc/timer_bloc.dart';
 import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GameTimerCircle extends StatelessWidget {
-  final String text;
-
-  const GameTimerCircle({super.key, required this.text});
+  const GameTimerCircle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,82 +14,90 @@ class GameTimerCircle extends StatelessWidget {
     final circleSize = screenWidth * 0.18;
     final borderWidth = circleSize * 0.07;
     final fontSize = circleSize * 0.5;
-    return BlocListener<TimerBloc, TimerState>(
-      listener: (context, state) async {
+    return BlocConsumer<TimerBloc, TimerState>(
+      listener: (context, state) {
         if (state.status.isCompleted) {
-          await Future.delayed(Duration(seconds: 1), () {
-            context.read<TimerBloc>().add(TimerStarted(duration: 10));
-          });
+          context.read<CardBloc>().add(CardRandomize());
+          context.read<CardBloc>().add(
+            CardToggelAnimate(isFlipped: false, isExtended: true),
+          );
+          context.read<TimerBloc>().add(TimerStarted(duration: 5));
         }
-        if (state.status.isShowed) {
-          await Future.delayed(Duration(seconds: 1), () {
-            context.read<TimerBloc>().add(ShowCards(duration: 5));
-          });
+        if (state.status.isShowCards) {
+          context.read<CardBloc>().add(
+            CardToggelAnimate(isFlipped: true, isExtended: true),
+          );
+          context.read<TimerBloc>().add(ShowCards(duration: 3));
+        }
+        if (state.status.isCloseCards) {
+          context.read<TimerBloc>().add(TimerStarting(duration: 3));
+          context.read<CardBloc>().add(
+            CardToggelAnimate(isFlipped: false, isExtended: false),
+          );
         }
 
-        print("State: ${state.status}");
+        print("State Updated: ${state.status}");
       },
-      child: BlocBuilder<TimerBloc, TimerState>(
-        builder: (context, state) {
-          return Column(
-            children: [
-              Text(
-                state.text,
-                style: GoogleFonts.lemon(
-                  textStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: primaryYellow,
-                  ),
+
+      builder: (context, state) {
+        return Column(
+          children: [
+            Text(
+              state.text,
+              style: GoogleFonts.lemon(
+                textStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: primaryYellow,
                 ),
               ),
-              SizedBox(
-                width: circleSize,
-                height: circleSize,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.transparent,
-                    border: Border.all(
-                      color: const Color(0xFF7D1F22),
-                      width: borderWidth,
+            ),
+            SizedBox(
+              width: circleSize,
+              height: circleSize,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.transparent,
+                  border: Border.all(
+                    color: const Color(0xFF7D1F22),
+                    width: borderWidth,
+                  ),
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Text(
+                      state.duration.toString(),
+                      style: GoogleFonts.lemon(
+                        textStyle: TextStyle(
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                          foreground:
+                              Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = borderWidth
+                                ..color = const Color(0xFF7D1F22),
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Text(
-                        state.duration.toString(),
-                        style: GoogleFonts.lemon(
-                          textStyle: TextStyle(
-                            fontSize: fontSize,
-                            fontWeight: FontWeight.bold,
-                            foreground:
-                                Paint()
-                                  ..style = PaintingStyle.stroke
-                                  ..strokeWidth = borderWidth
-                                  ..color = const Color(0xFF7D1F22),
-                          ),
+                    Text(
+                      state.duration.toString(),
+                      style: GoogleFonts.lemon(
+                        textStyle: TextStyle(
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFFFD700),
                         ),
                       ),
-                      Text(
-                        state.duration.toString(),
-                        style: GoogleFonts.lemon(
-                          textStyle: TextStyle(
-                            fontSize: fontSize,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFFFFD700),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

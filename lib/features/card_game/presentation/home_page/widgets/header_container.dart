@@ -23,15 +23,22 @@ class HeaderContainer extends StatelessWidget {
         print("Sound is playing: $isPlaying");
 
         return Container(
-          padding: EdgeInsets.only(top: 50, right: 20, left: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("ACE +", style: TextStyle(color: primaryYellow, fontSize: 20)),
+              Text(
+                "ACE +",
+                style: TextStyle(color: primaryYellow, fontSize: 20),
+              ),
               Row(
                 children: [
                   IconButton(
-                    icon: Icon(isPlaying ? Icons.volume_up_rounded : Icons.volume_off_rounded),
+                    icon: Icon(
+                      isPlaying
+                          ? Icons.volume_up_rounded
+                          : Icons.volume_off_rounded,
+                    ),
                     color: isPlaying ? primaryYellow : Colors.white70,
                     iconSize: 26,
                     onPressed: () {
@@ -58,14 +65,18 @@ class HeaderContainer extends StatelessWidget {
                               onPressed: () {
                                 showDialog(
                                   context: context,
-                                  builder: (context) => ConfirmationDialog(
-                                    title: "Logout Confirmation",
-                                    content: "Are you sure you want to logout?",
-                                    onConfirm: () {
-                                      Navigator.of(context).pop();
-                                      context.read<AuthBloc>().add(LogoutAuth());
-                                    },
-                                  ),
+                                  builder:
+                                      (context) => ConfirmationDialog(
+                                        title: "Logout Confirmation",
+                                        content:
+                                            "Are you sure you want to logout?",
+                                        onConfirm: () {
+                                          Navigator.of(context).pop();
+                                          context.read<AuthBloc>().add(
+                                            LogoutAuth(),
+                                          );
+                                        },
+                                      ),
                                 );
                               },
                               icon: Icon(Icons.logout, color: primaryYellow),
@@ -74,10 +85,11 @@ class HeaderContainer extends StatelessWidget {
                         );
                       } else {
                         return IconButton(
-                          onPressed: () => showDialog(
-                            context: context,
-                            builder: (context) => AuthDialog(),
-                          ),
+                          onPressed:
+                              () => showDialog(
+                                context: context,
+                                builder: (context) => AuthDialog(),
+                              ),
                           icon: Image.asset("${iconUrl}user_icon.png"),
                         );
                       }

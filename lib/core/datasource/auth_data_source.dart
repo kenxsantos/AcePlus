@@ -1,5 +1,5 @@
+import 'package:aceplus/core/model/user_model/user_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../model/user_model/user_model.dart';
 
 class AuthDataSource {
   final Box<User> _userBox = Hive.box<User>('user');
@@ -22,8 +22,8 @@ class AuthDataSource {
       return _userBox.values
           .firstWhere(
             (auth) =>
-        auth.mobileNumber == mobileNumber && auth.password == password,
-      )
+                auth.mobileNumber == mobileNumber && auth.password == password,
+          )
           .userId;
     } catch (e) {
       return null;

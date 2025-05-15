@@ -1,5 +1,5 @@
-import '../data_source/auth_data_source.dart';
-import '../model/user_model/user_model.dart';
+import 'package:aceplus/core/model/user_model/user_model.dart';
+import 'package:aceplus/core/datasource/auth_data_source.dart';
 
 class AuthRepository {
   final AuthDataSource _dataSource;
@@ -14,7 +14,8 @@ class AuthRepository {
 
   List<User> getAllAuths() => _dataSource.getAllAuths();
 
-  bool mobileNumberExists(String mobileNumber) => _dataSource.mobileNumberExists(mobileNumber);
+  bool mobileNumberExists(String mobileNumber) =>
+      _dataSource.mobileNumberExists(mobileNumber);
 
   int? searchAuth(String mobileNumber, String password) {
     return _dataSource.searchAuth(mobileNumber, password);

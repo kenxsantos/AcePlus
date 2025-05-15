@@ -51,7 +51,7 @@ class TenCardState extends State<TenCard> with SingleTickerProviderStateMixin {
             child: Image.asset(
               fit: BoxFit.fill,
               height: 330,
-              "${cardUrl}ten.png",
+              "${cardUrl}old/ten.png",
             ),
           ),
         );

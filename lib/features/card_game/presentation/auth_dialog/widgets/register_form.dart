@@ -142,7 +142,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   if (mobileNumberError.value == null &&
                       passwordError.value == null) {
                     if (mobileNumber.isNotEmpty && password.isNotEmpty) {
-                      context.read<AuthBloc>().add(AddAuth(mobileNumber, password));
+                      context.read<AuthBloc>().add(
+                        AddAuth(mobileNumber, password),
+                      );
                     }
                   } else {
                     if (mobileNumber.isEmpty) {

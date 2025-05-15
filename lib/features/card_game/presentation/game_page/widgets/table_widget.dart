@@ -1,5 +1,5 @@
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/animated_cards.dart';
-import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/card_1.dart';
+import 'package:aceplus/shared/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class TableWithCards extends StatefulWidget {
@@ -23,8 +23,6 @@ class _TableWithCardsState extends State<TableWithCards> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    final tableHeight = screenHeight * 0.25;
-
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -40,86 +38,32 @@ class _TableWithCardsState extends State<TableWithCards> {
             final tableWidth = screenWidth * 0.95;
             final tableHeight = screenHeight * 0.25;
 
-            final double cardSpacing = 10.0;
-            final double cardWidth = 50.0;
-            final double cardHeight = 66.0;
-            final double totalWidth = (4 * cardWidth) + (3 * cardSpacing);
-            final double startLeft = (tableWidth - totalWidth) / 2;
-
             final double tableTop = (screenHeight / 2) - (tableHeight / 2);
-            final double tableLeft = (screenWidth - tableWidth) / 2;
+
             return Stack(
               children: [
                 Positioned(
                   top: tableTop,
-                  left: tableLeft,
-                  child: SizedBox(
-                    width: 50,
-                    height: 75,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
                     child: AnimatedCards(),
                   ),
                 ),
+                // Positioned(
+                //   top: tableTop,
+                //   left: tableLeft,
+                //   child: SizedBox(
+                //     width: 50,
+                //     height: 75,
+                //     child: Image.asset("${cardUrl}stack_of_cards.png"),
+                //   ),
+                // ),
               ],
             );
-            // return Stack(
-            //   children: [
-            //     ...List.generate(2, (index) {
-            //       return AnimatedPositioned(
-            //         duration: const Duration(seconds: 1),
-            //         curve: Curves.easeInOut,
-            //         top:
-            //             isDistributed
-            //                 ? tableTop +
-            //                     (tableHeight / 2) -
-            //                     (cardHeight / 2) +
-            //                     3
-            //                 : tableTop + 3,
-            //         left:
-            //             isDistributed
-            //                 ? tableLeft +
-            //                     startLeft +
-            //                     (index * (cardWidth + cardSpacing))
-            //                 : tableLeft,
-            //         child: Image.asset(
-            //           'assets/images/card_back.png',
-            //           width: cardWidth,
-            //           height: cardHeight,
-            //         ),
-            //       );
-            //     }),
-            //     Positioned(
-            //       top: tableTop,
-            //       left: tableLeft,
-            //       child: GestureDetector(
-            //         onTap: () {
-            //           _isDistributedNotifier.value =
-            //               !_isDistributedNotifier.value;
-            //         },
-            //         child: Image.asset(
-            //           'assets/images/stack_of_cards.png',
-            //           width: 50,
-            //           height: 75,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // );
           },
         ),
-        // Positioned(
-        //   top: (screenHeight / 2) - (tableHeight / 2),
-        //   left: (screenWidth * 0.025),
-        //   child: GestureDetector(
-        //     onTap: () {
-        //       _isDistributedNotifier.value = !_isDistributedNotifier.value;
-        //     },
-        //     child: Image.asset(
-        //       'assets/images/stack_of_cards.png',
-        //       width: 50,
-        //       height: 75,
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }

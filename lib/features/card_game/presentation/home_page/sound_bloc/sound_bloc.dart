@@ -1,6 +1,6 @@
+import 'package:aceplus/core/repositories/sound_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:audioplayers/audioplayers.dart';
-import '../../../../../core/repository/sound_repository.dart';
 import 'sound_event.dart';
 import 'sound_state.dart';
 

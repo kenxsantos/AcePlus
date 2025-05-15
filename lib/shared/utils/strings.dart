@@ -26,4 +26,5 @@ class Str {
   final cardSound = "Card Sound";
   final wheelSound = "Wheel Sound";
   final winSound = "Win Sound";
+  final closeCards = "Close Cards";
 }
