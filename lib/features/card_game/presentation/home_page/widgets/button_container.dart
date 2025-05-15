@@ -31,7 +31,7 @@ class ButtonContainer extends StatelessWidget {
                       if (context.mounted) {
                         context.go('/game/$userId');
                         context.read<TimerBloc>().add(
-                          TimerStarting(duration: 5),
+                          TimerStarting(duration: 3),
                         );
                       }
                     }

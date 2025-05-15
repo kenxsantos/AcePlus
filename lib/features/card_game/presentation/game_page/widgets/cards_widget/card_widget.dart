@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/bloc/card_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/game_page/widgets/cards_widget/odds_text_widget.dart';
 import 'package:aceplus/shared/utils/card_enums.dart';
 import 'package:flutter/material.dart';
@@ -94,34 +95,47 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
         return Transform.translate(
           offset:
               positionAnimation.value * MediaQuery.of(context).size.width / 2,
+          transformHitTests: true,
           child: Transform.rotate(
             angle: rotationAnimation.value,
+            transformHitTests: true,
             child: Transform(
+              transformHitTests: true,
               alignment: Alignment.center,
               transform:
                   Matrix4.identity()
                     ..setEntry(3, 2, 0.001)
                     ..rotateY(flipAnimation.value),
-              child:
-                  isHalfway
-                      ? Image.asset(
-                        getCardByValue(widget.value).cardPath,
-                        width: 50,
-                        height: 66,
-                      )
-                      : Stack(
-                        alignment: Alignment.center, // Centers the text
-                        children: [
-                          Image.asset(
-                            "${cardUrl}card_back.png",
-                            width: 50,
-                            height: 66,
+              child: GestureDetector(
+                onTap:
+                    () => {
+                      print("Card ${widget.index}"),
+                      if (!widget.isExpanded)
+                        {
+                          context.read<CardBloc>().add(
+                            ChooseCard(index: widget.index),
                           ),
-                          widget.isExpanded
-                              ? OddsTextWidget(odds: widget.odds)
-                              : SizedBox(),
-                        ],
-                      ),
+                        },
+                    },
+                child:
+                    isHalfway
+                        ? Image.asset(
+                          getCardByValue(widget.value).cardPath,
+                          width: 50,
+                          height: 66,
+                        )
+                        : Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.asset(
+                              "${cardUrl}card_back.png",
+                              width: 50,
+                              height: 66,
+                            ),
+                            // widget.isExpanded ? OddsTextWidget(odds: widget.odds) : SizedBox(),
+                          ],
+                        ),
+              ),
             ),
           ),
         );
