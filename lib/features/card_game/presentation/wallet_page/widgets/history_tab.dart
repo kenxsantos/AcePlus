@@ -21,10 +21,12 @@ class HistoryTabBar extends StatefulWidget {
 class _HistoryTabBarState extends State<HistoryTabBar>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+  late final String id;
 
   @override
   void initState() {
     super.initState();
+    id = widget.id;
     _tabController = TabController(length: 2, vsync: this);
 
     _tabController.addListener(() {
@@ -89,12 +91,17 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                       itemBuilder: (context, index) {
                         final transaction = cashInTransactions[index];
                         return GestureDetector(
-                          onTap: () => context.goNamed("show-receipt"),
+                          onTap:
+                              () => context.go(
+                                '/show-receipt/$id/${transaction.transactionId}',
+                              ),
                           child: HistoryTile(
                             text: transaction.transactionType,
                             color: Color(0xFF42F271),
                             date: transaction.transactionDate,
-                            amount: double.parse(transaction.amount.toString()).toStringAsFixed(2),
+                            amount: double.parse(
+                              transaction.amount.toString(),
+                            ).toStringAsFixed(2),
                           ),
                         );
                       },
@@ -102,7 +109,7 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                   } else if (state is NoDataState) {
                     return CenteredText(state.message, Colors.white);
                   } else if (state is TransactionError) {
-                    return CenteredText(state.error, Color(0xFFF56C6C));
+                    return CenteredText(state.error, Color(0xFFF24242));
                   } else {
                     return CenteredText("No Transactions Found", Colors.white);
                   }
@@ -123,10 +130,13 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                       itemBuilder: (context, index) {
                         final transaction = cashOutTransactions[index];
                         return GestureDetector(
-                          onTap: () => context.goNamed("show-receipt"),
+                          onTap:
+                              () => context.go(
+                                '/show-receipt/$id/${transaction.transactionId}',
+                              ),
                           child: HistoryTile(
                             text: transaction.transactionType,
-                            color: Colors.red,
+                            color: Color(0xFFF24242),
                             date: transaction.transactionDate,
                             amount: transaction.amount.toString(),
                           ),
@@ -136,7 +146,7 @@ class _HistoryTabBarState extends State<HistoryTabBar>
                   } else if (state is NoDataState) {
                     return CenteredText(state.message, Colors.white);
                   } else if (state is TransactionError) {
-                    return CenteredText(state.error, Color(0xFFF56C6C));
+                    return CenteredText(state.error, Color(0xFFF24242));
                   } else {
                     return CenteredText("No Transactions Found", Colors.white);
                   }

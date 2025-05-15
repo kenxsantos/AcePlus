@@ -1,5 +1,5 @@
 String? validateMobileNumber(String mobileNumber) {
-  final mobileNumberRegex = RegExp(r'^\d{11}$');
+  final mobileNumberRegex = RegExp(r'^09\d{9}$');
   if (!mobileNumberRegex.hasMatch(mobileNumber)) {
     return 'Phone Number must be 11 digits';
   }

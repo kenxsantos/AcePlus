@@ -13,6 +13,11 @@ class TransactionsLoaded extends TransactionState {
   const TransactionsLoaded(this.transactions);
 }
 
+class TransactionLoaded extends TransactionState {
+  final Transaction transaction;
+  const TransactionLoaded(this.transaction);
+}
+
 class TransactionsError extends TransactionState {
   final String message;
   const TransactionsError(this.message);

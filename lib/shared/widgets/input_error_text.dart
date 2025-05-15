@@ -21,7 +21,7 @@ class InputErrorText extends StatelessWidget {
             child: Text(
               error,
               style: TextStyle(
-                color: Color(0xFFF56C6C),
+                color: Color(0xFFF24242),
                 fontSize: 8,
                 fontFamily: poppins,
               ),
