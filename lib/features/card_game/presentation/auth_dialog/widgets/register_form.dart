@@ -9,7 +9,6 @@ import '../../../../../shared/utils/validators.dart';
 import '../../../../../shared/widgets/message_text.dart';
 import '../auth_bloc/auth_bloc.dart';
 import '../auth_bloc/auth_event.dart';
-import '../../../data/models/auth_model/auth_model.dart';
 import '../auth_bloc/auth_state.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -56,7 +55,7 @@ class _RegisterFormState extends State<RegisterForm> {
         String? message;
         Color? messageColor;
 
-        if (state is AuthSuccess) {
+        if (state is AuthRegisterSuccess) {
           message = state.message;
           messageColor = Colors.green;
 
@@ -71,7 +70,7 @@ class _RegisterFormState extends State<RegisterForm> {
           isClearing = false;
         } else if (state is AuthRegisterError) {
           message = state.message;
-          messageColor = Color(0xFFF56C6C);
+          messageColor = Color(0xFFF24242);
         }
 
         return Container(
@@ -143,11 +142,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   if (mobileNumberError.value == null &&
                       passwordError.value == null) {
                     if (mobileNumber.isNotEmpty && password.isNotEmpty) {
-                      final auth = Auth(
-                        mobileNumber: mobileNumber,
-                        password: password,
+                      context.read<AuthBloc>().add(
+                        AddAuth(mobileNumber, password),
                       );
-                      context.read<AuthBloc>().add(AddAuth(auth));
                     }
                   } else {
                     if (mobileNumber.isEmpty) {

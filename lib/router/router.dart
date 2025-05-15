@@ -24,19 +24,28 @@ class AppRouter {
           builder: (context, state) => const HomePage(),
         ),
         GoRoute(
-          path: '/wallet',
+          path: '/wallet/:id',
           name: 'wallet',
-          builder: (context, state) => const WalletPage(),
+          builder: (context, state) {
+            final id = state.pathParameters['id'];
+            return WalletPage(id: id!);
+          },
         ),
         GoRoute(
-          path: '/transaction-history',
+          path: '/transaction-history/:id',
           name: 'transaction-history',
-          builder: (context, state) => const TransactionHistoryPage(),
+          builder:
+              (context, state) =>
+                  TransactionHistoryPage(id: state.pathParameters['id'] ?? ''),
         ),
         GoRoute(
-          path: '/show-receipt',
+          path: '/show-receipt/:id/:transactionId',
           name: 'show-receipt',
-          builder: (context, state) => const ReceiptPage(),
+          builder: (context, state) {
+            final id = state.pathParameters['id']!;
+            final transactionId = state.pathParameters['transactionId']!;
+            return ReceiptPage(id: id, transactionId: transactionId);
+          },
         ),
         GoRoute(
           path: '/game/:id',

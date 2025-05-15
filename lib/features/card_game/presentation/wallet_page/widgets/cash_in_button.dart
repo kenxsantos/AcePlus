@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CashInButton extends StatelessWidget {
-  const CashInButton({super.key});
+  final String id;
+  const CashInButton({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.goNamed("wallet"),
+      onTap: () => context.goNamed("wallet", pathParameters: {"id": id}),
       child: Container(
         decoration: BoxDecoration(
           border: Border(

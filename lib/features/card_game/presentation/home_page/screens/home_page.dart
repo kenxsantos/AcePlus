@@ -23,10 +23,18 @@ class HomePage extends StatelessWidget {
                 children: [
                   HeaderContainer(),
                   TextContainer(),
-                  ButtonContainer(),
                   Expanded(
                     child: Stack(
-                      children: [RouletteContainer(), ImageContainer()],
+                      children: [
+                        RouletteContainer(),
+                        ImageContainer(),
+                        Positioned(
+                          top: 20,
+                          left: 0,
+                          right: 0,
+                          child: ButtonContainer(),
+                        ),
+                      ],
                     ),
                   ),
                 ],

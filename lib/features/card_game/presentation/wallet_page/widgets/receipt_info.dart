@@ -10,7 +10,7 @@ class ReceiptInfo extends StatelessWidget {
   });
 
   final String txtTitle;
-  final String txtValue;
+  final InlineSpan txtValue;
   final Color txtColor;
 
   @override
@@ -21,7 +21,9 @@ class ReceiptInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(txtTitle, style: TextStyle(color: primaryWhite, fontSize: 12)),
-          Text(txtValue, style: TextStyle(color: txtColor, fontSize: 12)),
+          RichText(
+            text: txtValue,
+          ),
         ],
       ),
     );

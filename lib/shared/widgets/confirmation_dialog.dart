@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:aceplus/shared/utils/constant.dart';
+import 'package:go_router/go_router.dart';
 
 import 'gradient_button.dart';
 
@@ -73,7 +74,7 @@ class ConfirmationDialog extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          GoRouter.of(context).pop();
                         },
                         child: Text(
                           'Cancel',

@@ -1,18 +1,17 @@
 import 'package:equatable/equatable.dart';
-import '../../../data/models/auth_model/auth_model.dart';
 
 abstract class AuthEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class LoadAuths extends AuthEvent {}
+class LoadUsers extends AuthEvent {}
 
-class SearchAuth extends AuthEvent {
+class SearchUser extends AuthEvent {
   final String mobileNumber;
   final String password;
 
-  SearchAuth(this.mobileNumber, this.password);
+  SearchUser(this.mobileNumber, this.password);
 
   @override
   List<Object?> get props => [mobileNumber, password];
@@ -21,12 +20,13 @@ class SearchAuth extends AuthEvent {
 class LogoutAuth extends AuthEvent {}
 
 class AddAuth extends AuthEvent {
-  final Auth auth;
+  final String mobileNumber;
+  final String password;
 
-  AddAuth(this.auth);
+  AddAuth(this.mobileNumber, this.password);
 
   @override
-  List<Object?> get props => [auth];
+  List<Object?> get props => [mobileNumber, password];
 }
 
 class DeleteAuth extends AuthEvent {
