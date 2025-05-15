@@ -20,4 +20,10 @@ class Str {
   final chooseCard = "Choose your card";
   final showingCard = "Showing Cards";
   final currentBalance = "Current Balance";
+  final settings = "Settings";
+  final settingTitle = "Sounds & Musics";
+  final bgMusic = "Background Music";
+  final cardSound = "Card Sound";
+  final wheelSound = "Wheel Sound";
+  final winSound = "Win Sound";
 }
