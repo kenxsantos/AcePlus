@@ -1,5 +1,5 @@
 import 'package:aceplus/core/model/transaction_model/transaction_model.dart';
-import 'package:aceplus/features/card_game/data/datasource/transaction_data_source.dart';
+import 'package:aceplus/core/datasource/transaction_data_source.dart';
 
 class TransactionRepository {
   final TransactionDataSource _dataSource;

@@ -1,4 +1,4 @@
-import 'package:aceplus/features/card_game/data/datasource/sound_data_source.dart';
+import 'package:aceplus/core/datasource/sound_data_source.dart';
 
 class SoundRepository {
   final SoundDataSource soundDataSource;
