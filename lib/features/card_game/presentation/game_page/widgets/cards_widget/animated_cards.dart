@@ -19,24 +19,29 @@ class _AnimatedCardsState extends State<AnimatedCards>
   Widget build(BuildContext context) {
     return BlocConsumer<CardBloc, CardState>(
       listener: (context, state) {
-        if (state is CardGenerated) {
+        if (state.status.isCardGenerated) {
           cardNumbers = state.numbers;
           cardOdds = state.odds;
+          print("State Animate card numbers: $cardNumbers");
+          print("State Animate card odds: $cardOdds");
         }
       },
 
       builder: (context, state) {
         bool isFlipped = false;
         bool isExpanded = false;
-        int? tappedIndex;
 
-        if (state is CardIsAnimated) {
+        if (state.status.isAnimateCard) {
           isExpanded = state.isExtended;
           isFlipped = state.isFlipped;
+          print("State Animate isExpanded: ${state.isExtended}");
+          print("State Animate isFlipped: ${state.isFlipped}");
         }
-        if (state is CardIsTapped) {
-          tappedIndex = state.index;
-          print("State USer TAPP: ${state.index}");
+        if (state.status.isCardTap) {
+          // tappedIndex = state.index;
+          isExpanded = state.isExtended;
+
+          print("State Animate isTapped: ${state.isTapped}");
         }
 
         return Stack(
@@ -47,7 +52,7 @@ class _AnimatedCardsState extends State<AnimatedCards>
               odds: cardOdds[index],
               isFlipped: isFlipped,
               isExpanded: isExpanded,
-
+              isTapped: state.tappedIndices.contains(index),
               index: index,
             ),
           ),

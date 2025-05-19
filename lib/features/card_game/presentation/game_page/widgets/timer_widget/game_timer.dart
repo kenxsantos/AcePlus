@@ -34,6 +34,7 @@ class GameTimerCircle extends StatelessWidget {
           context.read<CardBloc>().add(
             CardToggelAnimate(isFlipped: false, isExtended: false),
           );
+          context.read<CardBloc>().add(ResetSelectedCards());
         }
 
         print("State Updated: ${state.status}");

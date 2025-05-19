@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CardWidget extends StatefulWidget {
   bool isFlipped;
   bool isExpanded;
+  bool isTapped;
   final int value;
   final int index;
   final double odds;
@@ -17,6 +18,7 @@ class CardWidget extends StatefulWidget {
     super.key,
     required this.isFlipped,
     required this.isExpanded,
+    required this.isTapped,
     required this.value,
     required this.index,
     required this.odds,
@@ -110,30 +112,43 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                 onTap:
                     () => {
                       print("Card ${widget.index}"),
-                      if (!widget.isExpanded)
+                      if (widget.isExpanded && !widget.isFlipped)
                         {
                           context.read<CardBloc>().add(
                             ChooseCard(index: widget.index),
                           ),
+                          print("State Animate Index: ${widget.index}"),
                         },
                     },
                 child:
                     isHalfway
-                        ? Image.asset(
-                          getCardByValue(widget.value).cardPath,
-                          width: 50,
-                          height: 66,
+                        ? AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          width: widget.isTapped ? 60 : 50,
+                          height: widget.isTapped ? 76 : 66,
+                          child: Image.asset(
+                            getCardByValue(widget.value).cardPath,
+                            fit: BoxFit.contain,
+                          ),
                         )
-                        : Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Image.asset(
-                              "${cardUrl}card_back.png",
-                              width: 50,
-                              height: 66,
-                            ),
-                            // widget.isExpanded ? OddsTextWidget(odds: widget.odds) : SizedBox(),
-                          ],
+                        : AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          width: widget.isTapped ? 60 : 50,
+                          height: widget.isTapped ? 76 : 66,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Image.asset(
+                                "${cardUrl}card_back.png",
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.contain,
+                              ),
+                              widget.isExpanded
+                                  ? OddsTextWidget(odds: widget.odds)
+                                  : SizedBox(),
+                            ],
+                          ),
                         ),
               ),
             ),
