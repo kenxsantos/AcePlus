@@ -1,50 +1,82 @@
 part of 'card_bloc.dart';
 
-sealed class CardState extends Equatable {
-  const CardState();
-
-  @override
-  List<Object> get props => [];
+enum CardStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+  generateCard,
+  animateCard,
+  cardTap,
 }
 
-final class CardInitial extends CardState {}
+extension CardStatusX on CardStatus {
+  bool get isInitial => this == CardStatus.initial;
+  bool get isLoading => this == CardStatus.loading;
+  bool get isLoaded => this == CardStatus.loaded;
+  bool get isError => this == CardStatus.error;
+  bool get isCardGenerated => this == CardStatus.generateCard;
+  bool get isAnimateCard => this == CardStatus.animateCard;
+  bool get isCardTap => this == CardStatus.cardTap;
+}
 
-class CardGenerated extends CardState {
+class CardState extends Equatable {
   final List<int> numbers;
   final List<double> odds;
-  const CardGenerated(this.numbers, this.odds);
-
-  @override
-  List<Object> get props => [numbers, odds];
-}
-
-class CardGenerateOdss extends CardState {
-  final List<int> numbers;
-  const CardGenerateOdss(this.numbers);
-
-  @override
-  List<Object> get props => [numbers];
-}
-
-class CardIsAnimated extends CardState {
   final bool isFlipped;
   final bool isExtended;
+  final bool isTapped;
+  final Set<int> tappedIndices;
+  final bool isAce;
+  final bool isJoker;
+  final CardStatus status;
 
-  const CardIsAnimated(this.isFlipped, this.isExtended);
+  const CardState({
+    this.numbers = const [],
+    this.odds = const [],
+    this.isFlipped = false,
+    this.isExtended = false,
+    this.isTapped = false,
+    this.tappedIndices = const {},
+    this.isAce = false,
+    this.isJoker = false,
+    this.status = CardStatus.initial,
+  });
+
+  CardState copyWith({
+    List<int>? numbers,
+    List<double>? odds,
+    bool? isFlipped,
+    bool? isExtended,
+    bool? isTapped,
+    Set<int>? tappedIndices,
+    bool? isAce,
+    bool? isJoker,
+    CardStatus? status,
+  }) {
+    return CardState(
+      numbers: numbers ?? this.numbers,
+      odds: odds ?? this.odds,
+      isFlipped: isFlipped ?? this.isFlipped,
+      isExtended: isExtended ?? this.isExtended,
+      isTapped: isTapped ?? this.isTapped,
+      tappedIndices: tappedIndices ?? this.tappedIndices,
+      isAce: isAce ?? this.isAce,
+      isJoker: isJoker ?? this.isJoker,
+      status: status ?? this.status,
+    );
+  }
 
   @override
-  List<Object> get props => [isFlipped, isExtended];
+  List<Object?> get props => [
+    numbers,
+    odds,
+    isFlipped,
+    isExtended,
+    isTapped,
+    tappedIndices,
+    isAce,
+    isJoker,
+    status,
+  ];
 }
-
-class CardIsTapped extends CardState {
-  final int index;
-
-  const CardIsTapped(this.index);
-
-  @override
-  List<Object> get props => [index];
-}
-
-final class CardAce extends CardState {}
-
-final class CardJoker extends CardState {}

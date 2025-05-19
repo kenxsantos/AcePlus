@@ -20,6 +20,10 @@ class CardToggelAnimate extends CardEvent {
 
 class ChooseCard extends CardEvent {
   const ChooseCard({required this.index});
-
   final int index;
+
+  @override
+  List<Object> get props => [index];
 }
+
+class ResetSelectedCards extends CardEvent {}
