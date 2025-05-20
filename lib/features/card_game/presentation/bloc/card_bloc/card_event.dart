@@ -18,12 +18,11 @@ class CardToggelAnimate extends CardEvent {
   final bool isExtended;
 }
 
-class ChooseCard extends CardEvent {
-  const ChooseCard({required this.index});
+class PlaceBet extends CardEvent {
   final int index;
+  final double amount;
 
-  @override
-  List<Object> get props => [index];
+  const PlaceBet(this.index, this.amount);
 }
 
 class ResetSelectedCards extends CardEvent {}
