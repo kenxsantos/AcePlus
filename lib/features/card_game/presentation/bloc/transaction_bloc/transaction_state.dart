@@ -1,4 +1,4 @@
-import '../../../data/model/transaction_model/transaction_model.dart';
+import 'package:aceplus/features/card_game/domain/entities/transaction_entity.dart';
 
 abstract class TransactionState {
   const TransactionState();
@@ -9,12 +9,12 @@ class TransactionInitial extends TransactionState {}
 class TransactionLoading extends TransactionState {}
 
 class TransactionsLoaded extends TransactionState {
-  final List<Transaction> transactions;
+  final List<TransactionEntity> transactions;
   const TransactionsLoaded(this.transactions);
 }
 
 class TransactionLoaded extends TransactionState {
-  final Transaction transaction;
+  final TransactionEntity transaction;
   const TransactionLoaded(this.transaction);
 }
 
