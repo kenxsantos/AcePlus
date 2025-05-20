@@ -37,7 +37,7 @@ class _TableWithCardsState extends State<TableWithCards> {
           builder: (context, isDistributed, child) {
             final tableWidth = screenWidth * 0.95;
             final tableHeight = screenHeight * 0.25;
-
+            final double tableLeft = (screenWidth - tableWidth) / 2;
             final double tableTop = (screenHeight / 2) - (tableHeight / 2);
 
             return Stack(
@@ -55,8 +55,8 @@ class _TableWithCardsState extends State<TableWithCards> {
                 //   top: tableTop,
                 //   left: tableLeft,
                 //   child: SizedBox(
-                //     width: 50,
-                //     height: 75,
+                //     width: 55,
+                //     height: 85,
                 //     child: Image.asset("${cardUrl}stack_of_cards.png"),
                 //   ),
                 // ),
