@@ -1,20 +1,92 @@
+import 'package:aceplus/features/card_game/data/model/transaction_model/transaction_model.dart';
+import 'package:aceplus/features/card_game/data/model/user_model/user_model.dart';
+import 'package:aceplus/features/card_game/data/datasource/auth_data_source.dart';
+import 'package:aceplus/features/card_game/data/datasource/sound_data_source.dart';
+import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
+import 'package:aceplus/features/card_game/data/datasource/transaction_data_source.dart';
+import 'package:aceplus/features/card_game/data/repositories/auth_repository.dart';
+import 'package:aceplus/features/card_game/data/repositories/sound_repository.dart';
+import 'package:aceplus/features/card_game/data/repositories/transaction_repository.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_event.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/card_bloc/card_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/timer_bloc/timer_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/sound_bloc/sound_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/sound_bloc/sound_event.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/balance_bloc/balance_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/transaction_bloc/transaction_bloc.dart';
+import 'package:aceplus/router/router.dart';
+import 'package:aceplus/shared/utils/bloc_observer.dart';
+import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
-  runApp(const MainApp());
+Future<void> initHive() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(TransactionAdapter());
+  await Hive.openBox<User>('user');
+  await Hive.openBox<Transaction>('transaction');
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+  await initHive();
+
+  final appRouter = AppRouter();
+  final authDataSource = AuthDataSource();
+  final authRepository = AuthRepository(authDataSource);
+  final transactionDataSource = TransactionDataSource();
+  final transactionRepository = TransactionRepository(transactionDataSource);
+
+  // Temporary just to see all data in the auth box
+  final authBloc = AuthBloc(authRepository);
+  authBloc.add(LoadUsers());
+
+  //Temporary just to check if there is an existing session
+  final isLoggedIn = await AuthUtils.isLoggedIn();
+  final userId = await AuthUtils.getUserId();
+  print('Is Logged In: $isLoggedIn');
+  print('User: $userId');
+  Bloc.observer = AppBlocObserver();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => TimerBloc(ticker: TimerDataSource())),
+        BlocProvider(create: (_) => CardBloc()),
+        BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository)),
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(authRepository)..add(CheckSession()),
         ),
+        BlocProvider<TransactionBloc>(
+          create:
+              (context) => TransactionBloc(
+                repository: transactionRepository,
+                userRepository: authRepository,
+              ),
+        ),
+        BlocProvider<BalanceBloc>(
+          create: (context) => BalanceBloc(userRepository: authRepository),
+        ),
+        BlocProvider<SoundBloc>(
+          create:
+              (context) => SoundBloc(
+                soundRepository: SoundRepository(
+                  soundDataSource: SoundDataSource(),
+                ),
+              )..add(LoadSoundState()),
+        ),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: appRouter.router,
+        theme: ThemeData(textTheme: GoogleFonts.lemonTextTheme()),
       ),
-    );
-  }
+    ),
+  );
 }
