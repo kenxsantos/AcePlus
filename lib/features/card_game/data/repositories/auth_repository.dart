@@ -8,36 +8,16 @@ class AuthRepositoryImpl implements AuthRepository {
 
   AuthRepositoryImpl(this._dataSource);
 
-  User _toUserModel(UserEntity entity) {
-    return User(
-      userId: entity.userId,
-      mobileNumber: entity.mobileNumber,
-      password: entity.password,
-      totalMoney: entity.totalMoney,
-      createdAt: entity.createdAt,
-    );
-  }
-
-  UserEntity _toUserEntity(User model) {
-    return UserEntity(
-      userId: model.userId,
-      mobileNumber: model.mobileNumber,
-      password: model.password,
-      totalMoney: model.totalMoney,
-      createdAt: model.createdAt,
-    );
-  }
-
   @override
   Future<int?> addAuth(UserEntity userEntity) async {
-    final userModel = _toUserModel(userEntity);
+    final userModel = User.fromEntity(userEntity);
     return await _dataSource.addAuth(userModel);
   }
 
   @override
   UserEntity? getAuth(int id) {
     final userModel = _dataSource.getAuth(id);
-    return userModel != null ? _toUserEntity(userModel) : null;
+    return userModel?.toEntity();
   }
 
   @override
@@ -45,7 +25,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   List<UserEntity> getAllAuths() {
-    return _dataSource.getAllAuths().map(_toUserEntity).toList();
+    return _dataSource.getAllAuths().map((user) => user.toEntity()).toList();
   }
 
   @override
