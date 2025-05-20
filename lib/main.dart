@@ -1,18 +1,9 @@
-import 'package:aceplus/features/card_game/data/model/transaction_model/transaction_model.dart';
-import 'package:aceplus/features/card_game/data/model/user_model/user_model.dart';
-import 'package:aceplus/features/card_game/data/datasource/auth_data_source.dart';
-import 'package:aceplus/features/card_game/data/datasource/sound_data_source.dart';
-import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
-import 'package:aceplus/features/card_game/data/datasource/transaction_data_source.dart';
-import 'package:aceplus/features/card_game/data/repositories/auth_repository.dart';
-import 'package:aceplus/features/card_game/data/repositories/sound_repository.dart';
-import 'package:aceplus/features/card_game/data/repositories/transaction_repository.dart';
+import 'package:aceplus/dependency_injector.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_event.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/card_bloc/card_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/timer_bloc/timer_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/sound_bloc/sound_bloc.dart';
-import 'package:aceplus/features/card_game/presentation/bloc/sound_bloc/sound_event.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/balance_bloc/balance_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/transaction_bloc/transaction_bloc.dart';
 import 'package:aceplus/router/router.dart';
@@ -21,66 +12,32 @@ import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-Future<void> initHive() async {
-  await Hive.initFlutter();
-  Hive.registerAdapter(UserAdapter());
-  Hive.registerAdapter(TransactionAdapter());
-  await Hive.openBox<User>('user');
-  await Hive.openBox<Transaction>('transaction');
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await initHive();
+Future<void> main() async {
+  await initDependencies();
 
   final appRouter = AppRouter();
-  final authDataSource = AuthDataSource();
-  final authRepository = AuthRepository(authDataSource);
-  final transactionDataSource = TransactionDataSource();
-  final transactionRepository = TransactionRepository(transactionDataSource);
+  final authBloc = inj<AuthBloc>();
 
-  // Temporary just to see all data in the auth box
-  final authBloc = AuthBloc(authRepository);
   authBloc.add(LoadUsers());
+  authBloc.add(CheckSession());
 
-  //Temporary just to check if there is an existing session
   final isLoggedIn = await AuthUtils.isLoggedIn();
   final userId = await AuthUtils.getUserId();
   print('Is Logged In: $isLoggedIn');
   print('User: $userId');
+
   Bloc.observer = AppBlocObserver();
 
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => TimerBloc(ticker: TimerDataSource())),
-        BlocProvider(create: (_) => CardBloc()),
-        BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository)),
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(authRepository)..add(CheckSession()),
-        ),
-        BlocProvider<TransactionBloc>(
-          create:
-              (context) => TransactionBloc(
-                repository: transactionRepository,
-                userRepository: authRepository,
-              ),
-        ),
-        BlocProvider<BalanceBloc>(
-          create: (context) => BalanceBloc(userRepository: authRepository),
-        ),
-        BlocProvider<SoundBloc>(
-          create:
-              (context) => SoundBloc(
-                soundRepository: SoundRepository(
-                  soundDataSource: SoundDataSource(),
-                ),
-              )..add(LoadSoundState()),
-        ),
+        BlocProvider(create: (_) => inj<TimerBloc>()),
+        BlocProvider(create: (_) => inj<CardBloc>()),
+        BlocProvider(create: (_) => inj<AuthBloc>()),
+        BlocProvider(create: (_) => inj<TransactionBloc>()),
+        BlocProvider(create: (_) => inj<BalanceBloc>()),
+        BlocProvider(create: (_) => inj<SoundBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
