@@ -1,12 +1,14 @@
-import 'package:aceplus/features/card_game/data/model/transaction_model/transaction_model.dart';
-import 'package:aceplus/features/card_game/data/model/user_model/user_model.dart';
 import 'package:aceplus/features/card_game/data/datasource/auth_data_source.dart';
 import 'package:aceplus/features/card_game/data/datasource/sound_data_source.dart';
 import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
 import 'package:aceplus/features/card_game/data/datasource/transaction_data_source.dart';
-import 'package:aceplus/features/card_game/data/repositories/auth_repository.dart';
 import 'package:aceplus/features/card_game/data/repositories/sound_repository.dart';
 import 'package:aceplus/features/card_game/data/repositories/transaction_repository.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/get_total_money_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/update_total_money_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/add_transaction_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_by_type_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_usecase.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_event.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/card_bloc/card_bloc.dart';
@@ -24,6 +26,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'features/card_game/data/model/transaction_model/transaction_model.dart';
+import 'features/card_game/data/model/user_model/user_model.dart';
+import 'features/card_game/data/repositories/auth_repository.dart';
+import 'features/card_game/domain/usecases/auth_usecase/add_auth_usecase.dart';
+import 'features/card_game/domain/usecases/auth_usecase/get_all_auths_usecase.dart';
+import 'features/card_game/domain/usecases/auth_usecase/get_auth_usecase.dart';
+import 'features/card_game/domain/usecases/auth_usecase/mobile_number_exist_usecase.dart';
+import 'features/card_game/domain/usecases/auth_usecase/search_auth_usecase.dart';
+
 Future<void> initHive() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
@@ -35,23 +46,36 @@ Future<void> initHive() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  //Update Main dart too much codes use DI.
+
   await initHive();
 
   final appRouter = AppRouter();
+
   final authDataSource = AuthDataSource();
-  final authRepository = AuthRepository(authDataSource);
   final transactionDataSource = TransactionDataSource();
-  final transactionRepository = TransactionRepository(transactionDataSource);
 
-  // Temporary just to see all data in the auth box
-  final authBloc = AuthBloc(authRepository);
-  authBloc.add(LoadUsers());
+  final authRepository = AuthRepositoryImpl(authDataSource);
+  final addAuthUsecase = AddAuthUsecase(authRepository);
+  final getAllAuthsUsecase = GetAllAuthsUsecase(authRepository);
+  final searchAuthUsecase = SearchAuthUsecase(authRepository);
+  final getAuthUsecase = GetAuthUsecase(authRepository);
+  final mobileNumberExistUsecase = MobileNumberExistUsecase(authRepository);
+  final getTotalMoneyUsecase = GetTotalMoneyUsecase(authRepository);
+  final updateTotalMoneyUsecase = UpdateTotalMoneyUsecase(authRepository);
 
-  //Temporary just to check if there is an existing session
+  final transactionRepository = TransactionRepositoryImpl(transactionDataSource);
+  final addTransactionUsecase = AddTransactionUsecase(transactionRepository);
+  final getTransactionUsecase = GetTransactionUsecase(transactionRepository);
+  final getTransactionByTypeUsecase = GetTransactionByTypeUsecase(transactionRepository);
+
+
   final isLoggedIn = await AuthUtils.isLoggedIn();
   final userId = await AuthUtils.getUserId();
   print('Is Logged In: $isLoggedIn');
   print('User: $userId');
+
+  // Bloc observer for all blocs
   Bloc.observer = AppBlocObserver();
 
   runApp(
@@ -59,19 +83,30 @@ void main() async {
       providers: [
         BlocProvider(create: (_) => TimerBloc(ticker: TimerDataSource())),
         BlocProvider(create: (_) => CardBloc()),
-        BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository)),
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(authRepository)..add(CheckSession()),
+        // Provide only one instance of AuthBloc
+        BlocProvider(
+          create:
+              (context) => AuthBloc(
+                addAuthUsecase: addAuthUsecase,
+                getAllAuthsUsecase: getAllAuthsUsecase,
+                searchAuthUsecase: searchAuthUsecase,
+                getAuthUsecase: getAuthUsecase,
+                mobileNumberExistUsecase: mobileNumberExistUsecase,
+              )..add(CheckSession()),
         ),
         BlocProvider<TransactionBloc>(
-          create:
-              (context) => TransactionBloc(
-                repository: transactionRepository,
-                userRepository: authRepository,
-              ),
+          create: (context) => TransactionBloc(
+            addTransactionUsecase: addTransactionUsecase,
+            getTransactionUsecase: getTransactionUsecase,
+            getTransactionByTypeUsecase: getTransactionByTypeUsecase,
+            getTotalMoneyUsecase: getTotalMoneyUsecase,
+            updateTotalMoneyUsecase: updateTotalMoneyUsecase,
+          ),
         ),
         BlocProvider<BalanceBloc>(
-          create: (context) => BalanceBloc(userRepository: authRepository),
+          create:
+              (context) =>
+                  BalanceBloc(getTotalMoneyUsecase: getTotalMoneyUsecase),
         ),
         BlocProvider<SoundBloc>(
           create:
