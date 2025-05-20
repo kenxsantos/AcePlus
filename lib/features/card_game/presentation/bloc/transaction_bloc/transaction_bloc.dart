@@ -1,16 +1,27 @@
-import 'package:aceplus/features/card_game/data/model/transaction_model/transaction_model.dart';
-import 'package:aceplus/features/card_game/data/repositories/auth_repository.dart';
-import 'package:aceplus/features/card_game/data/repositories/transaction_repository.dart';
+import 'package:aceplus/features/card_game/domain/entities/transaction_entity.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/get_total_money_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/update_total_money_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/add_transaction_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_by_type_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_usecase.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/transaction_bloc/transaction_event.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/transaction_bloc/transaction_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
-  final TransactionRepository repository;
-  final AuthRepository userRepository;
+  final AddTransactionUsecase addTransactionUsecase;
+  final GetTransactionUsecase getTransactionUsecase;
+  final GetTransactionByTypeUsecase getTransactionByTypeUsecase;
+  final GetTotalMoneyUsecase getTotalMoneyUsecase;
+  final UpdateTotalMoneyUsecase updateTotalMoneyUsecase;
 
-  TransactionBloc({required this.repository, required this.userRepository})
-    : super(TransactionInitial()) {
+  TransactionBloc({
+    required this.addTransactionUsecase,
+    required this.getTransactionUsecase,
+    required this.getTransactionByTypeUsecase,
+    required this.getTotalMoneyUsecase,
+    required this.updateTotalMoneyUsecase,
+  }) : super(TransactionInitial()) {
     on<AddTransaction>((event, emit) async {
       emit(TransactionLoading());
       try {
@@ -22,7 +33,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           return;
         }
 
-        final currentTotal = userRepository.getTotalMoney(userId) ?? 0.0;
+        final currentTotal = getTotalMoneyUsecase.call(userId) ?? 0.0;
 
         if (event.transactionType == "Cash Out" && amount > currentTotal) {
           emit(TransactionError('Insufficient balance'));
@@ -39,7 +50,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           return;
         }
 
-        final transaction = Transaction(
+        final transaction = TransactionEntity(
           transactionId: 0,
           userId: userId,
           transactionType: event.transactionType,
@@ -49,9 +60,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           referenceNumber: DateTime.now().millisecondsSinceEpoch.toString(),
         );
 
-        await userRepository.updateTotalMoney(userId, newTotal);
+        await updateTotalMoneyUsecase.call(userId, newTotal);
 
-        await repository.addTransaction(transaction);
+        await addTransactionUsecase.call(transaction);
         emit(
           TransactionSuccessState(
             '${event.transactionType} transaction completed successfully',
@@ -66,9 +77,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       emit(TransactionLoading());
       try {
         print("TransactionId in Bloc: ${event.transactionId}");
-        final transaction = repository.getTransaction(event.transactionId);
+        final transaction = getTransactionUsecase.call(event.transactionId);
         print('Transaction: $transaction');
-        emit(TransactionLoaded(transaction!));
+        emit(TransactionLoaded(transaction as TransactionEntity));
       } catch (e) {
         emit(TransactionError(e.toString()));
       }
@@ -76,10 +87,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
     on<LoadTransactionByType>((event, emit) async {
       try {
-        final transactions = await repository.getTransactionsByUserIdAndType(
-          event.userId,
-          event.transactionType,
-        );
+        final transactions = await getTransactionByTypeUsecase.call(event.userId, event.transactionType);
 
         if (transactions.isEmpty) {
           emit(NoDataState("No transactions found"));
