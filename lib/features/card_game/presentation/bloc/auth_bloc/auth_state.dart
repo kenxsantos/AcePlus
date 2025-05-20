@@ -1,5 +1,5 @@
+import 'package:aceplus/features/card_game/domain/entities/user_entity.dart';
 import 'package:equatable/equatable.dart';
-import '../../../data/model/user_model/user_model.dart';
 
 abstract class AuthState extends Equatable {
   @override
@@ -11,7 +11,7 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class UserLoaded extends AuthState {
-  final List<User> users;
+  final List<UserEntity> users;
 
   UserLoaded(this.users);
 
@@ -20,7 +20,7 @@ class UserLoaded extends AuthState {
 }
 
 class SearchUserResult extends AuthState {
-  final User? user;
+  final UserEntity? user;
 
   SearchUserResult(this.user);
 

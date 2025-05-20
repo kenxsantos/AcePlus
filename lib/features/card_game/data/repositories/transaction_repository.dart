@@ -1,30 +1,42 @@
 import 'package:aceplus/features/card_game/data/model/transaction_model/transaction_model.dart';
 import 'package:aceplus/features/card_game/data/datasource/transaction_data_source.dart';
+import 'package:aceplus/features/card_game/domain/entities/transaction_entity.dart';
+import '../../domain/repositories/transaction_repository.dart';
 
-class TransactionRepository {
+class TransactionRepositoryImpl implements TransactionRepository {
   final TransactionDataSource _dataSource;
 
-  TransactionRepository(this._dataSource);
+  TransactionRepositoryImpl(this._dataSource);
 
-  Future<void> addTransaction(Transaction transaction) async {
-    await _dataSource.addTransaction(transaction);
+  @override
+  Future<void> addTransaction(TransactionEntity transactionEntity) async {
+    final transactionModel = Transaction.fromEntity(transactionEntity);
+    await _dataSource.addTransaction(transactionModel);
   }
 
-  Transaction? getTransaction(int transactionId) {
-    return _dataSource.getTransaction(transactionId);
+  @override
+  TransactionEntity? getTransaction(int transactionId) {
+    final transactionModel = _dataSource.getTransaction(transactionId);
+    return transactionModel?.toEntity();
   }
 
-  List<Transaction> getTransactionsByUserId(int userId) {
-    return _dataSource.getTransactionsByUserId(userId);
+  @override
+  List<TransactionEntity> getTransactionsByUserId(int userId) {
+    return _dataSource
+        .getTransactionsByUserId(userId)
+        .map((model) => model.toEntity())
+        .toList();
   }
 
-  Future<List<Transaction>> getTransactionsByUserIdAndType(
-    int userId,
-    String transactionType,
-  ) async {
-    return await _dataSource.getTransactionsByUserIdAndType(
+  @override
+  Future<List<TransactionEntity>> getTransactionsByUserIdAndType(
+      int userId,
+      String transactionType,
+      ) async {
+    final models = await _dataSource.getTransactionsByUserIdAndType(
       userId,
       transactionType,
     );
+    return models.map((model) => model.toEntity()).toList();
   }
 }
