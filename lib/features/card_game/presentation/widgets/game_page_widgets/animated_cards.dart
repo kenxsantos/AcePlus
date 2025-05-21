@@ -36,6 +36,11 @@ class _AnimatedCardsState extends State<AnimatedCards>
         if (state.status.isCardTap) {
           isExpanded = state.isExtended;
         }
+        if (state.status.isPlaceBet) {
+          isExpanded = state.isExtended;
+          print("Bet ${state.lastSelectedCardIndex}");
+          print("Bet ${state.bets}");
+        }
 
         return Stack(
           children: List.generate(
@@ -46,13 +51,9 @@ class _AnimatedCardsState extends State<AnimatedCards>
               isFlipped: isFlipped,
               isExpanded: isExpanded,
               isTapped: state.bets.containsKey(index),
+              betAmount: state.bets[index],
+              totalAmount: state.totalAmount[index],
               index: index,
-              // betAmount: state.bets[index] ?? 0.0,
-              // onBet: (amount) {
-              //   context.read<CardBloc>().add(
-              //     PlaceBet(index: index, amount: amount),
-              //   );
-              // },
             ),
           ),
         );

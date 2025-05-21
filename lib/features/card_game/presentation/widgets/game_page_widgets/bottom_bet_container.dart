@@ -1,4 +1,6 @@
+import 'package:aceplus/features/card_game/presentation/bloc/card_bloc/card_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BottomBetContainer extends StatelessWidget {
   BottomBetContainer({super.key});
@@ -50,28 +52,45 @@ class BottomBetContainer extends StatelessWidget {
             alignment: WrapAlignment.center,
             children:
                 texts.map((text) {
-                  return Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/chip.png',
-                        height: chipSize,
-                        width: chipSize,
-                      ),
-                      Text(
-                        text,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: fontSize,
+                  final double value = _parseChipValue(text);
+                  return GestureDetector(
+                    onTap: () {
+                      context.read<CardBloc>().add(
+                        SetBetAmountForLastSelectedCard(value),
+                      );
+                      print("Amount: $value");
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/chip.png',
+                          height: chipSize,
+                          width: chipSize,
                         ),
-                      ),
-                    ],
+                        Text(
+                          text,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: fontSize,
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 }).toList(),
           ),
         ),
       ),
     );
+  }
+}
+
+double _parseChipValue(String text) {
+  if (text.endsWith('k')) {
+    return double.parse(text.replaceAll('k', '')) * 1000;
+  } else {
+    return double.parse(text);
   }
 }

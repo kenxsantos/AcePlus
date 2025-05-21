@@ -13,7 +13,8 @@ class CardWidget extends StatefulWidget {
   final int value;
   final int index;
   final double odds;
-
+  final double? betAmount;
+  final double? totalAmount;
   CardWidget({
     super.key,
     required this.isFlipped,
@@ -22,6 +23,8 @@ class CardWidget extends StatefulWidget {
     required this.value,
     required this.index,
     required this.odds,
+    required this.betAmount,
+    required this.totalAmount,
   });
 
   @override
@@ -114,7 +117,9 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                       print("Card ${widget.index}"),
                       if (widget.isExpanded && !widget.isFlipped)
                         {
-                          // context.read<CardBloc>().add(PlaceBet(widget.index )),
+                          context.read<CardBloc>().add(
+                            PlaceBet(index: widget.index),
+                          ),
                           print("State Animate Index: ${widget.index}"),
                         },
                     },
@@ -142,9 +147,42 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                 height: double.infinity,
                                 fit: BoxFit.contain,
                               ),
-                              widget.isExpanded
-                                  ? OddsTextWidget(odds: widget.odds)
-                                  : SizedBox(),
+                              if (widget.isExpanded)
+                                OddsTextWidget(odds: widget.odds),
+                              if (widget.isTapped && widget.betAmount != null)
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(widget.totalAmount != null ? "${widget.totalAmount}" : '0'),
+                                    Positioned(
+                                      bottom: 8,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 6,
+                                          vertical: 2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.7),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          widget.betAmount?.toStringAsFixed(
+                                                0,
+                                              ) ??
+                                              '0',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                             ],
                           ),
                         ),
