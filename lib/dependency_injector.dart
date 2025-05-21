@@ -7,6 +7,18 @@ import 'package:aceplus/features/card_game/data/model/user_model/user_model.dart
 import 'package:aceplus/features/card_game/data/repositories/auth_repository.dart';
 import 'package:aceplus/features/card_game/data/repositories/sound_repository.dart';
 import 'package:aceplus/features/card_game/data/repositories/transaction_repository.dart';
+import 'package:aceplus/features/card_game/domain/repositories/auth_repository.dart';
+import 'package:aceplus/features/card_game/domain/repositories/transaction_repository.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/add_auth_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/get_all_auths_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/get_auth_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/get_total_money_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/mobile_number_exist_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/search_auth_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/update_total_money_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/add_transaction_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_by_type_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_usecase.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/balance_bloc/balance_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/card_bloc/card_bloc.dart';
@@ -44,17 +56,48 @@ Future<void> initDependencies() async {
 
   // Register Repositories
   inj.registerLazySingleton<AuthRepository>(
-    () => AuthRepository(inj<AuthDataSource>()),
+    () => AuthRepositoryImpl(inj<AuthDataSource>()),
   );
   inj.registerLazySingleton<TransactionRepository>(
-    () => TransactionRepository(inj<TransactionDataSource>()),
+    () => TransactionRepositoryImpl(inj<TransactionDataSource>()),
   );
   inj.registerLazySingleton<SoundRepository>(
     () => SoundRepository(soundDataSource: inj<SoundDataSource>()),
   );
 
+  //regsiter use cases
+
+  inj.registerLazySingleton(() => AddAuthUsecase(inj<AuthRepository>()));
+  inj.registerLazySingleton(() => GetAllAuthsUsecase(inj<AuthRepository>()));
+  inj.registerLazySingleton(() => SearchAuthUsecase(inj<AuthRepository>()));
+  inj.registerLazySingleton(() => GetAuthUsecase(inj<AuthRepository>()));
+  inj.registerLazySingleton(
+    () => MobileNumberExistUsecase(inj<AuthRepository>()),
+  );
+  inj.registerLazySingleton(() => GetTotalMoneyUsecase(inj<AuthRepository>()));
+  inj.registerLazySingleton(
+    () => UpdateTotalMoneyUsecase(inj<AuthRepository>()),
+  );
+  inj.registerLazySingleton(
+    () => AddTransactionUsecase(inj<TransactionRepository>()),
+  );
+  inj.registerLazySingleton(
+    () => GetTransactionUsecase(inj<TransactionRepository>()),
+  );
+  inj.registerLazySingleton(
+    () => GetTransactionByTypeUsecase(inj<TransactionRepository>()),
+  );
+
   // Register Blocs
-  inj.registerFactory<AuthBloc>(() => AuthBloc(inj<AuthRepository>()));
+  inj.registerFactory(
+    () => AuthBloc(
+      addAuthUsecase: inj<AddAuthUsecase>(),
+      getAllAuthsUsecase: inj<GetAllAuthsUsecase>(),
+      searchAuthUsecase: inj<SearchAuthUsecase>(),
+      getAuthUsecase: inj<GetAuthUsecase>(),
+      mobileNumberExistUsecase: inj<MobileNumberExistUsecase>(),
+    ),
+  );
   inj.registerFactory<CardBloc>(() => CardBloc());
   inj.registerFactory<TimerBloc>(
     () => TimerBloc(ticker: inj<TimerDataSource>()),
@@ -62,13 +105,17 @@ Future<void> initDependencies() async {
   inj.registerFactory<SoundBloc>(
     () => SoundBloc(soundRepository: inj<SoundRepository>()),
   );
-  inj.registerFactory<TransactionBloc>(
+
+  inj.registerFactory(
     () => TransactionBloc(
-      repository: inj<TransactionRepository>(),
-      userRepository: inj<AuthRepository>(),
+      addTransactionUsecase: inj<AddTransactionUsecase>(),
+      getTransactionUsecase: inj<GetTransactionUsecase>(),
+      getTransactionByTypeUsecase: inj<GetTransactionByTypeUsecase>(),
+      getTotalMoneyUsecase: inj<GetTotalMoneyUsecase>(),
+      updateTotalMoneyUsecase: inj<UpdateTotalMoneyUsecase>(),
     ),
   );
-  inj.registerFactory<BalanceBloc>(
-    () => BalanceBloc(userRepository: inj<AuthRepository>()),
+  inj.registerFactory(
+    () => BalanceBloc(getTotalMoneyUsecase: inj<GetTotalMoneyUsecase>()),
   );
 }
