@@ -26,7 +26,7 @@ class CardState extends Equatable {
   final bool isFlipped;
   final bool isExtended;
   final bool isTapped;
-  final Set<int> tappedIndices;
+  final Map<int, double> bets;
   final bool isAce;
   final bool isJoker;
   final CardStatus status;
@@ -37,7 +37,7 @@ class CardState extends Equatable {
     this.isFlipped = false,
     this.isExtended = false,
     this.isTapped = false,
-    this.tappedIndices = const {},
+    this.bets = const {},
     this.isAce = false,
     this.isJoker = false,
     this.status = CardStatus.initial,
@@ -49,7 +49,7 @@ class CardState extends Equatable {
     bool? isFlipped,
     bool? isExtended,
     bool? isTapped,
-    Set<int>? tappedIndices,
+    Map<int, double>? bets,
     bool? isAce,
     bool? isJoker,
     CardStatus? status,
@@ -60,7 +60,7 @@ class CardState extends Equatable {
       isFlipped: isFlipped ?? this.isFlipped,
       isExtended: isExtended ?? this.isExtended,
       isTapped: isTapped ?? this.isTapped,
-      tappedIndices: tappedIndices ?? this.tappedIndices,
+      bets: bets ?? this.bets,
       isAce: isAce ?? this.isAce,
       isJoker: isJoker ?? this.isJoker,
       status: status ?? this.status,
@@ -74,7 +74,7 @@ class CardState extends Equatable {
     isFlipped,
     isExtended,
     isTapped,
-    tappedIndices,
+    bets,
     isAce,
     isJoker,
     status,

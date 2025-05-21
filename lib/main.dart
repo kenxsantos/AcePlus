@@ -1,3 +1,4 @@
+import 'package:aceplus/dependency_injector.dart';
 import 'package:aceplus/features/card_game/data/datasource/auth_data_source.dart';
 import 'package:aceplus/features/card_game/data/datasource/sound_data_source.dart';
 import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
@@ -14,7 +15,6 @@ import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_even
 import 'package:aceplus/features/card_game/presentation/bloc/card_bloc/card_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/timer_bloc/timer_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/sound_bloc/sound_bloc.dart';
-import 'package:aceplus/features/card_game/presentation/bloc/sound_bloc/sound_event.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/balance_bloc/balance_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/transaction_bloc/transaction_bloc.dart';
 import 'package:aceplus/router/router.dart';
@@ -35,6 +35,8 @@ import 'features/card_game/domain/usecases/auth_usecase/get_auth_usecase.dart';
 import 'features/card_game/domain/usecases/auth_usecase/mobile_number_exist_usecase.dart';
 import 'features/card_game/domain/usecases/auth_usecase/search_auth_usecase.dart';
 
+Future<void> main() async {
+  await initDependencies();
 Future<void> initHive() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
@@ -51,6 +53,11 @@ void main() async {
   await initHive();
 
   final appRouter = AppRouter();
+  final authBloc = inj<AuthBloc>();
+
+  authBloc.add(LoadUsers());
+  authBloc.add(CheckSession());
+
 
   final authDataSource = AuthDataSource();
   final transactionDataSource = TransactionDataSource();
@@ -75,12 +82,19 @@ void main() async {
   print('Is Logged In: $isLoggedIn');
   print('User: $userId');
 
+
   // Bloc observer for all blocs
   Bloc.observer = AppBlocObserver();
 
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => inj<TimerBloc>()),
+        BlocProvider(create: (_) => inj<CardBloc>()),
+        BlocProvider(create: (_) => inj<AuthBloc>()),
+        BlocProvider(create: (_) => inj<TransactionBloc>()),
+        BlocProvider(create: (_) => inj<BalanceBloc>()),
+        BlocProvider(create: (_) => inj<SoundBloc>()),
         BlocProvider(create: (_) => TimerBloc(ticker: TimerDataSource())),
         BlocProvider(create: (_) => CardBloc()),
         // Provide only one instance of AuthBloc
