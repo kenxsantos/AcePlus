@@ -17,6 +17,13 @@ class SoundDataSource {
   Future<void> setupBackgroundAudio() async {
     await _player.setReleaseMode(ReleaseMode.loop);
     await _player.setSource(AssetSource('sounds/jazz_music_bg.MP3'));
+    final isPlaying = await getSoundState();
+
+    if(isPlaying) {
+      await _player.resume();
+    } else {
+      await _player.pause();
+    }
   }
 
   Future<void> resumeBackgroundAudio() async {
