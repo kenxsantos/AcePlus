@@ -21,7 +21,7 @@ class GameTimerCircle extends StatelessWidget {
           context.read<CardBloc>().add(
             CardToggelAnimate(isFlipped: false, isExtended: true),
           );
-          context.read<TimerBloc>().add(TimerStarted(duration: 5));
+          context.read<TimerBloc>().add(TimerStarted(duration: 10));
         }
         if (state.status.isShowCards) {
           context.read<CardBloc>().add(
