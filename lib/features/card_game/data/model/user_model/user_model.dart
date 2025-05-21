@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 
+import '../../../domain/entities/user_entity.dart';
+
 part 'user_model.g.dart';
 
 @HiveType(typeId: 0)
@@ -26,6 +28,26 @@ class User extends HiveObject {
     required this.totalMoney,
     required this.createdAt,
   });
+
+  factory User.fromEntity(UserEntity entity) {
+    return User(
+      userId: entity.userId,
+      mobileNumber: entity.mobileNumber,
+      password: entity.password,
+      totalMoney: entity.totalMoney,
+      createdAt: entity.createdAt,
+    );
+  }
+
+  UserEntity toEntity() {
+    return UserEntity(
+      userId: userId,
+      mobileNumber: mobileNumber,
+      password: password,
+      totalMoney: totalMoney,
+      createdAt: createdAt,
+    );
+  }
 
   @override
   String toString() {

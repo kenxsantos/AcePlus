@@ -1,28 +1,49 @@
-import 'package:aceplus/features/card_game/data/model/user_model/user_model.dart';
 import 'package:aceplus/features/card_game/data/datasource/auth_data_source.dart';
+import 'package:aceplus/features/card_game/domain/entities/user_entity.dart';
+import 'package:aceplus/features/card_game/domain/repositories/auth_repository.dart';
+import '../model/user_model/user_model.dart';
 
-class AuthRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final AuthDataSource _dataSource;
 
-  AuthRepository(this._dataSource);
+  AuthRepositoryImpl(this._dataSource);
 
-  Future<int?> addAuth(User user) => _dataSource.addAuth(user);
+  @override
+  Future<int?> addAuth(UserEntity userEntity) async {
+    final userModel = User.fromEntity(userEntity);
+    return await _dataSource.addAuth(userModel);
+  }
 
-  User? getAuth(int id) => _dataSource.getAuth(id);
+  @override
+  UserEntity? getAuth(int id) {
+    final userModel = _dataSource.getAuth(id);
+    return userModel?.toEntity();
+  }
 
+  @override
   Future<void> deleteAuth(int id) => _dataSource.deleteAuth(id);
 
-  List<User> getAllAuths() => _dataSource.getAllAuths();
+  @override
+  List<UserEntity> getAllAuths() {
+    return _dataSource.getAllAuths().map((user) => user.toEntity()).toList();
+  }
 
-  bool mobileNumberExists(String mobileNumber) =>
-      _dataSource.mobileNumberExists(mobileNumber);
+  @override
+  bool mobileNumberExists(String mobileNumber) {
+    return _dataSource.mobileNumberExists(mobileNumber);
+  }
 
+  @override
   int? searchAuth(String mobileNumber, String password) {
     return _dataSource.searchAuth(mobileNumber, password);
   }
 
-  double? getTotalMoney(int userId) => _dataSource.getTotalMoney(userId);
+  @override
+  double? getTotalMoney(int userId) {
+    return _dataSource.getTotalMoney(userId);
+  }
 
+  @override
   Future<void> updateTotalMoney(int userId, double amount) async {
     await _dataSource.updateTotalMoney(userId, amount);
   }

@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 
+import '../../../domain/entities/transaction_entity.dart';
+
 part 'transaction_model.g.dart';
 
 @HiveType(typeId: 1)
@@ -34,6 +36,30 @@ class Transaction extends HiveObject {
     required this.transactionDate,
     required this.referenceNumber,
   });
+
+  factory Transaction.fromEntity(TransactionEntity entity) {
+    return Transaction(
+      transactionId: entity.transactionId,
+      userId: entity.userId,
+      transactionType: entity.transactionType,
+      amount: entity.amount,
+      mobileNumber: entity.mobileNumber,
+      transactionDate: entity.transactionDate,
+      referenceNumber: entity.referenceNumber,
+    );
+  }
+
+  TransactionEntity toEntity() {
+    return TransactionEntity(
+      transactionId: transactionId,
+      userId: userId,
+      transactionType: transactionType,
+      amount: amount,
+      mobileNumber: mobileNumber,
+      transactionDate: transactionDate,
+      referenceNumber: referenceNumber,
+    );
+  }
 
   @override
   String toString() {
