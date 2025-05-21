@@ -8,6 +8,7 @@ enum CardStatus {
   generateCard,
   animateCard,
   cardTap,
+  placeBet,
 }
 
 extension CardStatusX on CardStatus {
@@ -18,6 +19,7 @@ extension CardStatusX on CardStatus {
   bool get isCardGenerated => this == CardStatus.generateCard;
   bool get isAnimateCard => this == CardStatus.animateCard;
   bool get isCardTap => this == CardStatus.cardTap;
+  bool get isPlaceBet => this == CardStatus.placeBet;
 }
 
 class CardState extends Equatable {
@@ -27,6 +29,8 @@ class CardState extends Equatable {
   final bool isExtended;
   final bool isTapped;
   final Map<int, double> bets;
+  final int? lastSelectedCardIndex;
+  final Map<int, double> totalAmount;
   final bool isAce;
   final bool isJoker;
   final CardStatus status;
@@ -38,6 +42,8 @@ class CardState extends Equatable {
     this.isExtended = false,
     this.isTapped = false,
     this.bets = const {},
+    this.lastSelectedCardIndex,
+    this.totalAmount = const {},
     this.isAce = false,
     this.isJoker = false,
     this.status = CardStatus.initial,
@@ -50,6 +56,9 @@ class CardState extends Equatable {
     bool? isExtended,
     bool? isTapped,
     Map<int, double>? bets,
+    int? lastSelectedCardIndex,
+    Map<int, double>? totalAmount,
+    double? selectedAmount,
     bool? isAce,
     bool? isJoker,
     CardStatus? status,
@@ -61,6 +70,9 @@ class CardState extends Equatable {
       isExtended: isExtended ?? this.isExtended,
       isTapped: isTapped ?? this.isTapped,
       bets: bets ?? this.bets,
+      totalAmount: totalAmount ?? this.totalAmount,
+      lastSelectedCardIndex:
+          lastSelectedCardIndex ?? this.lastSelectedCardIndex,
       isAce: isAce ?? this.isAce,
       isJoker: isJoker ?? this.isJoker,
       status: status ?? this.status,
@@ -75,6 +87,8 @@ class CardState extends Equatable {
     isExtended,
     isTapped,
     bets,
+    lastSelectedCardIndex,
+    totalAmount,
     isAce,
     isJoker,
     status,

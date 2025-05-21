@@ -20,9 +20,14 @@ class CardToggelAnimate extends CardEvent {
 
 class PlaceBet extends CardEvent {
   final int index;
+
+  const PlaceBet({required this.index});
+}
+
+class SetBetAmountForLastSelectedCard extends CardEvent {
   final double amount;
 
-  const PlaceBet(this.index, this.amount);
+  const SetBetAmountForLastSelectedCard(this.amount);
 }
 
 class ResetSelectedCards extends CardEvent {}
