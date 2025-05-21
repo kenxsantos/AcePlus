@@ -2,10 +2,17 @@ import 'package:aceplus/features/card_game/data/datasource/auth_data_source.dart
 import 'package:aceplus/features/card_game/data/datasource/sound_data_source.dart';
 import 'package:aceplus/features/card_game/data/datasource/timer_data_source.dart';
 import 'package:aceplus/features/card_game/data/datasource/transaction_data_source.dart';
+import 'package:aceplus/features/card_game/data/repositories/setting_repository.dart';
 import 'package:aceplus/features/card_game/data/repositories/sound_repository.dart';
 import 'package:aceplus/features/card_game/data/repositories/transaction_repository.dart';
 import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/get_total_money_usecase.dart';
 import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/update_total_money_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/setting_usecase/get_background_volume_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/get_sound_state_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/pause_background_audio_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/resume_background_audio_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/save_sound_state_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/setup_background_audio_usecase.dart';
 import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/add_transaction_usecase.dart';
 import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_by_type_usecase.dart';
 import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_usecase.dart';
@@ -23,7 +30,6 @@ import 'package:aceplus/shared/utils/logged_in_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'features/card_game/data/model/transaction_model/transaction_model.dart';
@@ -34,6 +40,8 @@ import 'features/card_game/domain/usecases/auth_usecase/get_all_auths_usecase.da
 import 'features/card_game/domain/usecases/auth_usecase/get_auth_usecase.dart';
 import 'features/card_game/domain/usecases/auth_usecase/mobile_number_exist_usecase.dart';
 import 'features/card_game/domain/usecases/auth_usecase/search_auth_usecase.dart';
+import 'features/card_game/domain/usecases/setting_usecase/background_volume_usecase.dart';
+import 'features/card_game/presentation/bloc/setting_bloc/setting_bloc.dart';
 
 Future<void> initHive() async {
   await Hive.initFlutter();
@@ -54,6 +62,7 @@ void main() async {
 
   final authDataSource = AuthDataSource();
   final transactionDataSource = TransactionDataSource();
+  final soundDataSource = SoundDataSource();
 
   final authRepository = AuthRepositoryImpl(authDataSource);
   final addAuthUsecase = AddAuthUsecase(authRepository);
@@ -64,11 +73,35 @@ void main() async {
   final getTotalMoneyUsecase = GetTotalMoneyUsecase(authRepository);
   final updateTotalMoneyUsecase = UpdateTotalMoneyUsecase(authRepository);
 
-  final transactionRepository = TransactionRepositoryImpl(transactionDataSource);
+  final transactionRepository = TransactionRepositoryImpl(
+    transactionDataSource,
+  );
   final addTransactionUsecase = AddTransactionUsecase(transactionRepository);
   final getTransactionUsecase = GetTransactionUsecase(transactionRepository);
-  final getTransactionByTypeUsecase = GetTransactionByTypeUsecase(transactionRepository);
+  final getTransactionByTypeUsecase = GetTransactionByTypeUsecase(
+    transactionRepository,
+  );
 
+  final soundRepository = SoundRepositoryImpl(soundDataSource: soundDataSource);
+  final getSoundStateUsecase = GetSoundStateUsecase(soundRepository);
+  final saveSoundStateUsecase = SaveSoundStateUsecase(soundRepository);
+  final setupBackgroundAudioUsecase = SetupBackgroundAudioUsecase(
+    soundRepository,
+  );
+  final resumeBackgroundAudioUsecase = ResumeBackgroundAudioUsecase(
+    soundRepository,
+  );
+  final pauseBackgroundAudioUsecase = PauseBackgroundAudioUsecase(
+    soundRepository,
+  );
+
+  final settingRepository = SettingRepositoryImpl(
+    soundDataSource: soundDataSource,
+  );
+  final backgroundVolumeUsecase = BackgroundVolumeUsecase(settingRepository);
+  final getBackgroundVolumeUsecase = GetBackgroundVolumeUsecase(
+    settingRepository,
+  );
 
   final isLoggedIn = await AuthUtils.isLoggedIn();
   final userId = await AuthUtils.getUserId();
@@ -95,13 +128,14 @@ void main() async {
               )..add(CheckSession()),
         ),
         BlocProvider<TransactionBloc>(
-          create: (context) => TransactionBloc(
-            addTransactionUsecase: addTransactionUsecase,
-            getTransactionUsecase: getTransactionUsecase,
-            getTransactionByTypeUsecase: getTransactionByTypeUsecase,
-            getTotalMoneyUsecase: getTotalMoneyUsecase,
-            updateTotalMoneyUsecase: updateTotalMoneyUsecase,
-          ),
+          create:
+              (context) => TransactionBloc(
+                addTransactionUsecase: addTransactionUsecase,
+                getTransactionUsecase: getTransactionUsecase,
+                getTransactionByTypeUsecase: getTransactionByTypeUsecase,
+                getTotalMoneyUsecase: getTotalMoneyUsecase,
+                updateTotalMoneyUsecase: updateTotalMoneyUsecase,
+              ),
         ),
         BlocProvider<BalanceBloc>(
           create:
@@ -111,10 +145,19 @@ void main() async {
         BlocProvider<SoundBloc>(
           create:
               (context) => SoundBloc(
-                soundRepository: SoundRepository(
-                  soundDataSource: SoundDataSource(),
-                ),
+                getSoundStateUsecase: getSoundStateUsecase,
+                saveSoundStateUsecase: saveSoundStateUsecase,
+                setupBackgroundAudioUsecase: setupBackgroundAudioUsecase,
+                resumeBackgroundAudioUsecase: resumeBackgroundAudioUsecase,
+                pauseBackgroundAudioUsecase: pauseBackgroundAudioUsecase,
               )..add(LoadSoundState()),
+        ),
+        BlocProvider<SettingBloc>(
+          create:
+              (_) => SettingBloc(
+                backgroundVolumeUsecase: backgroundVolumeUsecase,
+                getBackgroundVolumeUsecase: getBackgroundVolumeUsecase,
+              ),
         ),
       ],
       child: MaterialApp.router(
