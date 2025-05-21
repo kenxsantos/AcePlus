@@ -1,44 +1,51 @@
-import 'package:aceplus/features/card_game/data/repositories/sound_repository.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/get_sound_state_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/pause_background_audio_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/resume_background_audio_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/save_sound_state_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/setup_background_audio_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'sound_event.dart';
 import 'sound_state.dart';
 
 class SoundBloc extends Bloc<SoundEvent, SoundState> {
-  final SoundRepository soundRepository;
-  final AudioPlayer _player = AudioPlayer();
+  final SaveSoundStateUsecase saveSoundStateUsecase;
+  final GetSoundStateUsecase getSoundStateUsecase;
+  final SetupBackgroundAudioUsecase setupBackgroundAudioUsecase;
+  final PauseBackgroundAudioUsecase pauseBackgroundAudioUsecase;
+  final ResumeBackgroundAudioUsecase resumeBackgroundAudioUsecase;
 
-  SoundBloc({required this.soundRepository}) : super(SoundPlaying()) {
+  SoundBloc({
+    required this.saveSoundStateUsecase,
+    required this.getSoundStateUsecase,
+    required this.setupBackgroundAudioUsecase,
+    required this.pauseBackgroundAudioUsecase,
+    required this.resumeBackgroundAudioUsecase,
+  }) : super(SoundPlaying()) {
     on<LoadSoundState>(_onLoadSoundState);
     on<ToggleSound>(_onToggleSound);
-    _setupAudio();
-  }
-
-  Future<void> _setupAudio() async {
-    await _player.setReleaseMode(ReleaseMode.loop);
-    await _player.play(AssetSource('sounds/jazz_music_bg.MP3'));
+    setupBackgroundAudioUsecase();
   }
 
   void _onLoadSoundState(LoadSoundState event, Emitter<SoundState> emit) async {
-    final isPlaying = await soundRepository.getSoundState();
+    final isPlaying = await getSoundStateUsecase();
     if (isPlaying) {
-      _player.resume();
+      resumeBackgroundAudioUsecase();
       emit(SoundPlaying());
     } else {
-      _player.pause();
+      pauseBackgroundAudioUsecase();
       emit(SoundMuted());
     }
   }
 
   void _onToggleSound(ToggleSound event, Emitter<SoundState> emit) async {
     final isPlaying = state is SoundMuted;
-    await soundRepository.saveSoundState(isPlaying);
+    await saveSoundStateUsecase(isPlaying);
 
     if (isPlaying) {
-      _player.resume();
+      resumeBackgroundAudioUsecase();
       emit(SoundPlaying());
     } else {
-      _player.pause();
+      pauseBackgroundAudioUsecase();
       emit(SoundMuted());
     }
   }
