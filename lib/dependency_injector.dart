@@ -5,10 +5,13 @@ import 'package:aceplus/features/card_game/data/datasource/transaction_data_sour
 import 'package:aceplus/features/card_game/data/model/transaction_model/transaction_model.dart';
 import 'package:aceplus/features/card_game/data/model/user_model/user_model.dart';
 import 'package:aceplus/features/card_game/data/repositories/auth_repository.dart';
+import 'package:aceplus/features/card_game/data/repositories/setting_repository.dart';
 import 'package:aceplus/features/card_game/data/repositories/sound_repository.dart';
 import 'package:aceplus/features/card_game/data/repositories/transaction_repository.dart';
 import 'package:aceplus/features/card_game/domain/repositories/auth_repository.dart';
+import 'package:aceplus/features/card_game/domain/repositories/setting_repository.dart';
 import 'package:aceplus/features/card_game/domain/repositories/transaction_repository.dart';
+import 'package:aceplus/features/card_game/domain/repositories/sound_repository.dart';
 import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/add_auth_usecase.dart';
 import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/get_all_auths_usecase.dart';
 import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/get_auth_usecase.dart';
@@ -19,23 +22,25 @@ import 'package:aceplus/features/card_game/domain/usecases/auth_usecase/update_t
 import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/add_transaction_usecase.dart';
 import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_by_type_usecase.dart';
 import 'package:aceplus/features/card_game/domain/usecases/transaction_usecase/get_transaction_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/setting_usecase/background_volume_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/setting_usecase/get_background_volume_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/get_sound_state_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/pause_background_audio_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/resume_background_audio_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/save_sound_state_usecase.dart';
+import 'package:aceplus/features/card_game/domain/usecases/sound_usecase/setup_background_audio_usecase.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/balance_bloc/balance_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/card_bloc/card_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/sound_bloc/sound_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/timer_bloc/timer_bloc.dart';
 import 'package:aceplus/features/card_game/presentation/bloc/transaction_bloc/transaction_bloc.dart';
+import 'package:aceplus/features/card_game/presentation/bloc/setting_bloc/setting_bloc.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'features/card_game/domain/repositories/sound_repository.dart';
-import 'features/card_game/domain/usecases/sound_usecase/get_sound_state_usecase.dart';
-import 'features/card_game/domain/usecases/sound_usecase/pause_background_audio_usecase.dart';
-import 'features/card_game/domain/usecases/sound_usecase/resume_background_audio_usecase.dart';
-import 'features/card_game/domain/usecases/sound_usecase/save_sound_state_usecase.dart';
-import 'features/card_game/domain/usecases/sound_usecase/setup_background_audio_usecase.dart';
 
 final inj = GetIt.instance;
 
@@ -71,9 +76,12 @@ Future<void> initDependencies() async {
   inj.registerLazySingleton<SoundRepository>(
     () => SoundRepositoryImpl(soundDataSource: inj<SoundDataSource>()),
   );
+  inj.registerLazySingleton<SettingRepository>(
+        () => SettingRepositoryImpl(soundDataSource: inj<SoundDataSource>()),
+  );
 
-  //regsiter use cases
 
+  //register use cases
   inj.registerLazySingleton(() => AddAuthUsecase(inj<AuthRepository>()));
   inj.registerLazySingleton(() => GetAllAuthsUsecase(inj<AuthRepository>()));
   inj.registerLazySingleton(() => SearchAuthUsecase(inj<AuthRepository>()));
@@ -94,12 +102,25 @@ Future<void> initDependencies() async {
   inj.registerLazySingleton(
     () => GetTransactionByTypeUsecase(inj<TransactionRepository>()),
   );
-  inj.registerLazySingleton(() => SaveSoundStateUsecase(inj<SoundRepository>()));
+  inj.registerLazySingleton(
+    () => SaveSoundStateUsecase(inj<SoundRepository>()),
+  );
   inj.registerLazySingleton(() => GetSoundStateUsecase(inj<SoundRepository>()));
-  inj.registerLazySingleton(() => SetupBackgroundAudioUsecase(inj<SoundRepository>()));
-  inj.registerLazySingleton(() => PauseBackgroundAudioUsecase(inj<SoundRepository>()));
-  inj.registerLazySingleton(() => ResumeBackgroundAudioUsecase(inj<SoundRepository>()));
-
+  inj.registerLazySingleton(
+    () => SetupBackgroundAudioUsecase(inj<SoundRepository>()),
+  );
+  inj.registerLazySingleton(
+    () => PauseBackgroundAudioUsecase(inj<SoundRepository>()),
+  );
+  inj.registerLazySingleton(
+    () => ResumeBackgroundAudioUsecase(inj<SoundRepository>()),
+  );
+  inj.registerLazySingleton(
+    () => BackgroundVolumeUsecase(inj<SettingRepository>()),
+  );
+  inj.registerLazySingleton(
+    () => GetBackgroundVolumeUsecase(inj<SettingRepository>()),
+  );
 
   // Register Blocs
   inj.registerFactory(
@@ -116,7 +137,7 @@ Future<void> initDependencies() async {
     () => TimerBloc(ticker: inj<TimerDataSource>()),
   );
   inj.registerFactory(
-        () => SoundBloc(
+    () => SoundBloc(
       saveSoundStateUsecase: inj<SaveSoundStateUsecase>(),
       getSoundStateUsecase: inj<GetSoundStateUsecase>(),
       setupBackgroundAudioUsecase: inj<SetupBackgroundAudioUsecase>(),
@@ -135,5 +156,11 @@ Future<void> initDependencies() async {
   );
   inj.registerFactory(
     () => BalanceBloc(getTotalMoneyUsecase: inj<GetTotalMoneyUsecase>()),
+  );
+  inj.registerFactory(
+        () => SettingBloc(
+      backgroundVolumeUsecase: inj<BackgroundVolumeUsecase>(),
+      getBackgroundVolumeUsecase: inj<GetBackgroundVolumeUsecase>(),
+    ),
   );
 }
