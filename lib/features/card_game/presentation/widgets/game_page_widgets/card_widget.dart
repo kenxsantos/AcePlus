@@ -114,9 +114,7 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                       print("Card ${widget.index}"),
                       if (widget.isExpanded && !widget.isFlipped)
                         {
-                          context.read<CardBloc>().add(
-                            ChooseCard(index: widget.index),
-                          ),
+                          // context.read<CardBloc>().add(PlaceBet(widget.index )),
                           print("State Animate Index: ${widget.index}"),
                         },
                     },
@@ -125,7 +123,7 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                         ? AnimatedContainer(
                           duration: Duration(milliseconds: 200),
                           width: widget.isTapped ? 60 : 50,
-                          height: widget.isTapped ? 76 : 66,
+                          height: widget.isTapped ? 85 : 75,
                           child: Image.asset(
                             getCardByValue(widget.value).cardPath,
                             fit: BoxFit.contain,
@@ -134,7 +132,7 @@ class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                         : AnimatedContainer(
                           duration: Duration(milliseconds: 200),
                           width: widget.isTapped ? 60 : 50,
-                          height: widget.isTapped ? 76 : 66,
+                          height: widget.isTapped ? 85 : 75,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [

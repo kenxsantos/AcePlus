@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'card_event.dart';
@@ -10,7 +11,7 @@ class CardBloc extends Bloc<CardEvent, CardState> {
   CardBloc() : super(const CardState()) {
     on<CardRandomize>(_onCardRandomize);
     on<CardToggelAnimate>(_onCardToggleAnimate);
-    on<ChooseCard>(_onChooseCard);
+    on<PlaceBet>(_onPlaceBet);
     on<ResetSelectedCards>(_onResetSelectedCards);
   }
   Future<void> _onCardRandomize(
@@ -52,24 +53,17 @@ class CardBloc extends Bloc<CardEvent, CardState> {
     );
   }
 
-  Future<void> _onChooseCard(ChooseCard event, Emitter<CardState> emit) async {
-    final currentTapped = Set<int>.from(state.tappedIndices);
+  Future<void> _onPlaceBet(PlaceBet event, Emitter<CardState> emit) async {
+    final currentBets = Map<int, double>.from(state.bets);
+    currentBets[event.index] = event.amount;
 
-    if (currentTapped.contains(event.index)) {
-      currentTapped.remove(event.index); // unselect
-    } else {
-      currentTapped.add(event.index); // select
-    }
-
-    emit(
-      state.copyWith(tappedIndices: currentTapped, status: CardStatus.cardTap),
-    );
+    emit(state.copyWith(bets: currentBets, status: CardStatus.cardTap));
   }
 
   Future<void> _onResetSelectedCards(
     ResetSelectedCards event,
     Emitter<CardState> emit,
   ) async {
-    emit(state.copyWith(tappedIndices: {}));
+    emit(state.copyWith(bets: {}));
   }
 }

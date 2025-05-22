@@ -22,8 +22,6 @@ class _AnimatedCardsState extends State<AnimatedCards>
         if (state.status.isCardGenerated) {
           cardNumbers = state.numbers;
           cardOdds = state.odds;
-          print("State Animate card numbers: $cardNumbers");
-          print("State Animate card odds: $cardOdds");
         }
       },
 
@@ -34,14 +32,9 @@ class _AnimatedCardsState extends State<AnimatedCards>
         if (state.status.isAnimateCard) {
           isExpanded = state.isExtended;
           isFlipped = state.isFlipped;
-          print("State Animate isExpanded: ${state.isExtended}");
-          print("State Animate isFlipped: ${state.isFlipped}");
         }
         if (state.status.isCardTap) {
-          // tappedIndex = state.index;
           isExpanded = state.isExtended;
-
-          print("State Animate isTapped: ${state.isTapped}");
         }
 
         return Stack(
@@ -52,8 +45,14 @@ class _AnimatedCardsState extends State<AnimatedCards>
               odds: cardOdds[index],
               isFlipped: isFlipped,
               isExpanded: isExpanded,
-              isTapped: state.tappedIndices.contains(index),
+              isTapped: state.bets.containsKey(index),
               index: index,
+              // betAmount: state.bets[index] ?? 0.0,
+              // onBet: (amount) {
+              //   context.read<CardBloc>().add(
+              //     PlaceBet(index: index, amount: amount),
+              //   );
+              // },
             ),
           ),
         );
