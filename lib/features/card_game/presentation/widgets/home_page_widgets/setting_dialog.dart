@@ -1,12 +1,27 @@
 import 'package:aceplus/shared/utils/strings.dart';
 import 'package:aceplus/shared/widgets/gradient_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:ui';
 import '../../../../../shared/widgets/label_slider.dart';
+import '../../bloc/setting_bloc/setting_bloc.dart';
+import '../../bloc/setting_bloc/setting_event.dart';
+import '../../bloc/setting_bloc/setting_state.dart';
 
-class SettingDialog extends StatelessWidget {
+class SettingDialog extends StatefulWidget {
   const SettingDialog({super.key});
+
+  @override
+  State<SettingDialog> createState() => _SettingDialogState();
+}
+
+class _SettingDialogState extends State<SettingDialog> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SettingBloc>().add(LoadBackgroundVolumeEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +76,18 @@ class SettingDialog extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 14),
-                  LabeledSlider(
-                    label: Str().bgMusic,
-                    initialValue: 100,
-                    onChanged: (value) {},
+                  BlocBuilder<SettingBloc, SettingState>(
+                    builder: (context, state) {
+                      return LabeledSlider(
+                        label: Str().bgMusic,
+                        initialValue: state.volume.toDouble(),
+                        onChanged: (value) {
+                          context.read<SettingBloc>().add(
+                            ChangeBackgroundVolumeEvent(value.toDouble()),
+                          );
+                        },
+                      );
+                    },
                   ),
                   LabeledSlider(
                     label: Str().cardSound,

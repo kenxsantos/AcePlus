@@ -29,7 +29,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading());
       try {
         final auths = getAllAuthsUsecase;
-        print('Loaded Users: $auths');
         emit(UserLoaded(auths as List<UserEntity>));
       } catch (e) {
         emit(AuthError(e.toString()));

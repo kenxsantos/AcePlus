@@ -28,6 +28,14 @@ class LabeledSliderState extends State<LabeledSlider> {
   }
 
   @override
+  void didUpdateWidget(covariant LabeledSlider oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialValue != widget.initialValue) {
+      sliderValue.value = widget.initialValue;
+    }
+  }
+
+  @override
   void dispose() {
     sliderValue.dispose();
     super.dispose();
@@ -40,14 +48,14 @@ class LabeledSliderState extends State<LabeledSlider> {
       children: [
         GradientText(
           text: widget.label,
-          textStyle: TextStyle(fontSize: 12),
+          textStyle: const TextStyle(fontSize: 12),
         ),
         ValueListenableBuilder<double>(
           valueListenable: sliderValue,
           builder: (context, value, child) {
             return SliderTheme(
               data: SliderTheme.of(context).copyWith(
-                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 0.0),
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 0.0),
               ),
               child: Slider(
                 min: 1,
