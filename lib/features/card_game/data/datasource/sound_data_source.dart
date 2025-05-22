@@ -32,7 +32,6 @@ class SoundDataSource {
     }
   }
 
-
   Future<void> resumeBackgroundAudio() async {
     await _player.resume();
   }
