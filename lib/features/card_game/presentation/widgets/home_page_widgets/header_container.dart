@@ -20,7 +20,6 @@ class HeaderContainer extends StatelessWidget {
     return BlocBuilder<SoundBloc, SoundState>(
       builder: (context, state) {
         final isPlaying = state is SoundPlaying;
-        print("Sound is playing: $isPlaying");
 
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20),

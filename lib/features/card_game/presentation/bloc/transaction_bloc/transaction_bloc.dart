@@ -76,9 +76,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<LoadTransaction>((event, emit) async {
       emit(TransactionLoading());
       try {
-        print("TransactionId in Bloc: ${event.transactionId}");
         final transaction = getTransactionUsecase.call(event.transactionId);
-        print('Transaction: $transaction');
         emit(TransactionLoaded(transaction as TransactionEntity));
       } catch (e) {
         emit(TransactionError(e.toString()));
@@ -93,10 +91,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           emit(NoDataState("No transactions found"));
           return;
         }
-
-        print(
-          'Transactions Type: ${event.transactionType} Transactions: $transactions',
-        );
         emit(TransactionsLoaded(transactions));
       } catch (e) {
         emit(TransactionError(e.toString()));
