@@ -14,6 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'features/card_game/presentation/bloc/setting_bloc/setting_bloc.dart';
+import 'features/card_game/presentation/bloc/setting_bloc/setting_event.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
@@ -45,11 +48,7 @@ void main() async {
           create: (_) => inj<SoundBloc>()..add(LoadSoundState()),
         ),
         BlocProvider<SettingBloc>(
-          create:
-              (_) => SettingBloc(
-                backgroundVolumeUsecase: backgroundVolumeUsecase,
-                getBackgroundVolumeUsecase: getBackgroundVolumeUsecase,
-              ),
+          create: (_) => inj<SettingBloc>()..add(LoadBackgroundVolumeEvent()),
         ),
       ],
       child: MaterialApp.router(
